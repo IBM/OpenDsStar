@@ -1,0 +1,21 @@
+question,answer,type,columns_used,column_types,sample_answer
+Is it true that the youngest participant has met their match?,False,boolean,"['age', 'match']","['number[UInt8]', 'number[uint8]']",False
+Do all people who got a match have the same race as their partner?,False,boolean,"['match', 'samerace']","['number[uint8]', 'number[uint8]']",False
+Are all participants who expected more than 5 matches male?,False,boolean,"['expected_num_matches', 'gender']","['number[UInt8]', 'category']",True
+Is the average age of participants who got a match higher than those who didn't?,False,boolean,"['match', 'age']","['number[uint8]', 'number[UInt8]']",True
+How many participants had a match?,100.0,number,['match'],['number[uint8]'],4
+What is the average age of participants who have the same race as their partner?,0.0,number,"['samerace', 'age']","['number[uint8]', 'number[UInt8]']",28.0
+What is the highest number of matches expected by any participant in the dataset?,995.0,number,['expected_num_matches'],['number[UInt8]'],9.0
+How many unique 'race' categories are there in the dataset?,5.0,number,['race'],['category'],3
+What is the most common race among participants who got a match?,574,category,"['match', 'race']","['number[uint8]', 'category']",european/caucasian-american
+What is the gender of the youngest participant in the dataset?,F,category,"['age', 'gender']","['number[UInt8]', 'category']",female
+What is the race of the participant with the highest number of expected matches?,Black/African American,category,"['expected_num_matches', 'race']","['number[UInt8]', 'category']",asian/pacific islander/asian-american
+What is the wave of the participant with the youngest age?,44,category,"['age', 'wave']","['number[UInt8]', 'number[uint8]']",13
+What are the top 3 waves among people who got a match?,[],list[category],"['match', 'wave']","['number[uint8]', 'number[uint8]']","[21, 7, 7]"
+What are the 5 most common races among people who expected more than 5 matches?,[],list[category],"['expected_num_matches', 'race']","['number[UInt8]', 'category']","['european/caucasian-american', 'asian/pacific islander/asian-american']"
+What are the top 4 waves of people who have the same race as their partner?,[],list[category],"['samerace', 'wave']","['number[uint8]', 'number[uint8]']","[7, 4, 15, 11]"
+What are the top 2 genders among people who expected no match?,[],list[category],"['expected_num_matches', 'gender']","['number[UInt8]', 'category']",['female']
+What are the top 5 ages of participants who got a match?,[],list[number],"['match', 'age']","['number[uint8]', 'number[UInt8]']","[31.0, 28.0, 27.0, 23.0]"
+What are the 3 lowest numbers of matches expected by people who got a match?,[],list[number],"['match', 'expected_num_matches']","['number[uint8]', 'number[UInt8]']","[1.0, 1.0, 1.0]"
+What are the top 4 ages of people who have the same race as their partner?,[],list[number],"['samerace', 'age']","['number[uint8]', 'number[UInt8]']","[34.0, 31.0, 28.0, 24.0]"
+What are the 6 youngest ages of participants who expected no match?,"[18.0, 18.0, 18.0, 18.0, 18.0, 18.0]",list[number],"['expected_num_matches', 'age']","['number[UInt8]', 'number[UInt8]']",[23.0]

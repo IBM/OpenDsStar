@@ -1,0 +1,21 @@
+question,answer,type,columns_used,column_types,sample_answer
+Are all properties in the dataset located in the same neighbourhood?,False,boolean,['neighbourhood_cleansed'],['category'],False
+Do all hosts verify their identity?,False,boolean,['host_identity_verified'],['category'],False
+Are all reviews_per_month values greater than 5?,False,boolean,['reviews_per_month'],['number[double]'],False
+Are there any listings without a specified room type?,False,boolean,['room_type'],['category'],False
+How many unique neighbourhoods are there in the dataset?,563,number,['host_neighbourhood'],['category'],20
+How many listings don't have a valid price?,0,number,['price'],['category'],0
+How many properties have received the worst possible (0-5) review score for communication?,6,number,['review_scores_communication'],['number[double]'],0
+What is the maximum number of bedrooms a property has in this dataset?,22.0,number,['bedrooms'],['number[UInt8]'],3.0
+Which neighbourhood has the most listings?,Westminster,category,['neighbourhood_cleansed'],['category'],Hammersmith and Fulham
+What is the most common room type in the listings?,Entire home/apt,category,['room_type'],['category'],Private room
+What property type has the most listings?,Entire rental unit,category,['property_type'],['category'],Private room in rental unit
+Which host verification method is the least used?,photographer,category,['host_verifications'],['list[category]'],[phone]
+List the top 3 neighbourhoods with the most listings.,"['Westminster', 'Tower Hamlets', 'Hackney']",list[category],['neighbourhood_cleansed'],['category'],"['Hammersmith and Fulham', 'Hackney', 'Westminster']"
+Which are the top 4 most common property types?,"['Entire rental unit', 'Private room in rental unit', 'Private room in home', 'Entire condo']",list[category],['property_type'],['category'],"['Private room in rental unit', 'Entire rental unit', 'Entire home', 'Private room in home']"
+List the 2 most common host verification methods.,"['phone', 'email']",list[category],['host_verifications'],['list[category]'],"['email', 'phone']"
+Which are the 2 most preferred room types?,"['Entire home/apt', 'Private room']",list[category],['room_type'],['category'],"['Private room', 'Entire home/apt']"
+What are the top 3 highest review scores for location?,"[5.0, 5.0, 5.0]",list[number],['review_scores_location'],['number[double]'],"[5.0, 4.0, 4.89]"
+What are the 4 most common number of bedrooms in properties?,"[1.0, 2.0, 3.0, 4.0]",list[number],['bedrooms'],['number[UInt8]'],"[1.0, 2.0, 3.0]"
+What are the 5 highest counts of listings by a single host for entire homes?,"[288, 288, 288, 288, 288]",list[number],['calculated_host_listings_count_entire_homes'],['number[uint16]'],"[1, 1, 1, 1, 1]"
+List the 6 lowest review scores for communication.,"[0.0, 0.0, 0.0, 0.0, 0.0, 0.0]",list[number],['review_scores_communication'],['number[double]'],"[4.4, 4.89, 4.95, 4.5, 4.75, 4.94]"

@@ -1,0 +1,29 @@
+# See https://pre-commit.com for more information
+# See https://pre-commit.com/hooks.html for more hooks
+# .pre-commit-config.yaml
+
+repos:
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v5.0.0
+    hooks:
+    -   id: trailing-whitespace
+    -   id: end-of-file-fixer
+    -   id: check-yaml
+
+-   repo: https://github.com/PyCQA/isort
+    rev: 6.0.1  # Latest stable version
+    hooks:
+    -   id: isort
+        args: ["--profile", "black"]
+
+-   repo: https://github.com/psf/black
+    rev: 25.1.0
+    hooks:
+    -   id: black
+        language_version: python3.11
+
+-   repo: https://github.com/charliermarsh/ruff-pre-commit
+    rev: v0.11.2  # Latest stable version
+    hooks:
+    -   id: ruff
+        args: ["--fix"]

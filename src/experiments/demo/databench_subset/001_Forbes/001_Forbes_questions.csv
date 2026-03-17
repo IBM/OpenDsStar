@@ -1,0 +1,26 @@
+question,answer,type,columns_used,column_types,sample_answer
+Is the person with the highest net worth self-made?,True,boolean,"['finalWorth', 'selfMade']","['number[uint32]', 'boolean']",False
+Does the youngest billionaire identify as male?,True,boolean,"['age', 'gender']","['number[UInt8]', 'category']",True
+Is the city with the most billionaires in the United States?,True,boolean,"['city', 'country']","['category', 'category']",True
+Is there a non-self-made billionaire in the top 5 ranks?,True,boolean,"['rank', 'selfMade']","['number[uint16]', 'boolean']",False
+Does the oldest billionaire have a philanthropy score of 5?,False,boolean,"['age', 'philanthropyScore']","['number[UInt8]', 'number[UInt8]']",False
+What is the age of the youngest billionaire?,19.0,number,['age'],['number[UInt8]'],32.0
+How many billionaires are there from the 'Technology' category?,343,number,['category'],['category'],0
+What's the total worth of billionaires in the 'Automotive' category?,583600,number,"['category', 'finalWorth']","['category', 'number[uint32]']",0
+How many billionaires have a philanthropy score above 3?,25,number,['philanthropyScore'],['number[UInt8]'],0
+What's the rank of the wealthiest non-self-made billionaire?,3,number,"['selfMade', 'rank']","['boolean', 'number[uint16]']",288
+Which category does the richest billionaire belong to?,Automotive,category,"['finalWorth', 'category']","['number[uint32]', 'category']",Food & Beverage
+What's the country of origin of the oldest billionaire?,United States,category,"['age', 'country']","['number[UInt8]', 'category']",United Kingdom
+What's the gender of the billionaire with the highest philanthropy score?,M,category,"['philanthropyScore', 'gender']","['number[UInt8]', 'category']",M
+What's the source of wealth for the youngest billionaire?,drugstores,category,"['age', 'source']","['number[UInt8]', 'category']",fintech
+What is the title of the billionaire with the lowest rank?,,category,"['rank', 'title']","['number[uint16]', 'category']",
+List the top 3 countries with the most billionaires.,"['United States', 'China', 'India']",list[category],['country'],['category'],"['United States', 'China', 'Brazil']"
+List the top 2 most common sources of wealth for billionaires.,"['real estate', 'investments']",list[category],['source'],['category'],"['diversified', 'media, automotive']"
+List the 4 cities where the four youngest billionaires live.,"['', 'Los Angeles', 'Jiaozuo', 'Oslo']",list[category],"['age', 'city']","['number[UInt8]', 'category']","['San Francisco', 'New York', 'Wuhan', 'Bangalore']"
+List the 4 categories with the fewest billionaires.,"['Telecom', 'Logistics', 'Sports', 'Gambling & Casinos']",list[category],['category'],['category'],"['Service', 'Fashion & Retail', 'Manufacturing', 'Real Estate']"
+List the 2 countries with the least number of billionaires. If there are more than two with the same number take the first two alphabetically.,"['Algeria', 'Andorra']",list[category],['country'],['category'],"['Canada', 'Egypt']"
+List the top 5 ranks of billionaires who are not self-made.,"[3, 10, 14, 16, 18]",list[number],"['selfMade', 'rank']","['boolean', 'number[uint16]']","[288, 296, 509, 523, 601]"
+List the youngest 3 ages of billionaires who have a philanthropy score of 5.,"[48.0, 83.0, 83.0]",list[number],"['philanthropyScore', 'age']","['number[UInt8]', 'number[UInt8]']",[]
+List the highest 6 final worth values of billionaires in the 'Technology' category.,"[171000, 129000, 111000, 107000, 106000, 91400]",list[number],"['category', 'finalWorth']","['category', 'number[uint32]']",[]
+List the top 4 ranks of female billionaires.,"[14, 18, 21, 30]",list[number],"['gender', 'rank']","['category', 'number[uint16]']",[]
+List the top 2 final worth values of billionaires in the 'Automotive' category.,"[219000, 44800]",list[number],"['category', 'finalWorth']","['category', 'number[uint32]']",[]

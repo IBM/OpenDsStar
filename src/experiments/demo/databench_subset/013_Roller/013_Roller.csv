@@ -1,0 +1,101 @@
+coaster_name,Manufacturer,Designer,Status,Type,Location,speed_mph,height_ft,Gforce_clean,Inversions_clean,year_introduced,Opening date
+Coaster_67,Gerstlauer,John Wardley,Operating,Hybrid,Sea Lion Park,68.7,61.0,8.4,12,2011,2009-10-20
+Coaster_0,Mack Rides,Alan Schilke,Operating,Other,Morey's Piers,143.6,272.7,2.8,3,1967,1944-09-07
+The Smiler,Vekoma,Unknown,Under Construction,Hybrid,Sea Lion Park,115.2,160.0,3.6,13,2023,1884-03-13
+Coaster_80,Bolliger & Mabillard,Unknown,Under Construction,Steel,Morey's Piers,97.8,228.0,11.0,14,2007,1975-09-28
+Coaster_21,Mack Rides,Edwin Madeupname,Under Construction,Steel,Morey's Piers,40.3,367.6,8.1,2,1916,1996-09-24
+Coaster_17,Arrow Dynamics,John Wardley,Operating,Other,Six Flags Over Texas,40.3,137.3,2.1,6,1984,2000-06-26
+Coaster_14,Arrow Dynamics,Unknown,Under Construction,Hybrid,Busch Gardens Tampa Bay,27.6,193.6,3.0,7,1895,1927-05-16
+Coaster_3,Mack Rides,John Wardley,Removed,Steel,Busch Gardens Tampa Bay,132.6,314.4,8.6,3,1950,2001-05-11
+Zipper Dipper,Arrow Dynamics,Alan Schilke,Operating,Steel,Fuji-Q Highland,98.1,130.1,2.1,12,1948,1903-09-18
+Coaster_72,Bolliger & Mabillard,Edwin Madeupname,Operating,Hybrid,Sea Lion Park,112.0,76.9,3.6,1,1957,1930-09-17
+Coaster_55,Vekoma,Alan Schilke,Under Construction,Wood,Busch Gardens Tampa Bay,22.7,151.4,7.5,11,1926,1897-01-21
+Wipeout,Bolliger & Mabillard,Edwin Madeupname,Removed,Hybrid,Nürburgring,146.1,106.4,8.9,9,1927,1937-06-03
+Coaster_61,Bolliger & Mabillard,Unknown,Under Construction,Wood,Alton Towers,128.2,375.4,8.5,13,1912,1895-10-16
+Coaster_40,Mack Rides,Edwin Madeupname,Under Construction,Other,Fuji-Q Highland,47.6,332.8,4.2,2,1895,1985-12-24
+Colossus,Gerstlauer,Werner Stengel,Operating,Other,Fuji-Q Highland,43.6,271.7,9.1,0,1978,2000-08-26
+Coaster_83,Gerstlauer,John Wardley,Operating,Steel,Six Flags Over Texas,43.8,355.0,4.4,7,1929,1975-04-26
+Coaster_74,Vekoma,John Wardley,Under Construction,Steel,Sea Lion Park,59.6,331.3,5.3,14,2013,2019-10-28
+Coaster_13,Mack Rides,Werner Stengel,Operating,Steel,Nürburgring,88.2,115.3,9.5,2,1918,1911-12-05
+Coaster_15,Gerstlauer,Alan Schilke,Operating,Wood,Busch Gardens Tampa Bay,76.2,362.4,8.5,11,1964,1924-04-27
+Coaster_50,Arrow Dynamics,Werner Stengel,Operating,Steel,Busch Gardens Tampa Bay,57.9,238.8,10.5,9,1973,1929-03-06
+Coaster_63,Gerstlauer,Unknown,Under Construction,Hybrid,Morey's Piers,99.5,332.6,8.6,6,1891,1965-03-05
+Coaster_70,Arrow Dynamics,Unknown,Operating,Wood,Fuji-Q Highland,38.1,363.6,7.7,9,1976,1930-09-02
+Coaster_57,Vekoma,John Wardley,Under Construction,Other,Sea Lion Park,58.0,161.3,2.9,4,1973,1893-08-18
+Coaster_11,Bolliger & Mabillard,Unknown,Operating,Wood,Sea Lion Park,67.6,88.5,5.7,9,1998,1992-05-23
+Coaster_75,Bolliger & Mabillard,John Wardley,Removed,Steel,Sea Lion Park,79.3,129.8,4.7,4,1988,1916-06-01
+Coaster_39,Gerstlauer,Werner Stengel,Operating,Hybrid,Morey's Piers,122.1,199.5,4.4,13,2018,1894-05-26
+Coaster_79,Arrow Dynamics,Werner Stengel,Under Construction,Hybrid,Six Flags Over Texas,46.0,336.3,11.7,6,1941,1946-09-22
+Coaster_43,Intamin,Werner Stengel,Operating,Steel,Busch Gardens Tampa Bay,86.9,351.3,5.9,14,1997,1942-11-17
+Coaster_81,Intamin,John Wardley,Under Construction,Hybrid,Sea Lion Park,97.0,52.4,10.9,8,1958,1981-09-03
+Formula Rossa,Intamin,Werner Stengel,Under Construction,Wood,Nürburgring,26.0,228.8,8.3,11,2003,2012-05-16
+Coaster_6,Bolliger & Mabillard,Werner Stengel,Operating,Wood,Nürburgring,99.0,196.1,9.9,4,1904,1938-06-28
+Coaster_76,Mack Rides,Alan Schilke,Under Construction,Steel,Morey's Piers,42.2,127.7,7.0,0,2021,1978-05-06
+Coaster_29,Bolliger & Mabillard,Werner Stengel,Operating,Hybrid,Six Flags Over Texas,28.5,92.0,7.8,9,1984,1886-05-23
+Coaster_65,Mack Rides,Unknown,Removed,Other,Morey's Piers,143.4,168.2,6.9,9,1982,1936-05-10
+Coaster_5,Arrow Dynamics,John Wardley,Under Construction,Wood,Alton Towers,145.5,380.0,4.0,0,1919,1966-01-21
+Coaster_68,Gerstlauer,Alan Schilke,Under Construction,Wood,Fuji-Q Highland,125.1,163.1,9.2,14,1979,1961-09-14
+Coaster_53,Intamin,Edwin Madeupname,Under Construction,Wood,Busch Gardens Tampa Bay,59.6,231.6,4.8,1,1920,1884-03-13
+Flip Flap Railway,Arrow Dynamics,John Wardley,Under Construction,Wood,Morey's Piers,32.7,296.1,2.2,13,1895,1887-01-17
+Switchback Railway,Arrow Dynamics,Unknown,Removed,Other,Morey's Piers,109.0,177.3,8.5,5,1996,1915-02-28
+Coaster_10,Gerstlauer,John Wardley,Removed,Steel,Busch Gardens Tampa Bay,77.2,390.1,3.8,8,1896,1978-08-07
+Coaster_48,Arrow Dynamics,Unknown,Operating,Wood,Fuji-Q Highland,35.9,386.9,11.4,7,1906,2001-03-27
+Coaster_8,Gerstlauer,Unknown,Under Construction,Hybrid,Alton Towers,84.4,138.1,11.5,12,1982,1933-12-01
+Coaster_54,Vekoma,Edwin Madeupname,Under Construction,Other,Nürburgring,24.5,224.0,11.1,4,1988,1937-12-05
+Coaster_44,Gerstlauer,John Wardley,Removed,Wood,Nürburgring,138.2,155.3,5.7,0,1913,1940-01-16
+Coaster_24,Intamin,Edwin Madeupname,Operating,Hybrid,Six Flags Over Texas,53.6,149.7,2.2,12,1900,1930-07-15
+Coaster_2,Mack Rides,Edwin Madeupname,Removed,Wood,Morey's Piers,106.1,62.9,11.3,6,1996,1968-02-11
+Coaster_37,Mack Rides,John Wardley,Removed,Steel,Fuji-Q Highland,60.5,263.3,6.3,14,1945,1986-06-28
+Top Thrill Dragster,Intamin,Werner Stengel,Operating,Other,Six Flags Over Texas,87.6,225.9,11.7,4,1967,1921-02-02
+Coaster_32,Mack Rides,Werner Stengel,Under Construction,Steel,Nürburgring,91.1,68.0,11.6,5,1995,1965-11-19
+Coaster_85,Gerstlauer,Edwin Madeupname,Under Construction,Other,Six Flags Over Texas,44.0,147.5,10.5,12,1969,1935-09-06
+Coaster_20,Vekoma,Alan Schilke,Removed,Wood,Six Flags Over Texas,146.0,367.9,4.9,6,1902,1962-12-23
+Loop the Loop,Mack Rides,Edwin Madeupname,Removed,Wood,Alton Towers,120.8,133.8,5.9,2,1983,1989-03-17
+Coaster_46,Vekoma,Edwin Madeupname,Removed,Other,Alton Towers,142.1,100.7,10.5,11,2023,2016-04-10
+Coaster_47,Intamin,Edwin Madeupname,Operating,Hybrid,Six Flags Over Texas,136.3,221.3,5.2,9,1959,1957-01-28
+Coaster_52,Vekoma,Werner Stengel,Operating,Hybrid,Sea Lion Park,97.7,395.0,3.7,2,1892,1967-08-05
+Coaster_4,Arrow Dynamics,Werner Stengel,Removed,Wood,Busch Gardens Tampa Bay,139.8,134.7,7.6,4,1911,1917-06-21
+Coaster_26,Bolliger & Mabillard,Werner Stengel,Under Construction,Wood,Nürburgring,31.5,285.2,11.4,5,2011,2009-11-11
+Coaster_25,Arrow Dynamics,Edwin Madeupname,Under Construction,Steel,Nürburgring,45.5,316.6,9.0,8,1935,1998-09-23
+Coaster_9,Intamin,Alan Schilke,Operating,Wood,Alton Towers,25.9,133.2,7.7,12,1966,1963-11-22
+Coaster_22,Mack Rides,Werner Stengel,Operating,Other,Sea Lion Park,62.3,304.9,3.0,13,1994,1891-04-08
+Canyon Blaster,Mack Rides,John Wardley,Under Construction,Hybrid,Sea Lion Park,70.5,178.7,8.2,11,2000,2015-08-25
+Coaster_71,Vekoma,John Wardley,Operating,Hybrid,Morey's Piers,55.3,271.3,11.9,4,1952,1979-03-27
+Coaster_38,Gerstlauer,John Wardley,Under Construction,Steel,Busch Gardens Tampa Bay,127.7,271.7,3.4,14,1982,1976-02-26
+Coaster_84,Bolliger & Mabillard,Unknown,Removed,Hybrid,Six Flags Over Texas,66.4,237.5,7.2,0,2023,1934-03-21
+Coaster_30,Gerstlauer,Edwin Madeupname,Operating,Hybrid,Morey's Piers,56.5,81.6,10.8,13,1908,1888-02-28
+Coaster_60,Intamin,John Wardley,Removed,Other,Morey's Piers,90.6,342.4,9.4,13,2006,1944-06-21
+Coaster_49,Mack Rides,Edwin Madeupname,Operating,Hybrid,Sea Lion Park,38.3,162.3,9.0,13,1936,1953-01-05
+Coaster_45,Vekoma,John Wardley,Operating,Steel,Sea Lion Park,124.3,115.3,9.0,3,1940,1895-10-14
+Coaster_33,Mack Rides,Alan Schilke,Removed,Steel,Sea Lion Park,29.7,64.3,5.6,4,1922,1917-01-14
+Afterburn,Gerstlauer,Edwin Madeupname,Removed,Hybrid,Six Flags Over Texas,148.3,256.8,4.9,11,1992,1928-11-09
+Coaster_19,Gerstlauer,John Wardley,Operating,Wood,Six Flags Over Texas,120.4,287.1,10.1,9,1925,1909-09-15
+Coaster_73,Bolliger & Mabillard,Werner Stengel,Removed,Hybrid,Morey's Piers,45.8,55.8,10.1,9,2005,2004-06-15
+Coaster_12,Bolliger & Mabillard,Edwin Madeupname,Under Construction,Steel,Morey's Piers,20.7,229.2,10.7,4,2016,1939-11-16
+Coaster_69,Vekoma,Unknown,Under Construction,Steel,Alton Towers,126.0,129.3,11.1,6,1958,1944-01-26
+Coaster_35,Bolliger & Mabillard,Werner Stengel,Removed,Other,Nürburgring,111.9,275.8,7.1,3,1959,1919-01-08
+Coaster_66,Gerstlauer,Werner Stengel,Under Construction,Hybrid,Nürburgring,114.8,111.0,7.0,0,1892,1996-03-20
+Coaster_82,Gerstlauer,Unknown,Under Construction,Hybrid,Nürburgring,120.3,291.8,10.0,13,1957,1930-08-22
+Coaster_18,Intamin,Werner Stengel,Under Construction,Other,Alton Towers,29.6,185.4,8.5,13,1890,1897-10-28
+Coaster_7,Gerstlauer,Werner Stengel,Operating,Steel,Nürburgring,66.6,377.9,9.0,4,2020,1961-08-02
+Coaster_16,Vekoma,John Wardley,Under Construction,Other,Sea Lion Park,35.1,98.1,10.0,6,1910,1992-10-14
+Coaster_23,Arrow Dynamics,John Wardley,Under Construction,Wood,Six Flags Over Texas,132.2,169.4,10.9,9,2005,1939-03-07
+Coaster_62,Intamin,Edwin Madeupname,Removed,Hybrid,Six Flags Over Texas,101.0,89.7,5.4,9,1888,1886-07-14
+Coaster_78,Intamin,Edwin Madeupname,Under Construction,Steel,Nürburgring,63.0,373.6,5.8,5,1912,1990-12-13
+Coaster_34,Vekoma,Edwin Madeupname,Operating,Other,Morey's Piers,28.3,357.1,2.9,4,1966,1901-10-06
+Coaster_31,Vekoma,John Wardley,Operating,Steel,Busch Gardens Tampa Bay,60.4,140.3,7.8,3,2019,1998-09-23
+Coaster_58,Bolliger & Mabillard,Edwin Madeupname,Removed,Wood,Sea Lion Park,62.3,281.0,2.4,1,1992,1911-10-07
+Coaster_42,Intamin,Werner Stengel,Operating,Hybrid,Alton Towers,114.8,336.0,6.7,3,1948,1900-07-22
+Coaster_41,Bolliger & Mabillard,John Wardley,Operating,Other,Busch Gardens Tampa Bay,102.9,244.3,7.4,14,1969,2009-12-25
+Montu,Gerstlauer,Edwin Madeupname,Under Construction,Steel,Six Flags Over Texas,135.3,235.4,4.9,9,1954,1896-04-25
+Coaster_59,Intamin,Werner Stengel,Under Construction,Hybrid,Nürburgring,81.4,134.6,7.9,9,1928,1951-10-03
+Coaster_64,Intamin,Edwin Madeupname,Operating,Hybrid,Alton Towers,35.5,82.6,2.3,2,2015,1992-02-15
+Coaster_1,Mack Rides,Alan Schilke,Removed,Steel,Sea Lion Park,112.7,364.0,2.4,9,1919,1994-06-02
+Coaster_56,Arrow Dynamics,Edwin Madeupname,Removed,Hybrid,Six Flags Over Texas,118.9,365.1,10.2,0,1953,1994-08-08
+Kingda Ka,Intamin,Alan Schilke,Under Construction,Hybrid,Nürburgring,93.0,271.6,5.6,7,1902,1996-12-19
+Coaster_36,Gerstlauer,Edwin Madeupname,Operating,Other,Sea Lion Park,120.2,168.7,3.3,4,1991,1925-09-05
+Coaster_51,Bolliger & Mabillard,Unknown,Under Construction,Hybrid,Morey's Piers,84.2,172.2,7.2,12,1974,1889-04-26
+Hades 360,Bolliger & Mabillard,Edwin Madeupname,Removed,Other,Busch Gardens Tampa Bay,88.0,304.1,9.7,3,1973,1947-02-27
+Coaster_77,Mack Rides,John Wardley,Operating,Hybrid,Busch Gardens Tampa Bay,75.6,364.0,4.2,7,1902,1942-06-05
+Coaster_27,Arrow Dynamics,John Wardley,Under Construction,Wood,Busch Gardens Tampa Bay,23.3,360.5,8.2,6,1922,2004-01-21
+Coaster_28,Gerstlauer,Alan Schilke,Under Construction,Wood,Fuji-Q Highland,34.0,323.0,2.9,1,2009,1904-06-06

@@ -1,0 +1,101 @@
+Overall<gx:number>,Potential<gx:number>,Joined<gx:date>,Age<gx:number>,Preferred Foot<gx:category>,Nationality<gx:category>,Height_ft<gx:number>,Agility<gx:number>,Club<gx:category>,Value_€<gx:currency>,Position<gx:category>,Wage_€<gx:currency>
+97,52,2020-11-13,23,Finance,Real Estate,134,141,Finance,361,Food & Beverage,31
+55,76,2012-11-25,69,Technology,Food & Beverage,184,616,Food & Beverage,689,Fashion & Retail,72
+77,78,2024-07-08,43,Fashion & Retail,Real Estate,136,958,Food & Beverage,148,Food & Beverage,65
+66,81,2007-02-01,81,Automotive,Technology,104,210,Fashion & Retail,630,Finance,24
+54,68,2003-04-25,76,Fashion & Retail,Automotive,182,985,Technology,342,Automotive,91
+80,70,2019-10-25,73,Food & Beverage,Technology,177,993,Technology,476,Automotive,24
+54,54,2015-07-02,76,Finance,Finance,125,623,Real Estate,63,Finance,50
+87,67,2013-06-02,87,Automotive,Finance,161,616,Finance,701,Automotive,40
+52,77,2019-01-12,50,Fashion & Retail,Food & Beverage,103,828,Finance,360,Real Estate,36
+72,91,2011-03-21,70,Finance,Food & Beverage,188,683,Fashion & Retail,561,Automotive,36
+86,71,2020-06-28,39,Finance,Food & Beverage,141,460,Finance,327,Automotive,53
+86,70,2013-07-20,38,Automotive,Automotive,188,356,Technology,769,Automotive,46
+59,55,2008-12-07,87,Food & Beverage,Fashion & Retail,117,324,Fashion & Retail,736,Food & Beverage,77
+59,50,2017-04-03,87,Real Estate,Real Estate,139,133,Finance,141,Technology,19
+68,54,2021-09-03,21,Automotive,Technology,171,888,Fashion & Retail,990,Real Estate,18
+66,90,2004-10-13,92,Real Estate,Automotive,138,805,Finance,215,Automotive,64
+70,61,2010-08-22,79,Food & Beverage,Technology,113,840,Finance,435,Real Estate,86
+63,75,2017-02-08,79,Technology,Real Estate,131,127,Real Estate,891,Food & Beverage,37
+58,95,2016-02-07,41,Automotive,Fashion & Retail,150,106,Finance,952,Real Estate,28
+95,83,2013-04-09,72,Real Estate,Technology,137,604,Fashion & Retail,723,Real Estate,19
+50,98,2013-03-30,26,Food & Beverage,Automotive,196,799,Technology,318,Finance,84
+94,63,2000-12-25,20,Fashion & Retail,Real Estate,122,378,Real Estate,32,Food & Beverage,29
+62,75,2017-10-02,48,Finance,Food & Beverage,162,905,Finance,670,Automotive,37
+53,94,2012-04-24,57,Technology,Food & Beverage,114,51,Finance,285,Technology,22
+50,76,2000-05-12,53,Automotive,Food & Beverage,196,29,Fashion & Retail,305,Technology,54
+98,58,2002-03-14,41,Real Estate,Real Estate,124,462,Real Estate,429,Technology,55
+89,75,2022-04-13,23,Fashion & Retail,Fashion & Retail,116,296,Finance,477,Technology,26
+81,96,2012-11-02,83,Real Estate,Automotive,196,297,Technology,286,Automotive,70
+83,71,2010-04-28,92,Food & Beverage,Food & Beverage,165,726,Food & Beverage,144,Technology,61
+77,96,2015-10-21,21,Automotive,Real Estate,177,779,Technology,424,Food & Beverage,41
+80,79,2009-10-28,23,Food & Beverage,Technology,152,407,Finance,19,Food & Beverage,91
+57,92,2008-07-12,68,Real Estate,Food & Beverage,150,769,Technology,18,Real Estate,47
+88,97,2011-03-30,79,Automotive,Finance,138,814,Real Estate,769,Finance,76
+75,66,2006-02-18,74,Real Estate,Automotive,150,613,Finance,590,Fashion & Retail,31
+83,75,2004-05-10,83,Finance,Technology,169,405,Fashion & Retail,371,Technology,26
+52,85,2001-10-07,92,Automotive,Fashion & Retail,105,346,Real Estate,175,Fashion & Retail,57
+61,50,2013-11-09,25,Automotive,Fashion & Retail,166,622,Technology,194,Fashion & Retail,83
+50,57,2019-10-10,43,Technology,Real Estate,106,420,Finance,502,Fashion & Retail,42
+93,98,2001-06-30,68,Finance,Fashion & Retail,150,182,Real Estate,988,Real Estate,90
+54,84,2016-05-13,62,Automotive,Finance,171,983,Technology,113,Food & Beverage,39
+79,64,2005-11-23,61,Fashion & Retail,Food & Beverage,141,825,Finance,114,Technology,21
+79,96,2004-01-16,22,Real Estate,Technology,163,1,Food & Beverage,222,Automotive,43
+66,71,2013-03-28,87,Fashion & Retail,Food & Beverage,114,831,Automotive,678,Real Estate,75
+97,63,2014-08-27,43,Real Estate,Automotive,128,950,Fashion & Retail,947,Food & Beverage,46
+96,75,2018-08-21,85,Food & Beverage,Food & Beverage,132,567,Technology,831,Automotive,54
+72,77,2007-11-17,36,Real Estate,Real Estate,193,371,Food & Beverage,644,Food & Beverage,92
+64,72,2009-01-02,37,Technology,Food & Beverage,126,936,Technology,897,Technology,87
+86,63,2005-12-05,29,Food & Beverage,Automotive,135,911,Automotive,264,Real Estate,35
+70,73,2024-03-12,64,Automotive,Technology,128,661,Automotive,925,Fashion & Retail,59
+63,51,2016-05-30,18,Real Estate,Finance,137,431,Real Estate,55,Real Estate,58
+51,94,2023-10-24,31,Technology,Technology,156,969,Fashion & Retail,871,Real Estate,55
+60,75,2022-07-05,81,Fashion & Retail,Technology,196,309,Fashion & Retail,643,Technology,51
+88,63,2012-03-23,55,Food & Beverage,Real Estate,126,137,Technology,800,Fashion & Retail,34
+87,56,2007-05-19,54,Food & Beverage,Automotive,154,202,Automotive,778,Fashion & Retail,54
+83,52,2011-07-12,28,Technology,Technology,132,436,Fashion & Retail,458,Finance,42
+87,96,2021-08-12,94,Fashion & Retail,Technology,167,313,Finance,979,Finance,93
+83,72,2013-03-28,20,Food & Beverage,Finance,185,117,Fashion & Retail,878,Food & Beverage,44
+67,95,2015-03-12,50,Automotive,Fashion & Retail,165,666,Technology,162,Automotive,74
+79,92,2005-03-01,23,Real Estate,Finance,109,937,Food & Beverage,380,Finance,48
+64,96,2021-01-03,67,Finance,Automotive,104,803,Food & Beverage,993,Technology,23
+76,94,2003-05-18,27,Fashion & Retail,Automotive,173,575,Fashion & Retail,87,Real Estate,57
+83,67,2006-04-25,22,Real Estate,Real Estate,196,244,Real Estate,55,Fashion & Retail,29
+87,87,2010-02-13,40,Finance,Food & Beverage,137,537,Automotive,476,Real Estate,70
+82,84,2017-10-29,27,Food & Beverage,Food & Beverage,112,602,Food & Beverage,800,Technology,88
+73,64,2016-05-28,61,Finance,Food & Beverage,130,75,Technology,178,Real Estate,27
+64,74,2004-01-19,19,Fashion & Retail,Fashion & Retail,146,806,Technology,391,Fashion & Retail,62
+79,86,2017-09-12,30,Real Estate,Automotive,199,386,Automotive,349,Finance,34
+91,77,2000-08-16,57,Food & Beverage,Fashion & Retail,187,903,Automotive,8,Automotive,43
+66,59,2011-11-11,19,Food & Beverage,Food & Beverage,151,210,Automotive,833,Fashion & Retail,79
+54,88,2024-01-26,82,Food & Beverage,Food & Beverage,155,475,Food & Beverage,313,Fashion & Retail,63
+78,66,2005-07-17,80,Food & Beverage,Finance,114,418,Technology,759,Fashion & Retail,81
+53,88,2020-05-26,90,Finance,Automotive,128,347,Automotive,835,Food & Beverage,19
+59,71,2016-07-13,34,Food & Beverage,Food & Beverage,107,529,Food & Beverage,984,Food & Beverage,71
+66,75,2011-10-05,26,Technology,Technology,104,640,Automotive,983,Fashion & Retail,82
+59,93,2017-02-02,92,Food & Beverage,Automotive,128,939,Technology,443,Technology,68
+66,74,2016-08-30,32,Food & Beverage,Fashion & Retail,146,955,Technology,767,Fashion & Retail,70
+69,66,2004-11-10,41,Technology,Automotive,167,876,Real Estate,328,Food & Beverage,53
+73,62,2010-06-27,55,Real Estate,Real Estate,175,763,Fashion & Retail,54,Food & Beverage,43
+54,69,2021-02-23,52,Automotive,Technology,144,179,Finance,761,Real Estate,46
+83,74,2001-02-14,66,Technology,Food & Beverage,101,182,Technology,239,Technology,38
+55,53,2014-09-18,86,Fashion & Retail,Real Estate,126,664,Finance,229,Finance,28
+51,59,2009-12-05,79,Real Estate,Finance,194,25,Real Estate,579,Real Estate,57
+62,52,2002-11-01,77,Food & Beverage,Automotive,135,967,Fashion & Retail,51,Food & Beverage,28
+92,90,2020-10-28,67,Finance,Automotive,135,180,Food & Beverage,609,Real Estate,53
+92,94,2013-07-22,92,Technology,Finance,125,710,Fashion & Retail,604,Real Estate,76
+97,67,2018-04-25,26,Real Estate,Real Estate,142,501,Fashion & Retail,264,Real Estate,56
+60,96,2005-03-26,51,Real Estate,Technology,126,856,Food & Beverage,418,Technology,71
+96,85,2006-04-09,93,Food & Beverage,Food & Beverage,168,161,Real Estate,803,Finance,72
+72,96,2002-01-12,52,Automotive,Real Estate,119,177,Automotive,96,Finance,41
+65,71,2001-09-01,18,Finance,Fashion & Retail,110,285,Fashion & Retail,88,Fashion & Retail,39
+80,83,2013-08-26,57,Finance,Food & Beverage,173,63,Fashion & Retail,78,Food & Beverage,86
+60,96,2022-02-05,81,Finance,Real Estate,137,662,Real Estate,288,Automotive,73
+65,57,2005-03-17,39,Fashion & Retail,Technology,105,666,Automotive,120,Technology,50
+57,89,2004-05-11,77,Real Estate,Automotive,171,156,Fashion & Retail,814,Finance,53
+53,98,2010-07-13,81,Fashion & Retail,Real Estate,122,882,Fashion & Retail,491,Food & Beverage,37
+89,93,2024-02-11,89,Fashion & Retail,Finance,146,469,Automotive,912,Food & Beverage,79
+53,68,2006-01-31,28,Real Estate,Technology,189,49,Technology,452,Technology,90
+74,91,2017-06-07,31,Finance,Automotive,145,967,Food & Beverage,500,Technology,43
+52,90,2020-05-07,77,Real Estate,Technology,111,849,Technology,165,Food & Beverage,83
+81,86,2016-08-22,47,Automotive,Food & Beverage,189,84,Food & Beverage,182,Fashion & Retail,90

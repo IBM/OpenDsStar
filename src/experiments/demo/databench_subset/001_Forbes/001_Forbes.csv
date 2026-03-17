@@ -1,0 +1,101 @@
+finalWorth,selfMade,age,gender,city,country,rank,philanthropyScore,category,source,title
+122958,True,61,False,New York,China,1,1,Food & Beverage,investments,Director
+147867,True,51,False,New York,India,2,2,Technology,real estate,CEO
+132932,False,91,False,London,United States,3,4,Real Estate,finance,Chairman
+366838,True,79,M,Tokyo,France,4,4,Fashion & Retail,finance,Director
+260178,True,31,M,Paris,India,5,2,Food & Beverage,retail,
+120879,True,65,False,Los Angeles,Japan,6,3,Food & Beverage,manufacturing,President
+111268,True,32,False,San Francisco,India,7,1,Fashion & Retail,investments,President
+208892,True,89,M,San Francisco,United States,8,5,Real Estate,retail,
+55886,False,79,False,Tokyo,Germany,9,1,Technology,finance,Founder
+138337,True,57,False,Los Angeles,France,10,1,Finance,finance,CEO
+476602,True,70,M,New York,United States,11,3,Food & Beverage,investments,Director
+431410,True,41,False,Paris,France,12,1,Real Estate,technology,
+88498,True,43,M,Los Angeles,United Kingdom,13,2,Finance,technology,
+375871,True,77,False,New York,United Kingdom,14,2,Finance,finance,Founder
+389468,True,58,M,Los Angeles,China,15,4,Finance,finance,CEO
+176203,True,46,M,Beijing,France,16,5,Technology,retail,
+192335,False,32,False,San Francisco,Japan,17,1,Technology,manufacturing,Chairman
+279167,True,62,M,Beijing,India,18,1,Finance,manufacturing,
+42090,False,82,M,Los Angeles,United Kingdom,19,3,Automotive,retail,Director
+330365,False,88,False,San Francisco,India,20,2,Fashion & Retail,retail,CEO
+65820,True,26,M,Paris,India,21,5,Technology,real estate,Director
+263913,True,18,M,Tokyo,Japan,22,4,Automotive,finance,CEO
+322879,False,25,False,Beijing,United States,23,2,Automotive,real estate,Chairman
+195027,False,80,False,Tokyo,India,24,4,Food & Beverage,technology,Director
+328069,False,28,M,New York,France,25,3,Fashion & Retail,finance,President
+253709,True,25,M,New York,Japan,26,3,Finance,finance,
+200041,True,52,False,Mumbai,United Kingdom,27,1,Food & Beverage,investments,Chairman
+268455,False,52,False,New York,Germany,28,5,Food & Beverage,finance,CEO
+104355,True,50,M,New York,India,29,4,Automotive,technology,Director
+236796,True,22,M,San Francisco,China,30,2,Automotive,manufacturing,
+215176,False,58,M,Paris,Japan,31,3,Automotive,manufacturing,Chairman
+185779,True,45,M,New York,United States,32,1,Finance,finance,CEO
+348449,False,24,M,London,Brazil,33,1,Finance,manufacturing,President
+422909,False,90,False,Paris,United Kingdom,34,4,Food & Beverage,real estate,President
+466148,False,89,M,London,United Kingdom,35,3,Food & Beverage,finance,CEO
+259795,True,29,M,London,Brazil,36,5,Technology,real estate,President
+487232,False,51,M,Tokyo,France,37,3,Technology,retail,Chairman
+393752,True,50,False,Los Angeles,Germany,38,4,Automotive,retail,
+157730,False,65,M,London,United Kingdom,39,4,Finance,investments,President
+347622,True,40,False,Tokyo,United Kingdom,40,3,Finance,finance,
+385681,False,79,False,New York,United States,41,4,Food & Beverage,retail,Founder
+150503,False,54,M,London,United Kingdom,42,3,Fashion & Retail,retail,President
+131523,True,61,M,Los Angeles,Japan,43,2,Automotive,manufacturing,Founder
+3747,True,52,False,Mumbai,France,44,3,Technology,investments,
+124855,True,82,False,Beijing,Germany,45,3,Fashion & Retail,investments,Director
+453366,True,64,False,Tokyo,China,46,4,Finance,manufacturing,
+66725,False,20,False,Mumbai,Germany,47,4,Technology,finance,Chairman
+130981,True,18,False,Tokyo,France,48,1,Automotive,real estate,Director
+85654,True,22,M,Beijing,Japan,49,1,Finance,finance,Director
+429989,True,31,M,Los Angeles,France,50,2,Automotive,real estate,President
+382490,False,44,M,Paris,United States,51,1,Food & Beverage,investments,President
+68435,False,26,M,Beijing,China,52,3,Fashion & Retail,technology,President
+320030,False,32,False,San Francisco,Germany,53,4,Fashion & Retail,finance,
+329947,False,59,M,Mumbai,India,54,1,Fashion & Retail,technology,Director
+32551,True,94,M,London,Germany,55,1,Real Estate,real estate,Chairman
+379360,False,68,M,New York,United States,56,2,Automotive,finance,Chairman
+274538,False,80,M,San Francisco,China,57,2,Fashion & Retail,technology,Founder
+332236,True,69,M,London,Japan,58,3,Food & Beverage,technology,CEO
+4890,False,21,M,London,France,59,4,Fashion & Retail,finance,Chairman
+42606,True,40,M,Tokyo,France,60,2,Automotive,technology,President
+490492,True,32,M,Beijing,Japan,61,1,Fashion & Retail,finance,Founder
+257840,True,60,M,Paris,China,62,4,Automotive,technology,President
+474254,True,46,False,Mumbai,Japan,63,4,Finance,investments,Director
+350457,False,53,M,London,United Kingdom,64,1,Food & Beverage,finance,Director
+142699,False,30,M,Tokyo,Germany,65,2,Automotive,investments,
+271936,False,49,False,Mumbai,United States,66,1,Automotive,manufacturing,President
+240931,True,88,False,Beijing,Japan,67,4,Real Estate,retail,Chairman
+240629,False,76,M,Paris,United States,68,5,Finance,investments,CEO
+206041,True,45,M,San Francisco,United Kingdom,69,5,Food & Beverage,technology,President
+175073,True,83,False,Beijing,France,70,3,Real Estate,real estate,Chairman
+208624,True,59,M,New York,Japan,71,1,Fashion & Retail,manufacturing,Founder
+418113,False,62,False,Beijing,China,72,1,Automotive,investments,President
+69148,False,79,False,London,France,73,3,Food & Beverage,manufacturing,Founder
+253801,False,74,M,Paris,France,74,3,Finance,investments,Chairman
+125243,True,23,M,Beijing,China,75,3,Real Estate,investments,Chairman
+252995,True,45,M,London,Germany,76,4,Automotive,real estate,Chairman
+383318,False,45,False,London,Germany,77,1,Technology,real estate,Chairman
+155555,True,61,False,Paris,Japan,78,4,Food & Beverage,investments,Director
+387502,False,47,False,Beijing,France,79,3,Real Estate,retail,
+49555,False,79,False,Beijing,Japan,80,1,Finance,real estate,Chairman
+257508,False,92,False,Tokyo,Germany,81,4,Real Estate,real estate,Director
+280303,True,79,M,Mumbai,India,82,4,Real Estate,real estate,CEO
+373654,False,18,M,Tokyo,United Kingdom,83,3,Real Estate,finance,Director
+107530,True,44,M,Beijing,Japan,84,1,Fashion & Retail,manufacturing,Founder
+81077,True,79,False,San Francisco,Japan,85,3,Technology,investments,CEO
+299064,False,94,False,Beijing,India,86,1,Finance,retail,Founder
+486283,False,20,M,New York,Germany,87,5,Finance,real estate,
+461337,False,87,M,London,Japan,88,2,Finance,finance,President
+201551,False,89,M,Los Angeles,United States,89,2,Automotive,manufacturing,President
+483691,True,44,M,Beijing,Germany,90,2,Food & Beverage,technology,Director
+282601,True,26,False,New York,Germany,91,3,Finance,technology,Founder
+460773,False,79,M,New York,United Kingdom,92,5,Food & Beverage,real estate,
+209261,True,54,False,Mumbai,Japan,93,1,Finance,retail,President
+241181,True,68,M,Paris,France,94,4,Technology,retail,
+342097,True,61,False,Beijing,Brazil,95,1,Automotive,manufacturing,
+316139,True,41,False,Paris,Brazil,96,4,Automotive,manufacturing,President
+172829,True,76,M,San Francisco,Brazil,97,1,Real Estate,investments,President
+272836,False,49,M,Los Angeles,United Kingdom,98,5,Fashion & Retail,real estate,CEO
+439974,True,69,False,New York,Brazil,99,4,Automotive,technology,CEO
+466625,False,79,M,London,India,100,3,Automotive,investments,Chairman

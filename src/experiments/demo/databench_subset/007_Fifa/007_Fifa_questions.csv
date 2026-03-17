@@ -1,0 +1,21 @@
+question,answer,type,columns_used,column_types,sample_answer
+Are there players who have a greater overall score than their potential score?,False,boolean,"['Overall<gx:number>', 'Potential<gx:number>']","['number[uint8]', 'number[uint8]']",False
+Are there any players who joined their current club before they were 18 years old?,False,boolean,"['Joined<gx:date>', 'Age<gx:number>']","['category', 'number[uint8]']",True
+Are there any players whose preferred foot is left and are from a nationality that starts with 'B'?,False,boolean,"['Preferred Foot<gx:category>', 'Nationality<gx:category>']","['category', 'category']",False
+Are there any players who are taller than 6 feet and have an agility score above 90?,False,boolean,"['Height_ft<gx:number>', 'Agility<gx:number>']","['number[double]', 'number[uint8]']",False
+What is the average overall score of players from France?,0.0,number,"['Nationality<gx:category>', 'Overall<gx:number>']","['category', 'number[uint8]']",
+How many unique clubs are there in the dataset?,6.0,number,['Club<gx:category>'],['category'],19
+What is the highest value (in €) of a player in the dataset?,993.0,number,['Value_€<gx:currency>'],['number[uint32]'],13500000
+How many players have the position 'ST'?,100.0,number,['Position<gx:category>'],['category'],1
+What is the most common nationality in the dataset?,Food & Beverage,category,['Nationality<gx:category>'],['category'],Ghana
+What is the most common preferred foot amongst players?,Food & Beverage,category,['Preferred Foot<gx:category>'],['category'],Right
+Which club has the most players in the dataset?,,category,['Club<gx:category>'],['category'],Lech Poznań
+What is the most common position of players in the dataset?,Food & Beverage,category,['Position<gx:category>'],['category'],SUB
+Which are the top 5 nationalities in terms of the average overall score of their players?,[],list[category],"['Nationality<gx:category>', 'Overall<gx:number>']","['category', 'number[uint8]']","['Portugal', 'Ivory Coast', 'Brazil', 'United States', 'Ghana']"
+Which are the top 3 clubs in terms of the total value (in €) of their players?,[],list[category],"['Club<gx:category>', 'Value_€<gx:currency>']","['category', 'number[uint32]']","['Sassuolo', 'Atalanta', 'DC United']"
+Which are the bottom 4 nationalities in terms of the average agility of their players?,[],list[category],"['Nationality<gx:category>', 'Agility<gx:number>']","['category', 'number[uint8]']","['United States', 'Guyana', 'Saudi Arabia', 'Poland']"
+Which are the top 6 clubs in terms of the average potential score of their players?,[],list[category],"['Club<gx:category>', 'Potential<gx:number>']","['category', 'number[uint8]']","['Sassuolo', 'Inter', 'Sporting CP', '1. FSV Mainz 05', 'Atalanta', 'DC United']"
+What are the top 3 overall scores in the dataset?,[],list[number],['Overall<gx:number>'],['number[uint8]'],"[79, 77, 77]"
+What are the bottom 5 potential scores in the dataset?,[],list[number],['Potential<gx:number>'],['number[uint8]'],"[60, 65, 66, 67, 68]"
+What are the top 4 values (in €) of players in the dataset?,[],list[number],['Value_€<gx:currency>'],['number[uint32]'],"[13500000, 7500000, 5500000, 5500000]"
+What are the top 2 wages (in €) of players in the dataset?,[],list[number],['Wage_€<gx:currency>'],['number[uint32]'],"[47000, 29000]"

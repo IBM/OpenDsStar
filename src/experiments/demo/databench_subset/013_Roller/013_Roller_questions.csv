@@ -1,0 +1,21 @@
+question,answer,type,columns_used,column_types,sample_answer
+Did the oldest roller coaster in the dataset still operate?,True,boolean,"[year_introduced, Status]","['category', 'category']",True
+Is there a roller coaster in the dataset that operates at a speed more than 100 mph?,True,boolean,[speed_mph],['number[double]'],False
+Are all roller coasters in the dataset designed by 'Werner Stengel' removed?,False,boolean,"[Designer, Status]","['category', 'category']",False
+Does every roller coaster have a G-force value?,False,boolean,[Gforce_clean],['number[double]'],False
+What is the maximum speed (in mph) for roller coasters in the dataset?,149.1,number,[speed_mph],['number[double]'],62.0
+How many roller coasters were introduced in the year 2000?,47,number,[year_introduced],['number[uint16]'],0
+What is the average G-force across all roller coasters in the dataset?,3.8240055248618785,number,[Gforce_clean],['number[double]'],3.62
+What is the total number of roller coasters designed by 'Edwin Madeupname' in the dataset?,0,number,[Designer],['category'],0
+Which manufacturer has built the fastest roller coaster?,Intamin,category,"[Manufacturer, speed_mph]","['category', 'number[double]']",Bolliger & Mabillard
+What is the status of the roller coaster with the highest G-force?,Removed,category,"[Status, Gforce_clean]","['category', 'number[double]']",
+What type of the roller coaster is the oldest in the dataset?,Wood,category,"[Type, Opening date]","['category', 'category']",Other
+What is the location of the roller coaster with the highest number of inversions?,Alton Towers,category,"[Location, Inversions_clean]","['category', 'number[uint8]']",Busch Gardens Tampa Bay
+What are the names of the top 3 fastest roller coasters?,"[Formula Rossa, Kingda Ka, Top Thrill Dragster]",list[category],"[coaster_name, speed_mph]","['category', 'number[double]']","[\'Afterburn (roller coaster)\', \'Hades 360\', \'Montu (roller coaster)\']"
+Which 2 roller coasters have the highest number of inversions?,"[The Smiler, Colossus (Thorpe Park)]",list[category],"[coaster_name, Inversions_clean]","['category', 'number[uint8]']","[\'Montu (roller coaster)\', \'Wipeout (roller coaster)\']"
+What are the locations of the top 5 roller coasters with the highest G-force?,"[Sea Lion Park, Fuji-Q Highland, Six Flags Over Texas, Nürburgring, Morey's Piers]",list[category],"[Location, Gforce_clean]","['category', 'number[double]']","[\'Other\', \'Busch Gardens Tampa Bay\', \'Mt. Olympus Water & Theme Park\', \'Adventuredome\', \'Other\']"
+Name the 4 oldest roller coasters in the dataset.,"[Switchback Railway, Flip Flap Railway, Loop the Loop (Coney Island), Loop the Loop (Young's Pier)]",list[category],"[coaster_name, Opening date]","['category', 'category']","[\'Zipper Dipper\', \'Runaway Mine Train (Six Flags Over Texas)\', \'The Bush Beast\', \'Canyon Blaster (Adventuredome)\']"
+What are the top 3 speeds (in mph) of roller coasters in the dataset?,"[149.1, 128.0, 120.0]",list[number],[speed_mph],['number[double]'],"[62.0, 60.0, 60.0]"
+List the G-force values of the 2 roller coasters with the highest G-force.,"[12.0, 6.5]",list[number],[Gforce_clean],['number[double]'],"[4.3, 3.8]"
+What are the heights (in ft) of the top 4 tallest roller coasters?,"[377.3, 367.5, 318.2, 306.1]",list[number],[height_ft],['number[double]'],"[98.4, 90.2, 82.0, 78.7]"
+Name the introduction years of the 6 oldest roller coasters in the dataset.,"[1884, 1895, 1901, 1901, 1902, 1902]",list[number],"[year_introduced, Opening date]","['number[uint16]', 'category']","[1934, 1966, 1985, 1993, 1996, 1999]"

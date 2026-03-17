@@ -1,0 +1,133 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools_scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "OpenDsStar"
+version = "0.1.0"
+authors = [
+    {name = "Yoav Kantor", email = "yoavka@il.ibm.com"},
+    {name = "Assaf Toledo", email = "assaf.toledo@ibm.com"},
+    {name = "Gal Bloch", email = "gal.bloch@ibm.com"},
+]
+description = "A tool-based DS-Star agent implementation using LangGraph"
+readme = "README.md"
+requires-python = ">=3.10,<3.14"
+keywords = ["agent", "llm", "langgraph", "data-science", "ds-star"]
+license = {text = "Apache License (2.0)"}
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+]
+dependencies = [
+    "langgraph>=1.0.0",
+    "langchain~=0.3.27",
+    "langchain-core>=0.1.0",
+    "langchain-community>=0.3.28,<1.0.0",
+    "langchain-litellm>=0.3.5",
+    "langchain-milvus==0.1.7",
+    "langchain-huggingface",
+    "scipy>=1.15.2",
+    "pydantic>=2.12.5",
+    "numpy>=1.26.2",
+    "pandas>=2.2.3",
+    "python-dotenv>=0.19.0",
+    "litellm>=1.75.3",
+    "docling==2.68.0",
+    "sentence-transformers==5.2.0",
+    "milvus-lite==2.5.1",
+    "diskcache>=5.6.0",
+    "tqdm>=4.66.0",
+    "smolagents>=1.0.0",
+    "matplotlib>=3.7.0",
+    "plotly>=5.0.0",
+    "kaleido>=0.2.1",
+]
+
+[project.optional-dependencies]
+mcp = [
+    "mcp>=1.0.0",
+    "fastmcp>=0.1.0",
+]
+dev = [
+    "pytest>=7.0.0",
+    "black>=23.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.0.0",
+    "pre-commit>=3.0.0",
+]
+
+test = [
+    "ragbench @ git+https://github.com/IBM/RagWorkbench.git",
+    "pytest-asyncio>=0.21.0",
+]
+
+ui = [
+    "streamlit>=1.28.0",
+    "pandas>=2.2.3",
+]
+
+
+
+
+[project.urls]
+Repository = "https://github.com/IBM/OpenDsStar"
+Documentation = "https://github.com/IBM/OpenDsStar#readme"
+Issues = "https://github.com/IBM/OpenDsStar/issues"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["agents*"]
+namespaces = false
+
+[tool.isort]
+profile = "black"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+addopts = [
+    "-v",
+    "--strict-markers",
+    "--tb=short",
+]
+markers = [
+    "slow: marks tests as slow (deselect with '-m \"not slow\"')",
+    "integration: marks tests as integration tests",
+    "unit: marks tests as unit tests",
+    "e2e: marks tests as end-to-end tests (require API access)",
+    "asyncio: marks tests as async tests",
+]
+asyncio_mode = "auto"
+asyncio_default_fixture_loop_scope = "function"
+filterwarnings = [
+    "ignore::DeprecationWarning",
+    "ignore::UserWarning:pydantic.*",
+    "ignore:.*Pydantic serializer warnings.*:UserWarning",
+    "ignore:.*force_all_finite.*:FutureWarning",
+    "ignore:.*pin_memory.*:UserWarning",
+    "ignore:.*pkg_resources.*:UserWarning"
+]
+
+
+#testpaths = ["tests"]
+
+norecursedirs = [
+    ".venv",
+    "venv",
+    ".git",
+    "__pycache__",
+    "docs",
+    "build",
+    "dist",
+    "logs",
+]

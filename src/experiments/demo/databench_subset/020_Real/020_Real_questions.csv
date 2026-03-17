@@ -1,0 +1,21 @@
+question,answer,type,columns_used,column_types,sample_answer
+"Are there any properties with a price over 1,000,000?",False,boolean,['Precio'],['number[uint32]'],True
+Any property with more than 10 bedrooms?,True,boolean,['Habitaciones'],['number[uint8]'],False
+Are there properties with zero bathrooms?,False,boolean,['Baños'],['number[uint8]'],False
+Has any property been listed for more than 100 days?,True,boolean,['Duración'],['number[uint16]'],True
+What's the highest price in the dataset?,989.0,number,['Precio'],['number[uint32]'],1245000.0
+What's the total number of properties listed?,26026,number,[],[],20
+What's the longest duration a property has been listed?,0.0,number,['Duración'],['number[uint16]'],300.0
+What's the largest surface listed?,0.0,number,['Superficie'],['number[uint16]'],350.0
+What's the most common type of property listed?,Casa,category,['Tipo'],['category'],Piso
+Which advertiser has listed the most properties?,,category,['Anunciante'],['category'],gilmar_villalba
+Which property has the highest price?,687,category,"['Referencia', 'Precio']","['category', 'number[uint32]']",14075097
+Which property has the largest surface area?,,category,"['Referencia', 'Superficie']","['category', 'number[uint16]']",2126-002573
+What are the five types of properties more frequently listed?,[],list[category],['Tipo'],['category'],"['Piso', 'Chalet', 'Apartamento', 'Chalet adosado', 'Chalet pareado']"
+What are the 2 types of properties which are listed more frequently?,[],list[category],['Tipo'],['category'],"['Piso', 'Chalet']"
+What are the 2 most common localities for properties listed?,[],list[category],['Localidad'],['category'],"['Madrid Capital', 'Alpedrete']"
+What are the 2 most common districts for properties listed?,[],list[category],['Distrito'],['category'],"['San Blas', 'Centro']"
+What are the 5 highest property prices listed?,"[17000000.0, 13600000.0, 13250000.0, 13000000.0, 12000000.0]",list[number],['Precio'],['number[uint32]'],"[1245000.0, 950000.0, 590000.0, 555000.0, 550000.0]"
+List the 3 longest durations properties have been listed.,[],list[number],['Duración'],['number[uint16]'],"[300.0, 146.0, 129.0]"
+Identify the 4 largest surfaces listed.,[],list[number],['Superficie'],['number[uint16]'],"[350.0, 311.0, 300.0, 250.0]"
+What are the 6 highest numbers of bedrooms in properties listed?,"[20, 20, 20, 20, 20, 20]",list[number],['Habitaciones'],['number[uint8]'],"[9, 5, 5, 4, 4, 3]"

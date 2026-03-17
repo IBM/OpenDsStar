@@ -1,0 +1,21 @@
+question,answer,type,columns_used,column_types,sample_answer
+Is there a rental property with exactly 5 bedrooms?,False,boolean,['bedrooms'],['number[UInt8]'],False
+Is there a rental property listed by a superhost that is instantly bookable?,True,boolean,"['host_is_superhost', 'instant_bookable']","['category', 'category']",True
+Are there any rental properties that can accommodate more than 10 guests?,True,boolean,['accommodates'],['number[uint8]'],False
+Is there a rental property that has received a perfect review score?,True,boolean,['review_scores_rating'],['number[double]'],False
+How many rental properties are there in the dataset?,20776,number,[],[],20.0
+What is the maximum number of bedrooms in a property?,6.0,number,['bedrooms'],['number[UInt8]'],0
+What is the highest price per night for a rental property?,498.0,number,['price'],['category'],3.62
+What is the maximum number of reviews a property has received?,994.0,number,['number_of_reviews'],['number[uint16]'],0
+What is the host response time for the property with the highest number of bedrooms?,a few days or more,category,"['bedrooms', 'host_response_time']","['number[UInt8]', 'category']",within an hour
+What type of room is the most expensive property?,,category,"['price', 'room_type']","['category', 'category']",
+What is the property type of the listing with the most reviews?,,category,"['number_of_reviews', 'property_type']","['number[uint16]', 'category']",Other
+What is the acceptance rate of the host of the property that can accommodate the most number of guests?,,category,"['accommodates', 'host_acceptance_rate']","['number[uint8]', 'category']",100%
+Which are the 2 lowest values of host response rates above 0% ?,"['5%', '10%']",list[category],['host_response_rate'],['category'],"['73%', '83%']"
+Which are the 2 lowest values of host response rates?,"['0%', '0%']",list[category],['host_response_rate'],['category'],"['73%', '83%']"
+What are the 4 highest values of host acceptance rates?,"['99%', '99%', '99%', '99%']",list[category],['host_acceptance_rate'],['category'],"['100%', '100%', '100%', '100%']"
+What are the 2 least common scraping sources?,"['real estate', 'retail', 'investments', 'finance']",list[category],['source'],['category'],"['previous scrape', 'city scrape']"
+What are the 3 prices of the most expensive properties?,"[95150.0, 90130.0, 64430.0]",list[number],['price'],['category'],"[250.00, 215.00, 192.00]"
+What are the 2 prices of the least expensive properties?,"[0.0, 0.0]",list[number],['price'],['category'],"[38, 45]"
+What are the 2 numbers of reviews received by the 2 most reviewed properties?,"[870, 822]",list[number],['number_of_reviews'],['number[uint16]'],"[206, 173]"
+What are the 5 numbers of guests accommodated by the properties that can accommodate the most guests?,[],list[number],['accommodates'],['number[uint8]'],"[6,6,5,4,4]"

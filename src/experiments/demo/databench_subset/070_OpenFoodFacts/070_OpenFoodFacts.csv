@@ -1,0 +1,101 @@
+code,product_name,brands,countries,stores,creator,labels,categories,vegan,vegetarian,palm_oil_free
+91861231,Product_85,Lidl,Portugal,Mercadona,user123,,Dairy products,False,True,False
+29032579,Product_45,Carrefour,Italy,Carrefour,Eduardo,No lactose,Seitan,True,True,True
+40354781,Product_67,Hacendado,United Kingdom,Hacendado,Eduardo,Green Dot,,False,False,False
+26514877,Product_81,Lidl,United States,Hacendado,kiliweb,Vegan,Cereals,False,True,False
+83545310,Product_53,Hacendado,United States,Aldi,user123,Fair Trade,Beverages,True,False,False
+86165878,Product_43,Generic,Germany,Carrefour,kiliweb,Organic,Fruits,False,True,False
+97554946,Product_59,Aldi,United Kingdom,Mercadona,Eduardo,,Beverages,True,True,False
+88350878,Product_46,Hacendado,France,Lidl,openfoodfacts-contributors,Vegan,,False,False,True
+27810471,Product_9,Carrefour,Spain,Hacendado,user123,No gluten,Beverages,False,True,False
+50636644,Product_49,Mercadona,United Kingdom,Hacendado,openfoodfacts-contributors,Vegan,Snacks,True,False,True
+68534435,Product_88,Generic,Italy,Aldi,kiliweb,Vegan,Fruits,False,False,False
+88550238,Product_22,Hacendado,France,Carrefour,kiliweb,Palm oil free,,False,False,True
+67975251,Product_20,Generic,Portugal,Lidl,elcoco,No lactose,Seitan,True,True,False
+13094235,Product_70,Hacendado,United Kingdom,Lidl,user123,Palm oil free,Snacks,True,False,False
+57870026,Product_24,Hacendado,Portugal,Lidl,user123,,Fruits,False,False,True
+32763342,Product_55,Mercadona,France,Carrefour,kiliweb,Palm oil free,Cereals,True,False,False
+29636869,Product_51,Mercadona,Italy,Mercadona,openfoodfacts-contributors,Organic,Beverages,True,True,True
+37132021,Product_69,Hacendado,France,Hacendado,user123,Organic,Beverages,True,True,True
+43942384,Product_19,Aldi,France,Carrefour,kiliweb,,Plant-based foods and beverages,True,True,False
+72867959,Product_74,Mercadona,France,Lidl,elcoco,,Fruits,False,False,False
+27807333,Product_87,Mercadona,United States,Hacendado,Eduardo,Fair Trade,Beverages,True,True,True
+63228466,Rice,Mercadona,Germany,Hacendado,user123,Palm oil free,Plant-based foods and beverages,True,True,False
+45912253,Product_25,Lidl,France,Lidl,Eduardo,Organic,Plant-based foods and beverages,True,False,False
+26263882,Product_75,Generic,United States,Lidl,openfoodfacts-contributors,Vegetarian,,True,False,False
+49138695,Product_23,Hacendado,Spain,Hacendado,elcoco,Vegetarian,Beverages,True,True,True
+43799193,Product_31,Aldi,United States,Aldi,user123,Fair Trade,Snacks,True,False,False
+93721515,Product_29,Mercadona,Portugal,Hacendado,Eduardo,Vegetarian,Cereals,True,True,True
+85495044,Product_58,Lidl,Spain,Mercadona,Eduardo,Fair Trade,Snacks,False,False,True
+58014453,Tomato Sauce,Generic,Portugal,Mercadona,kiliweb,No gluten,Snacks,True,True,True
+92405138,Product_6,Carrefour,Germany,Aldi,Eduardo,Organic,Beverages,True,False,True
+61569363,Product_8,Carrefour,United Kingdom,Carrefour,openfoodfacts-contributors,Palm oil free,Dairy products,False,True,False
+42686304,Product_18,Mercadona,United Kingdom,Hacendado,Eduardo,Fair Trade,Seitan,True,True,False
+85149843,Product_38,Aldi,United States,Mercadona,openfoodfacts-contributors,Fair Trade,Plant-based foods and beverages,True,False,True
+94740096,Product_61,Aldi,Italy,Hacendado,openfoodfacts-contributors,No lactose,Beverages,False,False,True
+82456281,Product_16,Generic,Portugal,Aldi,kiliweb,Palm oil free,,True,False,True
+86362381,Pasta,Generic,Germany,Lidl,elcoco,No gluten,Plant-based foods and beverages,True,False,True
+41699263,Product_42,Hacendado,United Kingdom,Aldi,openfoodfacts-contributors,No lactose,Cereals,True,True,False
+90480036,Product_15,Mercadona,Germany,Aldi,Eduardo,,Dairy products,True,True,True
+36216317,Product_10,Carrefour,Germany,Aldi,Eduardo,Organic,Seitan,True,True,True
+63215075,Product_64,Hacendado,United Kingdom,Mercadona,openfoodfacts-contributors,Green Dot,Beverages,False,False,True
+44970444,Product_57,Aldi,United Kingdom,Aldi,Eduardo,Palm oil free,Cereals,True,True,True
+15752810,Product_72,Hacendado,Italy,Lidl,user123,Green Dot,Fruits,False,True,True
+10571650,Organic Milk,Carrefour,Spain,Lidl,kiliweb,,Dairy products,True,True,False
+98362656,Product_2,Aldi,Spain,Lidl,Eduardo,Palm oil free,Snacks,True,True,False
+82017911,Product_52,Generic,France,Carrefour,kiliweb,No gluten,Dairy products,False,True,False
+50435721,Product_47,Lidl,Portugal,Aldi,openfoodfacts-contributors,No lactose,Cereals,True,False,False
+84531076,Product_13,Lidl,United Kingdom,Lidl,openfoodfacts-contributors,Fair Trade,Beverages,True,False,False
+13757974,Product_56,Generic,Germany,Carrefour,openfoodfacts-contributors,No lactose,Dairy products,False,False,True
+85900553,Product_26,Mercadona,Portugal,Aldi,kiliweb,Green Dot,Beverages,True,False,False
+71119361,Product_33,Hacendado,France,Aldi,Eduardo,Palm oil free,,True,True,True
+52321932,Seitán a la piastra,Aldi,Germany,Hacendado,user123,Vegan,Beverages,False,False,False
+29931456,Product_37,Generic,United States,Aldi,kiliweb,Organic,Cereals,False,False,False
+69376958,Product_66,Generic,France,Hacendado,user123,Fair Trade,Seitan,False,False,False
+21643208,Product_44,Mercadona,United Kingdom,Mercadona,Eduardo,Green Dot,,True,True,False
+53928336,Product_65,Hacendado,United States,Mercadona,Eduardo,Organic,Seitan,False,True,True
+18112074,Seitán a la plancha,Generic,United States,Carrefour,kiliweb,,Dairy products,True,True,False
+28967438,Product_11,Carrefour,France,Hacendado,elcoco,Fair Trade,Snacks,True,True,True
+22138391,Product_73,Generic,United Kingdom,Mercadona,user123,Organic,Fruits,False,True,False
+63050917,Product_35,Aldi,Germany,Mercadona,openfoodfacts-contributors,Palm oil free,Cereals,False,True,False
+34012790,Product_83,Hacendado,United States,Mercadona,user123,,Seitan,True,False,False
+66004002,Product_79,Aldi,France,Aldi,Eduardo,No gluten,Fruits,True,False,True
+31982813,Product_28,Hacendado,France,Hacendado,Eduardo,Green Dot,Plant-based foods and beverages,False,False,True
+65616606,Product_3,Carrefour,Germany,Mercadona,kiliweb,Vegetarian,Beverages,False,False,False
+39967940,Product_76,Aldi,United Kingdom,Hacendado,elcoco,Vegan,Seitan,False,False,False
+87822269,Product_40,Lidl,France,Lidl,openfoodfacts-contributors,Vegetarian,,True,False,True
+19742257,Product_82,Generic,France,Lidl,user123,Green Dot,Cereals,False,False,True
+62044151,Product_54,Carrefour,France,Aldi,elcoco,Fair Trade,Beverages,False,True,False
+13609736,Product_36,Hacendado,Portugal,Lidl,openfoodfacts-contributors,Green Dot,Fruits,True,True,False
+85169697,Product_41,Aldi,Spain,Carrefour,Eduardo,Green Dot,Cereals,True,False,True
+28161634,Product_1,Generic,Germany,Hacendado,Eduardo,Palm oil free,Seitan,False,False,False
+27163810,Product_60,Carrefour,Portugal,Mercadona,kiliweb,No lactose,Snacks,True,True,True
+96755840,Product_50,Hacendado,France,Carrefour,kiliweb,Vegan,,True,False,False
+22225855,Product_17,Lidl,Spain,Carrefour,user123,No gluten,Plant-based foods and beverages,True,False,False
+61424149,Product_14,Lidl,Germany,Lidl,elcoco,No gluten,Cereals,False,False,True
+82347195,Product_34,Hacendado,United States,Hacendado,elcoco,Organic,Snacks,False,True,True
+11135964,Product_12,Lidl,Italy,Mercadona,openfoodfacts-contributors,No gluten,Seitan,False,True,False
+73446855,Orange Juice,Carrefour,Germany,Carrefour,user123,Vegan,,False,False,True
+76318090,Product_71,Generic,Portugal,Aldi,kiliweb,Organic,Beverages,False,True,False
+70203880,Whole Wheat Bread,Lidl,Portugal,Mercadona,user123,Organic,Fruits,False,True,True
+12155748,Product_63,Generic,Portugal,Lidl,Eduardo,Fair Trade,Seitan,True,True,True
+70676365,Product_27,Mercadona,Germany,Hacendado,kiliweb,No lactose,Dairy products,True,False,True
+88542651,Product_39,Lidl,United Kingdom,Aldi,elcoco,Vegetarian,Plant-based foods and beverages,True,True,True
+41808285,Product_62,Mercadona,France,Mercadona,kiliweb,,Plant-based foods and beverages,False,True,False
+64256930,Product_7,Generic,Germany,Mercadona,Eduardo,Fair Trade,Beverages,False,False,False
+44427604,Hamburguesa de seitán,Aldi,United States,Carrefour,kiliweb,No lactose,,True,False,True
+18910852,Product_48,Generic,Italy,Mercadona,elcoco,No lactose,Seitan,False,False,False
+82764242,Greek Yogurt,Carrefour,United States,Hacendado,Eduardo,No lactose,Seitan,False,True,False
+48428026,Product_4,Aldi,United States,Hacendado,openfoodfacts-contributors,Green Dot,Snacks,False,True,False
+47617741,Chocolate Bar,Aldi,France,Mercadona,user123,Fair Trade,Dairy products,False,False,False
+16941245,Product_80,Lidl,Spain,Carrefour,openfoodfacts-contributors,Vegetarian,Fruits,False,False,False
+74770179,Product_5,Lidl,Italy,Aldi,Eduardo,Palm oil free,,True,True,False
+25876696,Product_77,Lidl,Portugal,Aldi,Eduardo,No lactose,Cereals,False,True,True
+19451244,Product_68,Generic,France,Carrefour,Eduardo,Vegetarian,Fruits,False,False,False
+84926168,Product_32,Aldi,Portugal,Lidl,elcoco,Palm oil free,Dairy products,False,True,True
+27606951,Product_21,Carrefour,France,Hacendado,Eduardo,Vegan,Fruits,False,False,False
+72056263,Product_78,Carrefour,Portugal,Lidl,user123,Palm oil free,Seitan,False,True,True
+17021862,Product_0,Mercadona,France,Carrefour,elcoco,Vegan,,True,False,False
+18351245,Product_30,Hacendado,Spain,Lidl,Eduardo,No gluten,Fruits,False,True,False
+96448549,Product_84,Carrefour,Germany,Carrefour,elcoco,Palm oil free,Beverages,True,False,False
+46640608,Product_86,Lidl,United States,Aldi,user123,Vegan,Plant-based foods and beverages,True,True,True

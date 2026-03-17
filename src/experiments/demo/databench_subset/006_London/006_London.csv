@@ -1,0 +1,101 @@
+neighbourhood_cleansed,host_identity_verified,reviews_per_month,room_type,host_neighbourhood,price,review_scores_communication,bedrooms,property_type,host_verifications,review_scores_location,calculated_host_listings_count_entire_homes
+Camden,False,401,Type C,Tower Hamlets,121,3,16,Deluxe,google,3,227
+Chelsea,False,640,Premium,Chelsea,445,2,792,Standard,"phone, email, work_email",1,659
+Tower Hamlets,False,33,Standard,Westminster,327,1,336,Type B,google,4,532
+Camden,True,688,Type C,Chelsea,197,5,759,Standard,"facebook, work_email, email",4,441
+Kensington,True,460,Premium,Kensington,351,4,258,Premium,"email, facebook",5,402
+Tower Hamlets,False,955,Premium,Chelsea,74,2,497,Standard,"work_email, facebook",1,47
+Hackney,False,883,Type A,Kensington,98,1,988,Type C,"phone, google",3,233
+Kensington,False,470,Premium,Kensington,158,4,896,Type C,"google, facebook, government_id",4,305
+Chelsea,False,375,Deluxe,Tower Hamlets,442,5,160,Premium,"google, work_email, government_id",1,526
+Hackney,False,22,Type A,Westminster,445,4,475,Premium,work_email,4,143
+Hackney,False,750,Type B,Camden,144,1,852,Standard,"google, government_id",4,415
+Kensington,False,670,Deluxe,Kensington,214,4,664,Standard,"email, facebook",3,513
+Chelsea,True,38,Type B,Chelsea,113,3,908,Type C,"phone, work_email",2,373
+Tower Hamlets,True,230,Type C,Tower Hamlets,194,4,690,Type B,"google, work_email",5,566
+Hackney,True,365,Deluxe,Chelsea,25,2,675,Deluxe,"phone, email, government_id",5,886
+Kensington,False,563,Type A,Kensington,228,2,380,Type B,"google, phone",3,259
+Kensington,False,438,Type B,Tower Hamlets,263,3,545,Premium,"government_id, facebook, google",4,656
+Tower Hamlets,True,776,Type B,Chelsea,67,1,929,Standard,"phone, facebook",1,471
+Chelsea,False,283,Type B,Hackney,144,2,957,Type B,"government_id, google",4,953
+Kensington,True,27,Premium,Westminster,262,5,691,Standard,"google, work_email, facebook",3,971
+Kensington,False,226,Type A,Chelsea,301,2,427,Type A,"work_email, facebook",5,12
+Kensington,True,277,Type B,Westminster,176,2,613,Type C,"phone, email",4,330
+Camden,False,798,Type A,Kensington,118,1,268,Deluxe,"email, google",5,736
+Westminster,False,609,Standard,Kensington,114,4,835,Standard,phone,1,784
+Tower Hamlets,False,284,Standard,Kensington,267,2,577,Deluxe,"government_id, google",5,968
+Camden,True,879,Deluxe,Westminster,325,3,417,Standard,"email, phone",5,358
+Kensington,True,960,Premium,Chelsea,136,4,168,Standard,"phone, work_email",2,972
+Westminster,True,481,Standard,Hackney,382,5,842,Deluxe,"phone, work_email, email",2,408
+Tower Hamlets,True,453,Type C,Westminster,303,1,43,Deluxe,"government_id, phone",2,668
+Hackney,False,829,Type A,Tower Hamlets,464,5,556,Type B,"email, government_id",5,373
+Tower Hamlets,True,816,Type B,Hackney,165,4,285,Standard,"facebook, government_id",3,8
+Camden,True,659,Type C,Chelsea,114,4,397,Type A,work_email,5,122
+Camden,False,516,Deluxe,Chelsea,78,4,12,Type B,facebook,3,348
+Camden,False,547,Type C,Westminster,57,5,607,Premium,"government_id, email, phone",3,676
+Tower Hamlets,False,192,Deluxe,Camden,435,4,302,Premium,"work_email, email, phone",2,90
+Chelsea,True,49,Standard,Hackney,305,5,898,Type C,"google, government_id",4,648
+Kensington,True,512,Type A,Kensington,135,4,253,Type A,"facebook, government_id, google",1,698
+Tower Hamlets,True,17,Deluxe,Hackney,460,3,499,Standard,"facebook, work_email, email",2,316
+Hackney,True,172,Type B,Chelsea,398,4,754,Type A,phone,2,178
+Hackney,False,220,Type C,Tower Hamlets,128,5,35,Premium,"government_id, email",4,540
+Hackney,False,158,Deluxe,Chelsea,142,2,727,Standard,google,1,732
+Kensington,True,477,Premium,Westminster,100,4,849,Type A,facebook,5,869
+Westminster,False,46,Deluxe,Camden,372,2,90,Deluxe,"facebook, work_email, email",5,41
+Camden,False,373,Type B,Kensington,167,3,776,Type B,"work_email, facebook, email",2,740
+Kensington,False,518,Standard,Hackney,139,1,605,Standard,"government_id, google",1,704
+Camden,False,99,Type A,Camden,431,3,922,Deluxe,facebook,2,923
+Kensington,True,892,Premium,Kensington,298,4,970,Type B,government_id,3,502
+Camden,False,745,Type B,Chelsea,485,2,602,Type A,"phone, email",2,959
+Kensington,True,37,Deluxe,Tower Hamlets,104,2,418,Standard,"google, government_id",2,145
+Westminster,True,280,Type B,Chelsea,244,5,115,Type C,facebook,5,201
+Tower Hamlets,False,349,Type C,Westminster,175,2,617,Type C,"facebook, work_email, government_id",5,929
+Hackney,False,497,Type B,Westminster,61,5,903,Premium,"email, facebook, work_email",5,724
+Camden,True,302,Type A,Tower Hamlets,148,1,196,Deluxe,email,3,461
+Kensington,False,181,Type A,Hackney,365,4,826,Standard,"google, email, work_email",5,732
+Westminster,True,607,Type B,Camden,40,5,501,Deluxe,facebook,1,752
+Westminster,True,99,Type C,Tower Hamlets,353,1,626,Type A,"work_email, phone",4,925
+Hackney,True,700,Premium,Camden,243,2,493,Type C,"facebook, email, government_id",1,909
+Kensington,True,993,Deluxe,Kensington,229,2,75,Deluxe,"work_email, email",1,558
+Tower Hamlets,False,116,Premium,Hackney,188,1,413,Premium,"government_id, facebook",5,547
+Camden,True,191,Type C,Westminster,359,2,376,Standard,"google, email",4,253
+Tower Hamlets,False,253,Standard,Hackney,65,1,420,Type C,"work_email, government_id",4,390
+Chelsea,True,981,Type A,Chelsea,415,5,729,Deluxe,"google, email",4,594
+Westminster,False,928,Standard,Westminster,465,5,277,Deluxe,"facebook, government_id, email",3,883
+Westminster,False,983,Deluxe,Camden,285,1,761,Standard,"google, facebook",5,256
+Hackney,False,161,Type C,Westminster,246,5,676,Premium,phone,4,709
+Kensington,True,256,Deluxe,Chelsea,301,5,394,Type A,work_email,3,815
+Chelsea,False,323,Standard,Westminster,470,5,869,Premium,"facebook, email, google",2,921
+Chelsea,False,128,Type C,Tower Hamlets,331,3,457,Type A,government_id,2,450
+Chelsea,False,18,Premium,Camden,179,4,920,Type B,"email, google, facebook",3,10
+Kensington,True,793,Premium,Chelsea,135,2,192,Deluxe,facebook,3,824
+Camden,True,735,Standard,Tower Hamlets,351,3,739,Deluxe,facebook,5,798
+Westminster,False,566,Standard,Kensington,169,5,689,Type C,"government_id, work_email, facebook",5,242
+Kensington,False,570,Type A,Hackney,261,1,99,Type B,facebook,2,251
+Chelsea,True,323,Premium,Tower Hamlets,94,5,548,Deluxe,"phone, google",4,877
+Westminster,True,872,Type A,Kensington,402,4,978,Type A,email,2,5
+Westminster,True,686,Standard,Chelsea,415,5,999,Standard,"work_email, google",4,119
+Chelsea,True,792,Deluxe,Chelsea,440,1,96,Type A,work_email,4,801
+Chelsea,False,626,Type C,Chelsea,172,4,664,Deluxe,"google, facebook, phone",5,374
+Westminster,False,288,Premium,Camden,295,5,663,Deluxe,"work_email, government_id",1,65
+Hackney,True,943,Type C,Chelsea,410,4,190,Type A,"facebook, government_id, work_email",1,146
+Tower Hamlets,False,854,Type A,Hackney,377,2,736,Standard,google,3,224
+Tower Hamlets,False,663,Type A,Camden,139,2,37,Type B,"email, work_email",5,239
+Westminster,False,962,Type B,Chelsea,262,5,780,Deluxe,"facebook, government_id, phone",4,177
+Camden,False,639,Deluxe,Camden,38,4,369,Type C,google,1,779
+Camden,True,155,Premium,Hackney,189,1,695,Type A,facebook,4,853
+Hackney,True,490,Premium,Hackney,289,5,525,Type A,"email, phone",1,282
+Kensington,False,386,Type A,Tower Hamlets,465,2,279,Type C,"phone, email, facebook",1,63
+Westminster,True,986,Deluxe,Camden,193,2,217,Type A,"government_id, facebook, email",1,217
+Camden,True,785,Type C,Westminster,456,5,867,Type C,"google, facebook, work_email",5,854
+Westminster,False,104,Premium,Kensington,387,4,873,Type C,"google, email",2,827
+Hackney,True,929,Type A,Chelsea,55,2,798,Type C,government_id,4,795
+Chelsea,False,393,Type B,Kensington,491,4,273,Standard,"phone, email",5,689
+Hackney,False,811,Standard,Hackney,70,2,881,Type B,"government_id, email, facebook",5,461
+Hackney,False,246,Premium,Kensington,375,2,62,Type B,"email, government_id",5,929
+Hackney,True,176,Deluxe,Westminster,427,3,596,Premium,work_email,5,610
+Camden,True,39,Standard,Kensington,211,2,880,Standard,"phone, government_id",5,105
+Hackney,True,477,Type C,Tower Hamlets,230,1,729,Premium,"government_id, phone, google",3,99
+Chelsea,False,682,Type B,Kensington,60,5,342,Deluxe,"facebook, google, phone",4,511
+Chelsea,False,759,Premium,Hackney,487,5,397,Type B,"phone, government_id, facebook",5,385
+Chelsea,False,538,Standard,Hackney,150,4,699,Type B,"work_email, email",4,405

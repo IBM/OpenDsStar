@@ -1,0 +1,30 @@
+question,answer,type,columns_used,column_types,sample_answer
+Is there any vegan product in our dataset?,True,boolean,[],[],True
+Did Eduardo create upload any products to the database?,True,boolean,[],[],True
+Is the product with code 00001522 apt for vegans?,True,boolean,[],[],True
+Is any product palm oil free?,True,boolean,[],[],True
+Are there any products belonging to the category 'Plant-based foods and beverages'?,True,boolean,[],[],True
+Are all products created by the openfoodfacts contributors labeled as vegan?,False,boolean,[],[],False
+ Are more than a 1000 products sold in Mercadona stores?,True,boolean,[],[],False
+Are there products from the 'Hacendado' brand in more than one country?,True,boolean,[],[],True
+What is the most frequent brand name? Answer with a single category.,Hacendado,category,[],[],Hacendado
+Which country has the most products listed? Answer with a single category.,Spain,category,[],[],Spain
+What is the single label associated with the most products? Answer with a single category.,No gluten,category,[],[],Green Dot
+How many products are labeled as 'Vegan'?,263,number,[],[],1
+Which store has the most products listed?,Hacendado,category,[],[],Hacendado
+Which creator has contributed the most to the database?,kiliweb,category,[],[],elcoco
+How many products belong to the 'Hacendado' brand?,8329,number,[],[],17
+How many unique countries exist in the dataset?,29,number,[],[],3
+How many products have no labels?,5423,number,[],[],14
+How many products are associated with the 'Mercadona' type of store?,3420,number,[],[],17
+What is the total number of products in the dataset that have a non-empty product name?,9102,number,[],[],17
+What is the total number of products in the dataset that have a unique product code?,9483,number,[],[],20
+How many products are listed under 'Plant-based foods and beverages'?,1913,number,[],[],2
+ List the product codes associated with the Seitan category,"[00001522, 8480000041968, 8480000041975, 8480000046444, 8480000230058, 8480000865274, 8480000707000]",list[number],[],[],[00001522]
+ List the product names associated with the Seitan category,"['Seitán a la plancha' ,'Seitán a la piastra' ,'Hamburguesa de seitán' ,'Seitán a la plancha' ,'Seitán' ,'Seitan' ,'Seitán a la plancha']",list[category],[],[],"""['Seitán a la plancha']"""
+List the two most frequent labels in the dataset,"['No gluten', 'Green Dot']",list[category],[],[],"['Green Dot', 'No gluten']"
+" ""List the five most frequent labels in the dataset. If there are less than five list as many as there are.""","['No gluten', 'Green Dot', 'No lactose', 'Vegetarian', 'Vegan']",list[category],[],[],"['Green Dot', 'No gluten']"
+ List the two most frequent store names in the dataset,"['Hacendado', 'Mercadona']",list[category],[],[],"['Mercadona', 'Hacendado']"
+ List the two number of stores for the two most frequent store names in the dataset,"[4148, 3420]",list[number],[],[],"[7, 5]"
+ List the 3 most frequent countries in the dataset,"['Spain', 'Portugal', 'France']",list[category],[],[],"['Spain', 'United Kingdom', 'United States']"
+ List the 3 number of products present for the 3 most frequent countries in the dataset,"[9147, 186, 141]",list[number],[],[],"[18, 1, 1]"

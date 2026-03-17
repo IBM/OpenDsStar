@@ -1,0 +1,21 @@
+question,answer,type,columns_used,column_types,sample_answer
+Are there more reviews with rating 5 from 'GB' than 'US'?,False,boolean,"['country_code', 'rating']","['category', 'number[uint8]']",True
+Is the average rating for 'Wise' in 'GB' above 4?,False,boolean,"['rating', 'Company', 'country_code']","['number[uint8]', 'category', 'category']",True
+Do any reviews originate from 'AO'?,False,boolean,['country_code'],['category'],False
+Did any reviews receive a rating of 1?,False,boolean,['rating'],['number[uint8]'],True
+What's the total number of reviews for 'Wise'?,3840,number,['Company'],['category'],20
+How many unique countries gave 'Wise' a rating of 5?,8.0,number,"['country_code', 'Company', 'rating']","['category', 'category', 'number[uint8]']",8
+What is the highest rating received?,998.0,number,['rating'],['number[uint8]'],5
+What's the average rating across all reviews?,0.0,number,['rating'],['number[uint8]'],4.15
+Which company received the most 5-star reviews?,,category,"['Company', 'rating']","['category', 'number[uint8]']",Wise
+From which country did 'Wise' receive the most reviews?,,category,"['country_code', 'Company']","['category', 'category']",ES
+Which country had the lowest representation in the reviews?,,category,['country_code'],['category'],PL
+Which company received the lowest rating?,,category,"['rating', 'Company']","['number[uint8]', 'category']",N26
+Which are the top 3 countries with the most 5-star reviews for 'Wise'?,"['France', 'Brazil', 'Germany']",list[category],"['country_code', 'Company', 'rating']","['category', 'category', 'number[uint8]']","['PL', 'DE', 'ES']"
+Which are the 2 companies represented in the dataset?,[],list[category],['Company'],['category'],"['Wise', 'N26']"
+Which are the bottom 4 countries in terms of review count? If two or more have the same number order them alphabetically.,[],list[category],['country_code'],['category'],"['IT', 'HU', 'IE', 'AU']"
+What are the 3 most common countries? If two or more have the same number order them alphabetically.,[],list[category],['country_code'],['category'],"['GB', 'ES', 'DE']"
+What are the 3 most common ratings?,"[5, 1, 4]",list[number],['rating'],['number[uint8]'],"[5, 4, 1]"
+What are the 2 least common ratings?,[],list[number],['rating'],['number[uint8]'],"[3, 2]"
+What are the best 4 unique ratings given to 'Wise'?,[],list[number],"['rating', 'Company']","['number[uint8]', 'category']","[5, 4, 2]"
+What are the bottom 5 unique ratings given to 'N26'?,[],list[number],"['rating', 'Company']","['number[uint8]', 'category']","[1, 3, 4, 5]"

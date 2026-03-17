@@ -1,0 +1,101 @@
+Geographies,Labeled Clusters,What programming language would you recommend an aspiring data scientist to learn first?,Which of the following cloud computing platforms do you hope to become more familiar with in the next 2 years?,Select the title most similar to your current role (or most recent title if retired),(Average) For how many years have you used machine learning methods?,In which country do you currently reside?,What programming languages do you use on a regular basis?,What type of computing platform do you use most often for your data science projects?,General Segments,What is your age (years)?,(Average) What is your current yearly compensation (approximate $USD)?,What is the size of the company where you are employed?
+Oceania,Data Engineer,C++,Alibaba Cloud,Chairman,90,Brazil,R,Type B,Consulting,40-44,85,"10,000+ employees"
+Europe,ML Engineer,SQL,IBM Cloud,,50,China,SQL,Premium,Technology,60+,24,250-999 employees
+South America,Business Analyst,MATLAB,IBM Cloud,,58,China,MATLAB,Deluxe,Government,30-34,71,"10,000+ employees"
+Middle East,Data Scientist,MATLAB,IBM Cloud,Founder,65,Brazil,MATLAB,Standard,Healthcare,22-24,18,"10,000+ employees"
+North America,Data Scientist,MATLAB,Oracle Cloud,President,30,United States,Java,Type A,Academic,25-29,61,250-999 employees
+Middle East,Data Engineer,Scala,AWS,Director,90,United Kingdom,Java,Type B,Technology,22-24,62,"10,000+ employees"
+South America,Data Scientist,Scala,Google Cloud Platform,Chairman,94,India,MATLAB,Type A,Finance,50-54,64,"10,000+ employees"
+North America,Data Engineer,Scala,Alibaba Cloud,,48,Germany,C++,Type B,Enterprise,45-49,30,250-999 employees
+Middle East,Data Scientist,Java,Oracle Cloud,President,92,Japan,R,Deluxe,Enterprise,45-49,39,250-999 employees
+Oceania,Data Scientist,MATLAB,AWS,Founder,85,United States,R,Type C,Technology,18-21,38,250-999 employees
+South America,ML Engineer,SQL,Alibaba Cloud,Director,21,France,Julia,Type C,Healthcare,45-49,26,"1000-9,999 employees"
+Middle East,Research Scientist,Julia,AWS,Founder,36,United Kingdom,MATLAB,Standard,Academic,40-44,43,0-49 employees
+Europe,Data Engineer,Julia,Oracle Cloud,Chairman,87,Japan,SQL,Premium,Government,18-21,26,0-49 employees
+Asia,Research Scientist,MATLAB,IBM Cloud,President,30,India,MATLAB,Type A,Finance,30-34,32,50-249 employees
+South America,Data Analyst,SQL,Microsoft Azure,Founder,40,China,Java,Premium,Startup,18-21,27,"1000-9,999 employees"
+Africa,Data Scientist,Java,Google Cloud Platform,Chairman,92,France,R,Type B,Startup,60+,59,0-49 employees
+South America,Data Engineer,Python,Google Cloud Platform,,18,China,Python,Deluxe,Finance,50-54,89,50-249 employees
+Africa,ML Engineer,Python,Google Cloud Platform,Director,71,United States,MATLAB,Standard,Consulting,30-34,41,"10,000+ employees"
+Asia,Data Engineer,Go,Alibaba Cloud,President,88,Japan,JavaScript,Type C,Government,35-39,66,50-249 employees
+Oceania,Data Engineer,Java,IBM Cloud,President,32,Brazil,C++,Type C,Consulting,18-21,43,"10,000+ employees"
+Africa,Business Analyst,SQL,Alibaba Cloud,Chairman,82,United States,Julia,Standard,Technology,18-21,54,250-999 employees
+Oceania,Business Analyst,Julia,Oracle Cloud,President,93,Japan,JavaScript,Type A,Finance,45-49,85,50-249 employees
+Asia,Research Scientist,SQL,Oracle Cloud,Director,88,France,Scala,Premium,Government,30-34,67,250-999 employees
+Middle East,Business Analyst,SQL,IBM Cloud,Director,32,Germany,Python,Type B,Finance,45-49,41,"10,000+ employees"
+Africa,ML Engineer,Julia,Google Cloud Platform,President,38,United States,C++,Premium,Government,40-44,36,0-49 employees
+South America,Data Analyst,R,Oracle Cloud,Founder,36,France,Java,Type C,Enterprise,35-39,77,"1000-9,999 employees"
+Oceania,Data Engineer,Go,AWS,Founder,77,China,R,Standard,Government,60+,56,"10,000+ employees"
+Europe,Research Scientist,Java,Microsoft Azure,Director,50,France,C++,Type C,Enterprise,30-34,91,50-249 employees
+Oceania,Data Scientist,Scala,Google Cloud Platform,Founder,66,United Kingdom,Go,Deluxe,Government,45-49,35,50-249 employees
+Africa,Data Analyst,C++,IBM Cloud,Chairman,52,China,Scala,Type C,Healthcare,35-39,36,250-999 employees
+Asia,Data Engineer,Scala,IBM Cloud,CEO,61,France,R,Type B,Technology,40-44,53,50-249 employees
+Asia,Data Analyst,Julia,AWS,,28,India,Go,Type A,Government,25-29,91,0-49 employees
+Asia,Data Engineer,Go,Oracle Cloud,President,89,United States,Julia,Type A,Consulting,25-29,72,50-249 employees
+Asia,ML Engineer,Julia,Oracle Cloud,Chairman,91,France,Java,Deluxe,Technology,55-59,86,250-999 employees
+Asia,Research Scientist,Scala,IBM Cloud,Director,83,France,SQL,Type B,Healthcare,25-29,64,50-249 employees
+Oceania,Data Engineer,Scala,Google Cloud Platform,CEO,63,India,MATLAB,Standard,Enterprise,55-59,66,0-49 employees
+Middle East,Data Scientist,Python,AWS,,26,Brazil,Julia,Premium,Academic,30-34,50,0-49 employees
+Oceania,ML Engineer,Python,Google Cloud Platform,Director,20,Brazil,MATLAB,Standard,Technology,40-44,38,0-49 employees
+Africa,Business Analyst,Go,IBM Cloud,CEO,43,India,Scala,Premium,Enterprise,18-21,39,"10,000+ employees"
+Africa,Research Scientist,Python,AWS,Chairman,89,India,MATLAB,Type A,Consulting,55-59,65,250-999 employees
+North America,Data Engineer,Julia,Google Cloud Platform,CEO,65,China,R,Type C,Startup,55-59,54,50-249 employees
+Europe,ML Engineer,Go,Oracle Cloud,Founder,83,Brazil,C++,Type C,Healthcare,35-39,32,"1000-9,999 employees"
+North America,Data Analyst,Julia,IBM Cloud,Chairman,87,United States,Go,Deluxe,Government,30-34,52,250-999 employees
+Oceania,Data Scientist,Python,AWS,President,45,Germany,Julia,Standard,Finance,45-49,88,"10,000+ employees"
+South America,Data Scientist,Python,Alibaba Cloud,Director,43,United Kingdom,SQL,Type B,Startup,50-54,49,"1000-9,999 employees"
+Oceania,Data Analyst,Go,AWS,Founder,42,United States,MATLAB,Premium,Enterprise,30-34,28,50-249 employees
+Middle East,Business Analyst,Go,IBM Cloud,President,29,United Kingdom,C++,Type C,Enterprise,22-24,27,250-999 employees
+Africa,Data Engineer,Python,Google Cloud Platform,CEO,22,United States,JavaScript,Deluxe,Enterprise,30-34,90,"10,000+ employees"
+Europe,Business Analyst,Julia,AWS,Founder,65,France,C++,Standard,Academic,60+,94,50-249 employees
+Africa,Research Scientist,MATLAB,Microsoft Azure,President,54,Germany,Julia,Type B,Academic,22-24,74,"10,000+ employees"
+Oceania,Data Analyst,Python,AWS,Chairman,61,Japan,Julia,Type A,Government,22-24,42,250-999 employees
+Africa,Data Engineer,Go,IBM Cloud,CEO,32,Brazil,JavaScript,Type B,Enterprise,35-39,19,"1000-9,999 employees"
+South America,ML Engineer,JavaScript,Oracle Cloud,President,60,Germany,Julia,Type A,Finance,25-29,81,"10,000+ employees"
+Oceania,Research Scientist,R,Oracle Cloud,CEO,65,United States,C++,Standard,Government,22-24,52,0-49 employees
+Asia,ML Engineer,Julia,Alibaba Cloud,President,87,United Kingdom,SQL,Type B,Finance,40-44,24,250-999 employees
+North America,Data Scientist,Python,Microsoft Azure,Director,63,Germany,Scala,Deluxe,Healthcare,35-39,35,0-49 employees
+Europe,Data Scientist,SQL,IBM Cloud,Chairman,60,France,Scala,Standard,Finance,22-24,84,0-49 employees
+North America,Data Analyst,MATLAB,AWS,Founder,38,United States,Go,Type A,Healthcare,45-49,59,0-49 employees
+Asia,Research Scientist,Julia,AWS,President,40,France,MATLAB,Deluxe,Government,60+,56,"10,000+ employees"
+Europe,Business Analyst,Julia,Google Cloud Platform,CEO,64,Germany,SQL,Type C,Consulting,35-39,58,250-999 employees
+South America,ML Engineer,R,Google Cloud Platform,Chairman,32,China,Julia,Deluxe,Consulting,45-49,92,250-999 employees
+South America,Data Scientist,JavaScript,Microsoft Azure,Founder,42,France,Java,Type C,Technology,60+,41,"10,000+ employees"
+Europe,Research Scientist,R,Google Cloud Platform,CEO,53,Japan,C++,Deluxe,Enterprise,45-49,77,250-999 employees
+Middle East,Data Engineer,Julia,Microsoft Azure,Chairman,92,Japan,Scala,Type A,Healthcare,45-49,63,"10,000+ employees"
+Europe,Data Analyst,JavaScript,Oracle Cloud,CEO,68,Brazil,Java,Premium,Technology,40-44,36,50-249 employees
+South America,Data Analyst,C++,Alibaba Cloud,,32,Japan,Scala,Premium,Government,40-44,85,"1000-9,999 employees"
+Asia,Research Scientist,JavaScript,AWS,,85,France,Go,Type C,Government,60+,59,"10,000+ employees"
+Europe,Business Analyst,MATLAB,AWS,Chairman,38,India,Scala,Type C,Government,50-54,49,250-999 employees
+Middle East,Business Analyst,R,IBM Cloud,Founder,30,Brazil,Scala,Type B,Academic,35-39,56,50-249 employees
+Asia,Business Analyst,SQL,Alibaba Cloud,Founder,36,Brazil,Julia,Deluxe,Finance,22-24,53,"1000-9,999 employees"
+Africa,Research Scientist,Go,IBM Cloud,CEO,51,France,MATLAB,Deluxe,Finance,55-59,53,0-49 employees
+Middle East,Data Analyst,MATLAB,Oracle Cloud,Chairman,85,Germany,R,Deluxe,Startup,30-34,20,250-999 employees
+Europe,Business Analyst,Go,AWS,President,69,China,Go,Deluxe,Finance,40-44,90,"1000-9,999 employees"
+North America,Data Scientist,R,Microsoft Azure,,44,Japan,Java,Type B,Government,50-54,25,250-999 employees
+South America,Research Scientist,Go,Alibaba Cloud,Founder,46,China,MATLAB,Type C,Academic,40-44,87,0-49 employees
+South America,Data Scientist,C++,IBM Cloud,,45,Japan,R,Premium,Startup,25-29,58,250-999 employees
+Asia,Data Analyst,Scala,Google Cloud Platform,President,52,India,MATLAB,Type B,Technology,40-44,85,"1000-9,999 employees"
+North America,Research Scientist,Scala,Microsoft Azure,President,25,Germany,R,Type A,Consulting,18-21,30,0-49 employees
+North America,Data Analyst,R,Alibaba Cloud,Director,33,France,SQL,Type B,Government,55-59,66,50-249 employees
+Africa,ML Engineer,JavaScript,Oracle Cloud,CEO,53,China,Julia,Type B,Technology,30-34,77,"1000-9,999 employees"
+Oceania,ML Engineer,SQL,Alibaba Cloud,CEO,47,China,Julia,Type B,Finance,18-21,19,"10,000+ employees"
+Europe,Research Scientist,Go,IBM Cloud,CEO,35,France,Julia,Standard,Enterprise,30-34,77,50-249 employees
+Asia,Business Analyst,R,Oracle Cloud,Chairman,19,Germany,R,Type A,Academic,40-44,22,250-999 employees
+Europe,Research Scientist,R,Microsoft Azure,Founder,66,Germany,Scala,Type C,Healthcare,60+,61,"1000-9,999 employees"
+Africa,Research Scientist,Go,AWS,Founder,94,Brazil,JavaScript,Premium,Healthcare,50-54,44,"10,000+ employees"
+Europe,Business Analyst,C++,Oracle Cloud,Director,21,Japan,Go,Premium,Startup,25-29,49,250-999 employees
+North America,ML Engineer,C++,AWS,,92,India,SQL,Type C,Healthcare,25-29,38,"10,000+ employees"
+South America,Research Scientist,Go,Google Cloud Platform,Director,24,Brazil,Go,Standard,Finance,45-49,25,50-249 employees
+South America,Business Analyst,MATLAB,Alibaba Cloud,Director,91,France,SQL,Premium,Academic,50-54,89,250-999 employees
+Europe,ML Engineer,JavaScript,IBM Cloud,President,56,Brazil,Go,Type B,Enterprise,40-44,67,0-49 employees
+South America,ML Engineer,Java,IBM Cloud,CEO,30,United States,MATLAB,Premium,Technology,45-49,84,"1000-9,999 employees"
+South America,Business Analyst,Scala,IBM Cloud,Chairman,48,France,SQL,Type A,Startup,60+,61,0-49 employees
+Middle East,ML Engineer,C++,AWS,Founder,88,Japan,C++,Type A,Government,55-59,75,250-999 employees
+Europe,Research Scientist,Go,Alibaba Cloud,Chairman,80,Germany,Scala,Type C,Startup,60+,20,0-49 employees
+Asia,Data Engineer,JavaScript,Oracle Cloud,CEO,73,United States,Python,Standard,Technology,55-59,87,50-249 employees
+South America,Data Scientist,Java,Microsoft Azure,CEO,59,China,Python,Deluxe,Technology,35-39,19,250-999 employees
+Middle East,Data Scientist,Scala,AWS,Founder,78,Japan,Java,Deluxe,Government,60+,61,250-999 employees
+Middle East,Business Analyst,Go,Alibaba Cloud,President,59,France,Julia,Standard,Academic,60+,19,50-249 employees
+Middle East,ML Engineer,Java,AWS,,73,India,Go,Premium,Healthcare,55-59,52,250-999 employees
+Africa,Data Engineer,SQL,Microsoft Azure,Director,53,United States,C++,Standard,Consulting,60+,47,250-999 employees

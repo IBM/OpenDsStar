@@ -1,0 +1,101 @@
+Precio,Habitaciones,Baños,Duración,Superficie,Tipo,Anunciante,Referencia,Localidad,Distrito
+738,386,900,530,511,Casa,Banco,REF-825686,Chamberí,Distrito 1
+285,344,390,552,293,Dúplex,Particular,REF-862400,Salamanca,Norte
+516,584,314,21,20,Loft,Agencia,REF-671971,Málaga,Distrito 1
+977,395,22,911,282,Ático,Particular,REF-443848,Arganzuela,Oeste
+99,64,410,737,797,Dúplex,Banco,REF-731894,Salamanca,Sur
+397,717,895,867,1,Apartamento,Promotora,REF-568849,Madrid Centro,Distrito 1
+489,721,515,794,119,Loft,Promotora,REF-770532,Madrid Centro,Norte
+39,72,127,520,35,Loft,Promotora,REF-638009,Arganzuela,Sur
+271,789,809,100,198,Piso,Agencia,REF-989894,Chamartín,Zona A
+887,274,700,752,485,Piso,Agencia,REF-170499,Sevilla,Distrito 1
+797,990,874,478,757,Estudio,Banco,REF-694799,Madrid Centro,Sur
+157,320,14,599,59,Apartamento,Promotora,REF-490084,Chamberí,Norte
+75,338,971,298,837,Casa,Promotora,REF-517368,Bilbao,Oeste
+884,366,978,940,161,Chalet,Particular,REF-127172,Valencia,Zona A
+800,495,12,526,691,Loft,Particular,REF-374492,Málaga,Zona A
+130,607,87,334,206,Chalet,Promotora,REF-827691,Chamberí,Este
+687,166,524,2,12,Ático,Agencia,REF-994253,Barcelona,Zona A
+974,544,909,375,490,Casa,Banco,REF-192055,Arganzuela,Distrito 1
+84,11,537,293,276,Estudio,Particular,REF-676713,Retiro,Oeste
+22,301,301,837,693,Dúplex,Agencia,REF-846385,Arganzuela,Sur
+459,729,243,934,242,Estudio,Agencia,REF-227257,Sevilla,Sur
+539,801,122,553,216,Chalet,Banco,REF-127560,Bilbao,Zona B
+707,102,147,318,251,Estudio,Banco,REF-942700,Retiro,Sur
+849,425,567,502,811,Ático,Particular,REF-424314,Salamanca,Zona A
+382,392,750,828,126,Loft,Banco,REF-963333,Chamartín,Norte
+748,779,356,381,994,Casa,Promotora,REF-773540,Barcelona,Zona A
+440,214,685,623,217,Apartamento,Promotora,REF-234568,Retiro,Sur
+604,691,904,14,306,Casa,Banco,REF-627290,Madrid Centro,Norte
+989,88,733,504,797,Casa,Promotora,REF-272655,Valencia,Distrito 1
+21,553,631,231,185,Chalet,Promotora,REF-644103,Málaga,Norte
+303,401,309,985,39,Dúplex,Agencia,REF-765905,Retiro,Oeste
+976,588,695,84,223,Casa,Promotora,REF-744274,Retiro,Norte
+869,889,288,130,184,Casa,Agencia,REF-279516,Arganzuela,Distrito 1
+955,46,307,743,495,Piso,Particular,REF-185168,Madrid Centro,Oeste
+84,672,812,838,427,Chalet,Banco,REF-748133,Arganzuela,Centro
+774,463,594,145,178,Apartamento,Promotora,REF-773088,Málaga,Zona A
+659,592,966,891,919,Chalet,Banco,REF-411882,Chamberí,Norte
+953,310,914,857,428,Piso,Agencia,REF-560959,Salamanca,Zona A
+453,86,723,28,294,Apartamento,Agencia,REF-456717,Chamartín,Sur
+387,92,662,66,852,Estudio,Promotora,REF-869864,Bilbao,Distrito 2
+507,660,549,163,151,Casa,Promotora,REF-639995,Retiro,Norte
+257,673,352,229,384,Estudio,Agencia,REF-589131,Barcelona,Oeste
+570,714,312,261,638,Apartamento,Agencia,REF-247720,Barcelona,Centro
+892,936,873,449,813,Dúplex,Banco,REF-745270,Salamanca,Este
+934,928,59,424,308,Casa,Promotora,REF-705748,Bilbao,Este
+527,242,643,460,336,Casa,Banco,REF-639728,Chamberí,Zona A
+162,865,924,952,946,Dúplex,Banco,REF-124302,Barcelona,Distrito 2
+957,2,714,676,746,Apartamento,Agencia,REF-325595,Chamartín,Distrito 1
+163,225,755,301,892,Piso,Particular,REF-395023,Chamberí,Zona A
+832,801,35,919,375,Dúplex,Particular,REF-988324,Barcelona,Distrito 2
+793,745,445,303,8,Casa,Promotora,REF-862847,Bilbao,Distrito 2
+792,973,93,287,341,Estudio,Particular,REF-520040,Madrid Centro,Zona B
+524,926,950,395,129,Chalet,Promotora,REF-680096,Málaga,Norte
+786,929,959,10,776,Loft,Banco,REF-901535,Retiro,Oeste
+271,589,207,707,669,Ático,Agencia,REF-201377,Salamanca,Distrito 1
+492,116,353,630,352,Estudio,Promotora,REF-891638,Valencia,Este
+208,666,903,270,358,Loft,Particular,REF-147504,Madrid Centro,Sur
+539,918,332,592,517,Estudio,Banco,REF-644559,Chamberí,Sur
+584,103,817,970,495,Casa,Promotora,REF-742848,Bilbao,Sur
+60,194,862,605,86,Loft,Promotora,REF-722565,Bilbao,Zona B
+430,166,725,778,175,Apartamento,Promotora,REF-597960,Madrid Centro,Distrito 1
+985,871,159,844,802,Estudio,Particular,REF-536774,Chamartín,Oeste
+657,90,954,862,193,Piso,Banco,REF-378428,Arganzuela,Este
+605,686,957,361,311,Piso,Banco,REF-278794,Retiro,Distrito 2
+309,122,24,257,119,Casa,Agencia,REF-133104,Chamartín,Norte
+520,143,404,133,218,Chalet,Particular,REF-562462,Bilbao,Distrito 2
+591,994,805,276,427,Casa,Banco,REF-824042,Sevilla,Distrito 2
+27,106,516,776,970,Apartamento,Particular,REF-840058,Valencia,Zona B
+686,887,732,683,414,Chalet,Promotora,REF-794395,Chamberí,Zona B
+562,428,364,972,114,Loft,Promotora,REF-281594,Chamberí,Zona B
+199,305,382,513,978,Estudio,Promotora,REF-808699,Arganzuela,Oeste
+387,872,532,313,145,Apartamento,Agencia,REF-358494,Málaga,Zona B
+349,971,956,576,538,Dúplex,Agencia,REF-412071,Málaga,Este
+960,317,152,886,648,Apartamento,Promotora,REF-603110,Bilbao,Zona B
+940,963,562,980,303,Dúplex,Promotora,REF-227794,Chamartín,Zona B
+693,635,689,284,744,Loft,Banco,REF-958130,Bilbao,Sur
+536,902,947,121,881,Dúplex,Particular,REF-401602,Barcelona,Distrito 1
+828,9,608,107,588,Apartamento,Promotora,REF-883641,Chamberí,Este
+378,774,617,933,987,Chalet,Promotora,REF-689318,Málaga,Sur
+899,73,420,687,840,Ático,Agencia,REF-354235,Madrid Centro,Zona B
+916,359,250,997,345,Chalet,Agencia,REF-155040,Barcelona,Distrito 2
+558,223,117,204,814,Estudio,Banco,REF-205428,Arganzuela,Sur
+527,416,866,165,964,Piso,Agencia,REF-526673,Arganzuela,Zona A
+153,553,512,305,801,Apartamento,Agencia,REF-892630,Málaga,Distrito 1
+734,370,740,497,1,Dúplex,Particular,REF-906066,Barcelona,Este
+206,716,578,632,147,Piso,Agencia,REF-538184,Valencia,Centro
+455,264,335,556,287,Loft,Banco,REF-295361,Málaga,Centro
+273,840,418,824,976,Piso,Promotora,REF-695551,Chamartín,Norte
+894,690,932,156,654,Estudio,Promotora,REF-576419,Arganzuela,Zona B
+236,860,774,367,53,Apartamento,Agencia,REF-992400,Retiro,Zona A
+852,318,295,719,304,Dúplex,Agencia,REF-948102,Barcelona,Distrito 1
+740,84,938,902,69,Casa,Banco,REF-779776,Málaga,Sur
+521,318,755,620,361,Piso,Promotora,REF-929179,Málaga,Este
+678,111,371,251,602,Casa,Banco,REF-967161,Salamanca,Zona B
+944,251,186,957,958,Estudio,Particular,REF-520304,Arganzuela,Norte
+956,383,246,916,220,Casa,Agencia,REF-600646,Bilbao,Este
+831,7,637,882,962,Piso,Promotora,REF-502206,Sevilla,Zona A
+726,459,268,334,704,Dúplex,Promotora,REF-416613,Chamartín,Centro
+501,84,643,642,966,Dúplex,Promotora,REF-826420,Sevilla,Centro
+117,208,237,969,575,Ático,Banco,REF-421709,Valencia,Distrito 2

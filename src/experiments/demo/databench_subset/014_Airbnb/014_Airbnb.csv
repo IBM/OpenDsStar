@@ -1,0 +1,101 @@
+bedrooms,host_is_superhost,instant_bookable,accommodates,review_scores_rating,price,number_of_reviews,host_response_time,room_type,property_type,host_acceptance_rate,host_response_rate,source
+6,False,False,813,2,376,747,a few days or more,Type B,Type B,0.59,0.73,investments
+6,False,False,98,1,70,557,a few days or more,Standard,Standard,0.62,0.94,real estate
+5,True,True,131,4,373,826,within a day,Standard,Premium,0.22,0.44,manufacturing
+2,False,True,805,4,70,761,within a day,Standard,Standard,0.54,0.98,finance
+6,True,True,171,3,223,31,within a day,Type C,Premium,0.19,0.12,finance
+3,False,True,936,4,359,535,within a few hours,Type B,Type A,0.64,0.60,retail
+1,True,True,986,5,422,426,within a day,Type C,Standard,0.24,0.13,retail
+2,True,False,183,5,55,394,within a few hours,Type C,Type C,0.59,0.81,retail
+1,False,True,983,3,416,672,within a few hours,Deluxe,Deluxe,0.79,0.60,real estate
+3,True,False,364,5,86,363,within a day,Type C,Type C,0.80,0.11,technology
+4,True,False,39,2,27,437,within a day,Premium,Type B,0.79,0.24,technology
+3,True,True,527,3,109,670,within a day,Premium,Type C,0.05,0.74,technology
+1,True,True,888,2,401,551,within an hour,Type A,Type B,0.48,0.78,finance
+2,True,True,497,1,75,927,a few days or more,Type A,Type A,0.50,0.95,finance
+5,True,False,516,2,421,82,within a day,Type B,Premium,0.46,0.96,technology
+6,True,False,349,1,453,356,a few days or more,Type B,Deluxe,0.43,0.11,manufacturing
+3,False,False,982,1,57,258,within an hour,Premium,Type A,0.32,0.15,retail
+2,False,True,921,2,339,718,within a day,Type A,Premium,0.38,0.60,investments
+6,True,False,397,3,278,589,a few days or more,Deluxe,Premium,0.10,0.70,manufacturing
+4,False,False,722,5,469,989,within a few hours,Type A,Type B,0.43,0.89,manufacturing
+4,False,True,161,5,443,524,a few days or more,Type C,Type C,0.40,0.73,technology
+6,True,False,16,1,180,295,within a day,Standard,Type C,0.37,0.15,investments
+4,False,True,493,1,66,962,within an hour,Deluxe,Deluxe,0.09,0.10,technology
+2,False,True,426,3,435,224,within a few hours,Standard,Deluxe,0.56,0.59,investments
+3,True,True,108,4,188,525,within an hour,Standard,Type B,0.41,0.87,retail
+2,False,False,894,2,46,46,within a day,Premium,Type B,0.60,0.35,manufacturing
+2,True,True,450,1,128,667,within a few hours,Standard,Type A,0.66,0.22,finance
+6,True,True,311,5,452,113,within a day,Standard,Type B,0.11,0.28,technology
+5,False,False,739,3,452,233,within an hour,Type C,Type C,0.61,0.66,technology
+5,False,True,170,2,34,17,within a few hours,Type B,Type B,0.27,0.76,manufacturing
+3,True,True,546,3,23,360,within a few hours,Premium,Type B,0.87,0.57,manufacturing
+6,False,True,414,2,92,223,within an hour,Type A,Premium,0.09,0.53,retail
+5,False,False,251,2,252,866,within a day,Type C,Type B,0.16,0.31,real estate
+4,True,True,759,1,325,700,within an hour,Standard,Deluxe,0.88,0.16,technology
+5,True,True,781,3,365,448,within an hour,Type A,Type A,0.27,0.66,investments
+4,False,True,141,3,246,856,a few days or more,Type C,Type B,0.27,0.75,retail
+3,True,True,274,5,240,365,within an hour,Deluxe,Deluxe,0.28,0.68,manufacturing
+2,False,True,416,5,361,675,within a day,Deluxe,Standard,0.05,0.40,real estate
+2,True,True,608,1,23,326,within a few hours,Premium,Standard,0.30,0.21,technology
+5,False,True,739,1,168,467,within a day,Standard,Premium,0.12,0.50,technology
+4,False,False,891,4,86,414,a few days or more,Premium,Premium,0.53,0.23,manufacturing
+1,True,False,39,5,432,455,within a day,Deluxe,Standard,0.07,0.86,manufacturing
+1,True,False,814,2,29,586,a few days or more,Type C,Deluxe,0.92,0.86,manufacturing
+1,True,False,29,3,313,233,a few days or more,Type A,Premium,0.71,0.42,finance
+2,True,False,958,1,30,224,within a day,Type B,Deluxe,0.17,0.95,real estate
+6,False,False,477,3,490,994,within a day,Standard,Deluxe,0.09,0.84,retail
+2,False,False,318,3,321,831,a few days or more,Premium,Premium,0.52,0.40,manufacturing
+6,True,False,245,4,193,412,within a few hours,Type A,Type C,0.33,0.17,investments
+4,True,False,748,5,78,572,within a few hours,Type A,Deluxe,0.91,0.35,technology
+5,False,False,697,1,437,335,within a few hours,Type B,Type C,0.24,0.15,retail
+1,False,False,272,3,328,222,within a few hours,Type C,Type B,0.76,0.66,finance
+4,False,False,440,1,272,37,a few days or more,Type B,Standard,0.75,0.76,manufacturing
+4,False,False,748,2,493,989,within a day,Type B,Type A,0.86,0.63,technology
+5,False,False,239,4,54,278,a few days or more,Type C,Standard,0.44,0.30,real estate
+4,True,True,377,2,48,196,within a day,Type C,Standard,0.51,0.31,manufacturing
+5,False,True,266,1,49,916,within a day,Type C,Deluxe,0.83,0.08,manufacturing
+3,True,True,926,1,324,864,a few days or more,Type A,Type C,0.46,0.55,manufacturing
+5,False,True,921,5,250,484,within a few hours,Type A,Type C,0.32,0.48,manufacturing
+1,False,True,359,3,250,242,within an hour,Standard,Premium,0.81,0.84,retail
+6,False,True,340,3,278,324,within a few hours,Deluxe,Type A,0.04,0.71,investments
+6,False,True,389,2,287,731,within a few hours,Standard,Type C,0.36,0.92,manufacturing
+1,False,False,577,4,416,192,within a day,Type B,Premium,0.68,0.05,manufacturing
+6,False,False,990,3,191,17,within an hour,Type B,Type A,0.33,0.56,finance
+5,False,True,689,5,149,524,within a few hours,Standard,Type C,0.33,0.58,retail
+3,False,True,3,2,178,918,a few days or more,Premium,Standard,0.13,0.71,technology
+6,True,True,429,2,306,401,a few days or more,Deluxe,Standard,0.64,0.33,investments
+3,False,False,142,5,379,906,within an hour,Type B,Type A,0.65,0.42,technology
+1,True,True,376,4,205,886,within a day,Premium,Type A,0.18,0.21,technology
+3,False,False,670,5,135,705,within a few hours,Premium,Type C,0.15,0.30,real estate
+4,True,True,324,4,414,22,within an hour,Deluxe,Type C,0.66,0.88,real estate
+2,True,False,146,5,325,474,a few days or more,Type C,Type A,0.15,0.18,technology
+4,False,True,958,5,434,120,within a few hours,Type A,Deluxe,0.72,0.04,finance
+1,True,False,293,1,388,210,within a few hours,Standard,Type A,0.97,0.61,real estate
+6,False,False,665,2,139,306,within a few hours,Deluxe,Premium,0.31,0.81,real estate
+6,False,False,432,5,208,270,a few days or more,Type A,Premium,0.46,0.28,real estate
+3,False,True,705,5,290,704,a few days or more,Standard,Premium,0.97,0.82,real estate
+5,True,False,949,3,466,687,within a day,Type A,Standard,0.05,0.48,investments
+2,True,True,975,2,498,285,within an hour,Standard,Standard,0.71,0.52,technology
+5,True,True,585,3,62,716,within a few hours,Type A,Premium,0.27,0.91,investments
+1,False,False,399,2,66,676,within a few hours,Type C,Premium,0.82,0.88,retail
+6,True,False,817,3,47,763,a few days or more,Premium,Deluxe,0.50,0.24,retail
+3,True,True,889,5,134,227,within an hour,Standard,Type A,0.32,0.10,manufacturing
+6,False,False,344,5,191,948,within a few hours,Premium,Standard,0.14,0.29,retail
+5,False,False,964,1,445,381,within a few hours,Standard,Premium,0.76,0.47,investments
+5,True,True,140,3,483,460,within an hour,Deluxe,Deluxe,0.02,0.22,manufacturing
+2,False,True,187,4,392,7,a few days or more,Deluxe,Type B,0.11,0.29,technology
+2,True,True,805,1,44,29,within a few hours,Standard,Type C,0.42,0.79,retail
+3,False,True,61,3,76,907,a few days or more,Type C,Premium,0.60,0.02,real estate
+2,True,True,997,3,143,33,within a few hours,Type A,Standard,0.29,0.00,retail
+5,True,False,939,1,312,646,a few days or more,Standard,Premium,0.19,0.67,finance
+5,True,True,380,5,54,879,within an hour,Type A,Type B,0.39,0.47,real estate
+1,False,False,710,3,211,79,within a day,Type C,Type A,0.75,0.36,real estate
+5,True,True,807,5,143,928,within an hour,Type B,Standard,0.77,0.74,real estate
+3,True,False,440,1,42,947,within a day,Premium,Type A,0.55,0.81,manufacturing
+4,False,False,319,5,257,459,a few days or more,Standard,Type C,0.63,0.81,retail
+1,True,False,302,2,417,570,a few days or more,Deluxe,Deluxe,0.04,0.20,real estate
+1,False,True,344,4,181,983,within a day,Type C,Type A,0.52,0.99,manufacturing
+3,True,False,11,3,149,538,within an hour,Type A,Premium,0.75,0.19,finance
+3,True,True,62,4,463,482,within a day,Standard,Deluxe,0.27,0.80,investments
+2,False,False,845,5,400,430,a few days or more,Type A,Type B,0.89,0.39,finance
