@@ -108,7 +108,8 @@ class FileDescriptionGenerator:
 
         for it in items:
             cached_desc = self.description_cache.get(it.doc_id, it.md_clean)
-            if cached_desc is not None:
+            # If cached description is an error, treat it as a miss and regenerate
+            if cached_desc is not None and not self.is_error_description(cached_desc):
                 cached[it.doc_id] = cached_desc
                 continue
 
@@ -176,7 +177,9 @@ class FileDescriptionGenerator:
 
                     for doc_id, md_clean, desc in zip(doc_ids, md_cleans, descs):
                         out[doc_id] = desc
-                        self.description_cache.put(doc_id, md_clean, desc)
+                        # Only cache successful descriptions, not errors
+                        if not self.is_error_description(desc):
+                            self.description_cache.put(doc_id, md_clean, desc)
 
                     generated += len(prompts)
 
@@ -193,13 +196,15 @@ class FileDescriptionGenerator:
                                 self.llm.invoke(prompt), doc_id, display_name, file_path
                             )
                             out[doc_id] = desc
-                            self.description_cache.put(doc_id, md_clean, desc)
+                            # Only cache successful descriptions, not errors
+                            if not self.is_error_description(desc):
+                                self.description_cache.put(doc_id, md_clean, desc)
                             generated += 1
                         except Exception as e2:
                             failed += 1
                             err = f"Error generating description: {e2}"
                             out[doc_id] = err
-                            self.description_cache.put(doc_id, md_clean, err)
+                            # Don't cache error descriptions
                             logger.warning(
                                 "%s: LLM invoke failed | doc_id=%s (%s)",
                                 progress_label,
@@ -222,13 +227,15 @@ class FileDescriptionGenerator:
 
                         # logger.info(f"Generated file description:\n{desc}")
                         out[doc_id] = desc
-                        self.description_cache.put(doc_id, md_clean, desc)
+                        # Only cache successful descriptions, not errors
+                        if not self.is_error_description(desc):
+                            self.description_cache.put(doc_id, md_clean, desc)
                         generated += 1
                     except Exception as e2:
                         failed += 1
                         err = f"Error generating description: {e2}"
                         out[doc_id] = err
-                        self.description_cache.put(doc_id, md_clean, err)
+                        # Don't cache error descriptions
                         logger.warning(
                             "%s: LLM invoke failed | doc_id=%s (%s)",
                             progress_label,

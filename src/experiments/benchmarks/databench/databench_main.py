@@ -164,6 +164,10 @@ def main():
     import itertools
 
     from ...utils import setup_custom_api_provider
+    from ...utils.logging import setup_logging
+
+    # Setup logging first
+    setup_logging()
 
     # Register Custom API provider for custom model support
     setup_custom_api_provider()

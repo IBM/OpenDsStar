@@ -52,9 +52,7 @@ OpenDsStar supports two execution modes:
 ```bash
 git clone https://github.com/IBM/OpenDsStar.git
 cd OpenDsStar
-python -m venv .venv
-source .venv/bin/activate  # macOS/Linux or .venv\Scripts\activate on Windows
-pip install -e .
+uv sync
 ```
 
 ### Configuration

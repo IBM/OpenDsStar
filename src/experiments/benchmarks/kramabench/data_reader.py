@@ -5,7 +5,7 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Literal
 
-from ragbench import DatasetName
+from ragworkbench import DatasetName
 
 from ...implementations.ragbench_data_reader import RagbenchDataReader
 

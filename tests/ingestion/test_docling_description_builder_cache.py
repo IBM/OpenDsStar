@@ -63,7 +63,8 @@ def mock_llm() -> Mock:
 
 
 @pytest.fixture
-def builder_with_cache(tmp_path: Path, mock_llm: Mock) -> DoclingDescriptionBuilder:
+def cache_setup(tmp_path: Path):
+    """Provide cache directory setup for tests."""
     storage_root = tmp_path / "storage"
     storage_root.mkdir(exist_ok=True)
 
@@ -71,25 +72,11 @@ def builder_with_cache(tmp_path: Path, mock_llm: Mock) -> DoclingDescriptionBuil
     db_storage = storage_root / "db"
     db_storage.mkdir(parents=True, exist_ok=True)
     db_uri = str(db_storage / "test_milvus.db")
-
-    # Patch ModelBuilder to return our mock LLM
-    with patch(
-        "ingestion.docling_based_ingestion.docling_description_builder.ModelBuilder.build"
-    ) as mock_build:
-        mock_build.return_value = (mock_llm, "mock-model")
-
-        builder = DoclingDescriptionBuilder(
-            cache_dir=str(cache_dir),
-            model="mock-model",
-            embedding_model="ibm-granite/granite-embedding-english-r2",
-            db_uri=db_uri,
-            enable_caching=True,
-            max_content_length=50_000,
-        )
-
-    builder.analysis_cache.clear()
-    builder.description_cache.clear()
-    return builder
+    
+    return {
+        "cache_dir": cache_dir,
+        "db_uri": db_uri,
+    }
 
 
 def _make_stream_doc(doc_id: str, path: str, data: bytes) -> Document:
@@ -106,37 +93,60 @@ def _make_stream_doc(doc_id: str, path: str, data: bytes) -> Document:
 
 
 def test_process_directory_uses_cache_on_second_run(
-    builder_with_cache: DoclingDescriptionBuilder, test_file: Path, caplog
+    cache_setup: dict, mock_llm: Mock, test_file: Path, caplog
 ):
     caplog.set_level(logging.INFO)
     test_dir = test_file.parent
 
-    caplog.clear()
-    _, results_1, _ = builder_with_cache.process_directory(test_dir)
+    # Patch Milvus and ModelBuilder
+    with patch("ingestion.docling_based_ingestion.milvus_manager.Milvus") as milvus_cls:
+        milvus_instance = MagicMock()
+        milvus_cls.return_value = milvus_instance
+        milvus_instance.add_documents.return_value = None
 
-    assert len(results_1) == 1
-    doc_id_1 = next(iter(results_1))
-    assert results_1[doc_id_1]["success"]
-    # First run should not have cached_md
-    assert "cached_md=0" in caplog.text or "missing_md=1" in caplog.text
+        with patch(
+            "ingestion.docling_based_ingestion.docling_description_builder.ModelBuilder.build"
+        ) as mock_build:
+            mock_build.return_value = (mock_llm, "mock-model")
 
-    caplog.clear()
-    _, results_2, _ = builder_with_cache.process_directory(test_dir)
+            builder = DoclingDescriptionBuilder(
+                cache_dir=str(cache_setup["cache_dir"]),
+                model="mock-model",
+                embedding_model="ibm-granite/granite-embedding-english-r2",
+                db_uri=cache_setup["db_uri"],
+                enable_caching=True,
+                max_content_length=50_000,
+            )
 
-    assert len(results_2) == 1
-    doc_id_2 = next(iter(results_2))
-    assert results_2[doc_id_2]["success"]
-    # Second run should use cache
-    assert "cached_md=1" in caplog.text and "missing_md=0" in caplog.text
+            builder.analysis_cache.clear()
+            builder.description_cache.clear()
 
-    assert results_1[doc_id_1]["answer"] == results_2[doc_id_2]["answer"]
-    assert (
-        results_1[doc_id_1]["md_fingerprint"] == results_2[doc_id_2]["md_fingerprint"]
-    )
+            caplog.clear()
+            _, results_1, _ = builder.process_directory(test_dir)
+
+            assert len(results_1) == 1
+            doc_id_1 = next(iter(results_1))
+            assert results_1[doc_id_1]["success"]
+            # First run should not have cached_md
+            assert "cached_md=0" in caplog.text or "missing_md=1" in caplog.text
+
+            caplog.clear()
+            _, results_2, _ = builder.process_directory(test_dir)
+
+            assert len(results_2) == 1
+            doc_id_2 = next(iter(results_2))
+            assert results_2[doc_id_2]["success"]
+            # Second run should use cache
+            assert "cached_md=1" in caplog.text and "missing_md=0" in caplog.text
+
+            assert results_1[doc_id_1]["answer"] == results_2[doc_id_2]["answer"]
+            assert (
+                results_1[doc_id_1]["md_fingerprint"] == results_2[doc_id_2]["md_fingerprint"]
+            )
 
 
 def test_process_corpus_stream_uses_cache_on_second_run(
-    builder_with_cache: DoclingDescriptionBuilder, caplog
+    cache_setup: dict, mock_llm: Mock, caplog
 ):
     caplog.set_level(logging.INFO)
 
@@ -146,19 +156,42 @@ def test_process_corpus_stream_uses_cache_on_second_run(
         b"# Stream Doc\n\nhello world\n",
     )
 
-    caplog.clear()
-    builder_with_cache.process_corpus([doc])
-    # First run should not have cached_md
-    assert "cached_md=0" in caplog.text or "missing_md=1" in caplog.text
+    # Patch Milvus and ModelBuilder
+    with patch("ingestion.docling_based_ingestion.milvus_manager.Milvus") as milvus_cls:
+        milvus_instance = MagicMock()
+        milvus_cls.return_value = milvus_instance
+        milvus_instance.add_documents.return_value = None
 
-    caplog.clear()
-    builder_with_cache.process_corpus([doc])
-    # Second run should use cache
-    assert "cached_md=1" in caplog.text and "missing_md=0" in caplog.text
+        with patch(
+            "ingestion.docling_based_ingestion.docling_description_builder.ModelBuilder.build"
+        ) as mock_build:
+            mock_build.return_value = (mock_llm, "mock-model")
+
+            builder = DoclingDescriptionBuilder(
+                cache_dir=str(cache_setup["cache_dir"]),
+                model="mock-model",
+                embedding_model="ibm-granite/granite-embedding-english-r2",
+                db_uri=cache_setup["db_uri"],
+                enable_caching=True,
+                max_content_length=50_000,
+            )
+
+            builder.analysis_cache.clear()
+            builder.description_cache.clear()
+
+            caplog.clear()
+            builder.process_corpus([doc])
+            # First run should not have cached_md
+            assert "cached_md=0" in caplog.text or "missing_md=1" in caplog.text
+
+            caplog.clear()
+            builder.process_corpus([doc])
+            # Second run should use cache
+            assert "cached_md=1" in caplog.text and "missing_md=0" in caplog.text
 
 
 def test_process_corpus_stream_cache_miss_when_content_changes(
-    builder_with_cache: DoclingDescriptionBuilder, caplog
+    cache_setup: dict, mock_llm: Mock, caplog
 ):
     caplog.set_level(logging.INFO)
 
@@ -175,22 +208,45 @@ def test_process_corpus_stream_cache_miss_when_content_changes(
         stream_factory=sf,
     )
 
-    caplog.clear()
-    builder_with_cache.process_corpus([doc])
-    # First run should not have cached_md
-    assert "cached_md=0" in caplog.text or "missing_md=1" in caplog.text
+    # Patch Milvus and ModelBuilder
+    with patch("ingestion.docling_based_ingestion.milvus_manager.Milvus") as milvus_cls:
+        milvus_instance = MagicMock()
+        milvus_cls.return_value = milvus_instance
+        milvus_instance.add_documents.return_value = None
 
-    caplog.clear()
-    builder_with_cache.process_corpus([doc])
-    # Second run should use cache
-    assert "cached_md=1" in caplog.text and "missing_md=0" in caplog.text
+        with patch(
+            "ingestion.docling_based_ingestion.docling_description_builder.ModelBuilder.build"
+        ) as mock_build:
+            mock_build.return_value = (mock_llm, "mock-model")
 
-    state["data"] = b"# Stream\nv2 changed\n"
+            builder = DoclingDescriptionBuilder(
+                cache_dir=str(cache_setup["cache_dir"]),
+                model="mock-model",
+                embedding_model="ibm-granite/granite-embedding-english-r2",
+                db_uri=cache_setup["db_uri"],
+                enable_caching=True,
+                max_content_length=50_000,
+            )
 
-    caplog.clear()
-    builder_with_cache.process_corpus([doc])
-    # Content changed, should be cache miss
-    assert "cached_md=0" in caplog.text or "missing_md=1" in caplog.text
+            builder.analysis_cache.clear()
+            builder.description_cache.clear()
+
+            caplog.clear()
+            builder.process_corpus([doc])
+            # First run should not have cached_md
+            assert "cached_md=0" in caplog.text or "missing_md=1" in caplog.text
+
+            caplog.clear()
+            builder.process_corpus([doc])
+            # Second run should use cache
+            assert "cached_md=1" in caplog.text and "missing_md=0" in caplog.text
+
+            state["data"] = b"# Stream\nv2 changed\n"
+
+            caplog.clear()
+            builder.process_corpus([doc])
+            # Content changed, should be cache miss
+            assert "cached_md=0" in caplog.text or "missing_md=1" in caplog.text
 
 
 def test_caching_disabled(test_file: Path, tmp_path: Path, mock_llm: Mock, caplog):

@@ -7,8 +7,8 @@ from abc import abstractmethod
 from pathlib import Path
 from typing import Any, Literal, Sequence
 
-from ragbench import DataLoaderFactory, DatasetName
-from ragbench.datasets_loader.data_models import DataSamplingParams
+from ragworkbench import DataLoaderFactory, DatasetName
+from ragworkbench.datasets_loader.data_models import DataSamplingParams
 
 from ..core.types import BenchmarkEntry, Document
 from ..interfaces.data_reader import DataReader

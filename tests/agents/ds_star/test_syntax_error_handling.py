@@ -30,9 +30,11 @@ def rank_longitude_values():
     assert "_error" in outputs
     assert "SyntaxError" in outputs["_error"]
     assert "_traceback" in outputs
+    # Check for syntax error message (varies by Python version)
+    error_text = outputs["_error"] + outputs["_traceback"]
     assert (
-        "was never closed" in outputs["_error"]
-        or "was never closed" in outputs["_traceback"]
+        "was never closed" in error_text
+        or "unterminated string literal" in error_text
     )
 
     # Logs should be empty since code never executed
