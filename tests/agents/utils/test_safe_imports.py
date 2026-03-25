@@ -1,9 +1,17 @@
 import types
 
+import pytest
+
 from agents.utils.safe_imports import (
+    _ALLOWED_IMPORT_TOP_LEVEL,
+    _DENY_IMPORT_TOP_LEVEL,
+    _safe_exit,
+    _safe_import,
+    _safe_quit,
     get_authorized_imports_list,
     get_safe_builtins,
     get_safe_scientific_env,
+    safe_type,
 )
 
 
@@ -55,3 +63,66 @@ def test_authorized_imports_are_importable():
     """
     for name in get_authorized_imports_list():
         __import__(name)
+
+
+# --- pickle deny tests ---
+
+
+class TestPickleDenied:
+    def test_pickle_not_in_allowed(self):
+        assert "pickle" not in _ALLOWED_IMPORT_TOP_LEVEL
+
+    def test_pickle_in_deny_list(self):
+        assert "pickle" in _DENY_IMPORT_TOP_LEVEL
+
+    def test_safe_import_blocks_pickle(self):
+        with pytest.raises(ImportError, match="denied"):
+            _safe_import("pickle")
+
+    def test_safe_import_blocks_pickle_submodule(self):
+        with pytest.raises(ImportError, match="denied"):
+            _safe_import("pickle.compat")
+
+
+# --- safe_type tests ---
+
+
+class TestSafeType:
+    def test_single_arg_returns_type(self):
+        assert safe_type(42) is int
+        assert safe_type("hello") is str
+        assert safe_type([1, 2]) is list
+
+    def test_three_arg_blocked(self):
+        with pytest.raises(TypeError, match="Dynamic class creation"):
+            safe_type("MyClass", (object,), {})
+
+    def test_two_arg_blocked(self):
+        with pytest.raises(TypeError, match="Dynamic class creation"):
+            safe_type("MyClass", (object,))
+
+    def test_builtins_use_safe_type(self):
+        builtins = get_safe_builtins()
+        assert builtins["type"] is safe_type
+
+
+# --- safe exit/quit tests ---
+
+
+class TestSafeExitQuit:
+    def test_safe_exit_raises_system_exit(self):
+        with pytest.raises(SystemExit, match="exit\\(\\) called"):
+            _safe_exit()
+
+    def test_safe_exit_with_code(self):
+        with pytest.raises(SystemExit, match="code=1"):
+            _safe_exit(1)
+
+    def test_safe_quit_raises_system_exit(self):
+        with pytest.raises(SystemExit, match="quit\\(\\) called"):
+            _safe_quit()
+
+    def test_builtins_use_safe_versions(self):
+        builtins = get_safe_builtins()
+        assert builtins["exit"] is _safe_exit
+        assert builtins["quit"] is _safe_quit

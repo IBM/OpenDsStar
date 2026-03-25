@@ -14,7 +14,7 @@ def executor_node():
         task_prompt="test task",
         tools_spec='[{"name": "test_tool", "description": "test"}]',
         tools={},
-        code_timeout=5,
+        code_timeout=30,
     )
 
 

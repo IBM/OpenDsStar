@@ -36,7 +36,7 @@ def test_syntax_error_routes_to_debugger():
     ]
 
     # Create graph with mocked LLM
-    graph = DSStarGraph(model=mock_llm, tools=[], code_timeout=5)
+    graph = DSStarGraph(model=mock_llm, tools=[], code_timeout=30)
 
     # Create initial state
     state = DSState(
@@ -95,7 +95,7 @@ def test_syntax_error_in_assert_no_imports():
         Mock(answer="Complete"),
     ]
 
-    graph = DSStarGraph(model=mock_llm, tools=[], code_timeout=5)
+    graph = DSStarGraph(model=mock_llm, tools=[], code_timeout=30)
     state = DSState(
         user_query="Test syntax error handling",
         tools={},

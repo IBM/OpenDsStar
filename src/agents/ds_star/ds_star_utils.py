@@ -498,7 +498,7 @@ FORBIDDEN_CALLS = {
     "vars",
     "breakpoint",
 }
-FORBIDDEN_ATTR_BASES = {"os", "sys", "subprocess", "pathlib", "builtins", "importlib"}
+FORBIDDEN_ATTR_BASES = {"os", "sys", "subprocess", "pathlib", "builtins", "importlib", "pickle", "threading"}
 
 
 class CodeValidationError(Exception):

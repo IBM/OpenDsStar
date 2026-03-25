@@ -94,7 +94,7 @@ _ALLOWED_IMPORT_TOP_LEVEL = frozenset(
         "contextlib",
         "weakref",
         "copy",
-        "pickle",  # pandas may use pickle internally; does not grant filesystem by itself
+        # "pickle" intentionally removed — deserialization is an RCE vector
         "struct",
         "abc",
         "bisect",
@@ -153,6 +153,7 @@ _DENY_IMPORT_TOP_LEVEL = frozenset(
         "inspect",
         "types",
         "builtins",
+        "pickle",
     }
 )
 
@@ -271,6 +272,31 @@ def safe_hasattr(obj: Any, name: Any) -> bool:
     return hasattr(obj, s)
 
 
+def safe_type(*args):
+    """
+    Safe replacement for type().
+
+    - 1 arg: type(x) returns the type of x (normal usage).
+    - 3 args: type(name, bases, dict) creates a new class dynamically.
+      This is blocked to prevent metaclass/dynamic class creation exploits.
+    """
+    if len(args) == 1:
+        return type(args[0])
+    raise TypeError(
+        "Dynamic class creation with type(name, bases, dict) is not allowed in sandbox"
+    )
+
+
+def _safe_exit(code: Any = 0) -> None:
+    """Safe replacement for exit() that raises SystemExit cleanly."""
+    raise SystemExit(f"exit() called with code={code}")
+
+
+def _safe_quit(code: Any = 0) -> None:
+    """Safe replacement for quit() that raises SystemExit cleanly."""
+    raise SystemExit(f"quit() called with code={code}")
+
+
 def get_safe_builtins() -> Dict[str, Any]:
     """
     Return a dictionary of safe built-in functions and types.
@@ -322,7 +348,7 @@ def get_safe_builtins() -> Dict[str, Any]:
         "len": len,
         "isinstance": isinstance,
         "issubclass": issubclass,
-        "type": type,
+        "type": safe_type,
         "hash": hash,
         "slice": slice,
         # bytes / buffer helpers
@@ -336,8 +362,8 @@ def get_safe_builtins() -> Dict[str, Any]:
         "ord": ord,
         "chr": chr,
         "print": print,
-        "exit": exit,
-        "quit": quit,
+        "exit": _safe_exit,
+        "quit": _safe_quit,
         # misc common helpers
         "object": object,
         "callable": callable,

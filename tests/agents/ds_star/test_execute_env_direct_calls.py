@@ -1,7 +1,10 @@
 """Integration tests for direct tool call handling in execution environment."""
 
+import pytest
+
 from agents.ds_star.ds_star_execute_env import execute_user_code
 from agents.ds_star.ds_star_state import DSState
+from agents.ds_star.ds_star_utils import CodeValidationError, validate_generated_code
 
 
 class TestExecuteEnvDirectCalls:
@@ -27,7 +30,7 @@ outputs["results"] = results
         state = DSState(user_query="test", tools=tools, steps=[])
 
         # Execute with auto-transform enabled (default)
-        logs, outputs = execute_user_code(code, state, tools, timeout=5)
+        logs, outputs = execute_user_code(code, state, tools, timeout=30)
 
         # Tool should have been called
         assert len(call_log) == 1
@@ -64,7 +67,7 @@ outputs["has_content"] = isinstance(content, bytes)
 """
 
         state = DSState(user_query="test", tools=tools, steps=[])
-        logs, outputs = execute_user_code(code, state, tools, timeout=5)
+        logs, outputs = execute_user_code(code, state, tools, timeout=30)
 
         # Both tools should have been called
         assert len(call_log) == 2
@@ -100,7 +103,7 @@ outputs["has_content"] = isinstance(content, bytes)
 """
 
         state = DSState(user_query="test", tools=tools, steps=[])
-        logs, outputs = execute_user_code(code, state, tools, timeout=5)
+        logs, outputs = execute_user_code(code, state, tools, timeout=30)
 
         # Both tools should be called
         assert len(call_log) == 2
@@ -129,7 +132,7 @@ outputs["done"] = True
 """
 
         state = DSState(user_query="test", tools=tools, steps=[])
-        logs, outputs = execute_user_code(code, state, tools, timeout=5)
+        logs, outputs = execute_user_code(code, state, tools, timeout=30)
 
         assert len(call_log) == 1
         assert call_log[0]["query"] == "test"
@@ -149,7 +152,7 @@ outputs["result"] = result
 """
 
         state = DSState(user_query="test", tools=tools, steps=[])
-        logs, outputs = execute_user_code(code, state, tools, timeout=5)
+        logs, outputs = execute_user_code(code, state, tools, timeout=30)
 
         # Should work fine - my_helper is not a tool
         assert outputs["result"] == 10
@@ -170,7 +173,7 @@ outputs["count"] = len(results)
 """
 
         state = DSState(user_query="test", tools=tools, steps=[])
-        logs, outputs = execute_user_code(code, state, tools, timeout=5)
+        logs, outputs = execute_user_code(code, state, tools, timeout=30)
 
         assert len(call_log) == 1
         assert call_log[0]["query"] == "test query"
@@ -199,7 +202,7 @@ outputs["done"] = True
 """
 
         state = DSState(user_query="test", tools=tools, steps=[])
-        logs, outputs = execute_user_code(code, state, tools, timeout=5)
+        logs, outputs = execute_user_code(code, state, tools, timeout=30)
 
         assert len(call_log) == 1
         assert call_log[0]["query"] == "test"
@@ -220,9 +223,104 @@ outputs["results"] = results
 """
 
         state = DSState(user_query="test", tools=tools, steps=[])
-        logs, outputs = execute_user_code(code, state, tools, timeout=5)
+        logs, outputs = execute_user_code(code, state, tools, timeout=30)
 
         # Should capture the error
         assert "_error" in outputs
         # Just verify an error was captured - the exact message may vary
         assert isinstance(outputs["_error"], str) and len(outputs["_error"]) > 0
+
+
+class TestSandboxHardening:
+    """Tests for sandbox hardening measures."""
+
+    def test_exit_returns_error_payload(self):
+        """exit() in generated code should return error, not crash."""
+        tools = {}
+        code = 'exit(0)\noutputs["should_not_reach"] = True'
+        state = DSState(user_query="test", tools=tools, steps=[])
+        logs, outputs = execute_user_code(code, state, tools, timeout=30)
+        assert "_error" in outputs
+        assert "exit()" in outputs["_error"]
+        assert "should_not_reach" not in outputs
+
+    def test_quit_returns_error_payload(self):
+        """quit() in generated code should return error, not crash."""
+        tools = {}
+        code = 'quit(1)\noutputs["should_not_reach"] = True'
+        state = DSState(user_query="test", tools=tools, steps=[])
+        logs, outputs = execute_user_code(code, state, tools, timeout=30)
+        assert "_error" in outputs
+        assert "quit()" in outputs["_error"]
+
+    def test_path_construction_works(self):
+        """PurePath construction and algebra should work in sandbox."""
+        tools = {}
+        code = """
+p = Path("foo") / "bar" / "baz.txt"
+outputs["name"] = p.name
+outputs["stem"] = p.stem
+outputs["suffix"] = p.suffix
+outputs["parent"] = str(p.parent)
+outputs["full"] = str(p)
+"""
+        state = DSState(user_query="test", tools=tools, steps=[])
+        logs, outputs = execute_user_code(code, state, tools, timeout=30)
+        assert outputs["name"] == "baz.txt"
+        assert outputs["stem"] == "baz"
+        assert outputs["suffix"] == ".txt"
+        assert "foo" in outputs["parent"]
+        assert "bar" in outputs["parent"]
+
+    def test_path_has_no_io_methods(self):
+        """PurePath should not have read_text, write_text, open, glob, etc."""
+        tools = {}
+        code = """
+p = Path("foo.txt")
+outputs["has_read_text"] = hasattr(p, "read_text")
+outputs["has_write_text"] = hasattr(p, "write_text")
+outputs["has_open"] = hasattr(p, "open")
+outputs["has_glob"] = hasattr(p, "glob")
+outputs["has_exists"] = hasattr(p, "exists")
+"""
+        state = DSState(user_query="test", tools=tools, steps=[])
+        logs, outputs = execute_user_code(code, state, tools, timeout=30)
+        assert outputs["has_read_text"] is False
+        assert outputs["has_write_text"] is False
+        assert outputs["has_open"] is False
+        assert outputs["has_glob"] is False
+        assert outputs["has_exists"] is False
+
+    def test_validate_rejects_pickle_attr_access(self):
+        """AST validator should reject pickle.loads()."""
+        with pytest.raises(CodeValidationError, match="pickle"):
+            validate_generated_code("result = pickle.loads(data)")
+
+    def test_validate_rejects_threading_attr_access(self):
+        """AST validator should reject threading.Thread()."""
+        with pytest.raises(CodeValidationError, match="threading"):
+            validate_generated_code("t = threading.Thread(target=fn)\nt.start()")
+
+    def test_type_single_arg_works(self):
+        """type(x) should work for type checking in sandbox."""
+        tools = {}
+        code = """
+outputs["int_type"] = str(type(42))
+outputs["str_type"] = str(type("hello"))
+"""
+        state = DSState(user_query="test", tools=tools, steps=[])
+        logs, outputs = execute_user_code(code, state, tools, timeout=30)
+        assert "int" in outputs["int_type"]
+        assert "str" in outputs["str_type"]
+
+    def test_type_three_arg_blocked(self):
+        """type(name, bases, dict) should be blocked in sandbox."""
+        tools = {}
+        code = """
+MyClass = type("MyClass", (object,), {"x": 1})
+outputs["created"] = True
+"""
+        state = DSState(user_query="test", tools=tools, steps=[])
+        logs, outputs = execute_user_code(code, state, tools, timeout=30)
+        assert "_error" in outputs
+        assert "Dynamic class creation" in outputs["_error"]

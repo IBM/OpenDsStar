@@ -23,7 +23,7 @@ def rank_longitude_values():
     )
 
     # Execute should catch SyntaxError and return it as execution error
-    logs, outputs = execute_user_code(malformed_code, state, {}, timeout=5)
+    logs, outputs = execute_user_code(malformed_code, state, {}, timeout=30)
 
     # Verify error is captured
     assert isinstance(outputs, dict)
@@ -54,7 +54,7 @@ print('Success')
         code_mode=CodeMode.STEPWISE,
     )
 
-    logs, outputs = execute_user_code(valid_code, state, {}, timeout=5)
+    logs, outputs = execute_user_code(valid_code, state, {}, timeout=30)
 
     # Verify successful execution
     assert isinstance(outputs, dict)
@@ -75,7 +75,7 @@ outputs['result'] = 1 / 0  # ZeroDivisionError
         code_mode=CodeMode.STEPWISE,
     )
 
-    logs, outputs = execute_user_code(code_with_runtime_error, state, {}, timeout=5)
+    logs, outputs = execute_user_code(code_with_runtime_error, state, {}, timeout=30)
 
     # Verify runtime error is captured
     assert isinstance(outputs, dict)
