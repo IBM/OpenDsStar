@@ -95,13 +95,12 @@ import pickle
 import platform
 import queue
 import random
-import resource
 import statistics
 import sys
 import threading
 import time
 import traceback
-from pathlib import Path, PurePath
+from pathlib import PurePath
 from typing import Any, Callable, Dict, Optional, Tuple
 
 import numpy as np
@@ -661,6 +660,8 @@ def _execute_code_in_process(
     # Enforce memory limit on the child process (Linux only).
     if max_memory_bytes > 0 and platform.system() == "Linux":
         try:
+            import resource
+
             _, hard = resource.getrlimit(resource.RLIMIT_AS)
             new_soft = (
                 min(max_memory_bytes, hard)
@@ -770,7 +771,7 @@ def run_code_with_timeout(
         max_memory_bytes:
             Maximum virtual memory for the child process in bytes.
             Set to 0 to disable. Only enforced on Linux.
-            Defaults to DEFAULT_MAX_CHILD_MEMORY_BYTES (2 GB).
+            Defaults to DEFAULT_MAX_CHILD_MEMORY_BYTES (1 GB).
 
     Returns:
         (logs, outputs)
