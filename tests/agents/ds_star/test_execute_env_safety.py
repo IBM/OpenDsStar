@@ -540,7 +540,7 @@ class TestMemoryLimit:
     )
     def test_large_allocation_fails(self):
         """Allocating far more than MAX_CHILD_MEMORY_BYTES should raise MemoryError."""
-        # Try to allocate 4 GB — well above the 2 GB limit
+        # Try to allocate 4 GB — well above the 1 GB limit
         code = "x = bytearray(4 * 1024 * 1024 * 1024)\noutputs['done'] = True"
         _, out = _exec(code, timeout=30)
         assert "_error" in out
