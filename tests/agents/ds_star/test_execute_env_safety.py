@@ -152,7 +152,7 @@ outputs['e'] = hasattr(p, 'exists')
 class TestSafeBuiltins:
     def test_range_ok(self):
         _, out = _exec("outputs['r'] = list(range(5))")
-        assert out["r"] == [0, 1, 4, 9, 16] or out["r"] == [0, 1, 2, 3, 4]
+        assert out["r"] == [0, 1, 2, 3, 4]
 
     def test_range_too_large(self):
         _, out = _exec("outputs['r'] = list(range(100_000_000))")
@@ -530,7 +530,7 @@ class TestEdgeCases:
 
 
 # ---------------------------------------------------------------------------
-# _build_base_env
+# Memory limit
 # ---------------------------------------------------------------------------
 
 class TestMemoryLimit:
