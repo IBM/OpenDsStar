@@ -59,6 +59,10 @@ cache/
 database/
 vector_store/
 
+# E2E test artifacts (persistent, not cleaned up)
+tests/e2e/output/
+tests/e2e/cache/
+
 # Model checkpoints
 *.ckpt
 *.pth
