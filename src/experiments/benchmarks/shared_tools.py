@@ -255,6 +255,45 @@ PREFERRED WORKFLOW:
         return BytesIO(bytes_factory())
 
 
+def _auto_fix_csv(raw_bytes: bytes, sep: str = ",") -> pd.DataFrame:
+    """Try to load a CSV that has metadata/comment lines before the real header.
+
+    Strategy: scan the first 50 lines and find the first line whose field count
+    matches the most common field count (i.e. the data rows).  Use that line as
+    the header and skip everything above it.
+    """
+    text = raw_bytes.decode("utf-8", errors="replace")
+    lines = text.splitlines()
+
+    # Count fields per line for the first 50 lines
+    counts: list[int] = []
+    for line in lines[:50]:
+        counts.append(len(line.split(sep)))
+
+    if not counts:
+        raise ValueError("CSV file is empty")
+
+    # Most common field count is likely the data width
+    from collections import Counter
+
+    most_common_width = Counter(counts).most_common(1)[0][0]
+
+    # Find first line with that width — treat it as the header
+    skip = 0
+    for i, c in enumerate(counts):
+        if c == most_common_width:
+            skip = i
+            break
+
+    logger.info("auto_fix_csv: skipping %d lines, detected %d columns", skip, most_common_width)
+    return pd.read_csv(
+        BytesIO(raw_bytes),
+        sep=sep,
+        skiprows=skip,
+        on_bad_lines="skip",
+    )
+
+
 class LoadDataFrameInput(BaseModel):
     """Input schema for dataframe loading."""
 
@@ -262,6 +301,14 @@ class LoadDataFrameInput(BaseModel):
     format: Literal["auto", "parquet", "csv", "excel", "json", "pickle"] = Field(
         default="auto",
         description="File format to load. Use 'auto' to infer from the extension.",
+    )
+    auto_fix_csv: bool = Field(
+        default=False,
+        description=(
+            "If True and CSV parsing fails, automatically retry by "
+            "skipping bad lines and detecting the header row. "
+            "Use when a CSV has metadata/comment lines before the actual table."
+        ),
     )
 
 
@@ -285,6 +332,9 @@ INPUT:
   - "excel"
   - "json"
   - "pickle"
+- auto_fix_csv (bool, optional): Default False. If True and CSV parsing fails,
+  automatically retry by skipping metadata/comment lines and detecting the real
+  header row. Use this when a CSV file has non-tabular lines before the data.
 
 BEHAVIOR:
 - "auto" infers the reader from the file extension.
@@ -299,6 +349,7 @@ BEHAVIOR:
 WHY USE THIS TOOL:
 - Prefer this tool for tabular data instead of manual stream handling.
 - It prevents common mistakes such as reading Parquet with pd.read_csv(...).
+- If you get a CSV parsing error, retry with auto_fix_csv=True.
 """
 
     args_schema: type[LoadDataFrameInput] = LoadDataFrameInput
@@ -313,6 +364,7 @@ WHY USE THIS TOOL:
         self,
         path: str,
         format: Literal["auto", "parquet", "csv", "excel", "json", "pickle"] = "auto",
+        auto_fix_csv: bool = False,
     ) -> pd.DataFrame:
         import pickle
 
@@ -338,9 +390,14 @@ WHY USE THIS TOOL:
             return pd.read_parquet(stream)
 
         if chosen_format == "csv":
-            if ext == ".tsv":
-                return pd.read_csv(stream, sep="\t")
-            return pd.read_csv(stream)
+            sep = "\t" if ext == ".tsv" else ","
+            try:
+                return pd.read_csv(stream, sep=sep)
+            except pd.errors.ParserError:
+                if not auto_fix_csv:
+                    raise
+                logger.info("CSV parse failed for %s, retrying with auto_fix_csv", path)
+                return _auto_fix_csv(bytes_factory(), sep=sep)
 
         if chosen_format == "excel":
             return pd.read_excel(stream)
