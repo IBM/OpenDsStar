@@ -55,6 +55,11 @@ def test_databench_sample_experiment():
             question_limit=3,  # Only 3 samples for fast E2E test
             seed=43,
         )
+
+        # Redirect output/cache to tests/e2e/ to avoid polluting benchmark dirs
+        from tests.e2e.conftest import redirect_experiment_dirs
+
+        redirect_experiment_dirs(experiment)
         # confirm default code_mode is stepwise
         builder = experiment.get_agent_builder()
         from src.experiments.core.context import PipelineConfig, PipelineContext
@@ -159,6 +164,12 @@ def test_databench_sample_experiment():
             assert hasattr(output, "answer"), "Output should have answer"
             assert output.question_id is not None, "question_id should not be None"
             assert output.answer is not None, "answer should not be None"
+            assert output.answer.strip(), (
+                f"Question {output.question_id}: answer is empty"
+            )
+            assert "Process terminated due to an error" not in output.answer, (
+                f"Question {output.question_id}: got error instead of answer: {output.answer[:200]}"
+            )
 
         # Verify results structure
         assert all(
