@@ -55,6 +55,11 @@ def test_databench_sample_experiment():
             question_limit=3,  # Only 3 samples for fast E2E test
             seed=43,
         )
+
+        # Redirect output/cache to tests/e2e/ to avoid polluting benchmark dirs
+        from tests.e2e.conftest import redirect_experiment_dirs
+
+        redirect_experiment_dirs(experiment)
         # confirm default code_mode is stepwise
         builder = experiment.get_agent_builder()
         from src.experiments.core.context import PipelineConfig, PipelineContext

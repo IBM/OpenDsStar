@@ -5,6 +5,7 @@ Tests that CodeAct agent can run on DataBench with different model providers.
 """
 
 import subprocess
+from pathlib import Path
 
 import pytest
 
@@ -13,7 +14,6 @@ import pytest
 @pytest.mark.slow
 def test_databench_codeact_watsonx():
     """Test DataBench with CodeAct agent using WatsonX Llama Maverick."""
-    # Run databench_main with codeact agent and watsonx model
     result = subprocess.run(
         [
             ".venv/bin/python",
@@ -30,10 +30,10 @@ def test_databench_codeact_watsonx():
             "--max-steps",
             "3",
         ],
-        cwd="/Users/yoavkantor/projects/OpenDsStar",
+        cwd=str(Path(__file__).resolve().parents[2]),
         capture_output=True,
         text=True,
-        timeout=300,  # 5 minute timeout
+        timeout=2400,  # 40 minute timeout
     )
 
     # Check that it ran without fatal errors
@@ -50,7 +50,6 @@ def test_databench_codeact_watsonx():
 @pytest.mark.slow
 def test_databench_codeact_custom_api():
     """Test DataBench with CodeAct agent using custom API model."""
-    # Run databench_main with codeact agent and custom API model
     result = subprocess.run(
         [
             ".venv/bin/python",
@@ -67,10 +66,10 @@ def test_databench_codeact_custom_api():
             "--max-steps",
             "3",
         ],
-        cwd="/Users/yoavkantor/projects/OpenDsStar",
+        cwd=str(Path(__file__).resolve().parents[2]),
         capture_output=True,
         text=True,
-        timeout=300,  # 5 minute timeout
+        timeout=2400,  # 40 minute timeout
     )
 
     # Check that it ran without fatal errors

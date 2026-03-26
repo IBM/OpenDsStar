@@ -56,6 +56,11 @@ def test_kramabench_sample_experiment():
             seed=43,
         )
 
+        # Redirect output/cache to tests/e2e/ to avoid polluting benchmark dirs
+        from tests.e2e.conftest import redirect_experiment_dirs
+
+        redirect_experiment_dirs(experiment)
+
         # ===== TOOL VALIDATION SECTION =====
         print("\n" + "=" * 60)
         print("VALIDATING TOOLS BEFORE EXPERIMENT")
