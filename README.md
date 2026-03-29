@@ -49,6 +49,14 @@ OpenDsStar supports two execution modes:
 
 ## Installation
 
+### From PyPI
+
+```bash
+pip install opendsstar
+```
+
+### From Source
+
 ```bash
 git clone https://github.com/IBM/OpenDsStar.git
 cd OpenDsStar
