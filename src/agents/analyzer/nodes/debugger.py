@@ -21,8 +21,7 @@ class CodeOutput(BaseModel):
 
 
 class DebuggerNode:
-    """Simple debugger that uses structured output to fix code errors.
-    """
+    """Simple debugger that uses structured output to fix code errors."""
 
     def __init__(self, llm: BaseChatModel):
         self.llm = llm

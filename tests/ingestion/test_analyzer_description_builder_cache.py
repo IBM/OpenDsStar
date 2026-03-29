@@ -19,10 +19,10 @@ import pytest
 from ingestion.analyzer import AnalyzerDescriptionBuilder
 from ingestion.docling_cache import AnalyzerDescriptionCache
 
-
 # ---------------------------------------------------------------------------
 # Fixtures
 # ---------------------------------------------------------------------------
+
 
 @pytest.fixture
 def csv_file(tmp_path: Path) -> Path:
@@ -77,6 +77,7 @@ def failed_analyzer_result() -> dict:
 # ---------------------------------------------------------------------------
 # AnalyzerDescriptionCache unit tests
 # ---------------------------------------------------------------------------
+
 
 class TestAnalyzerDescriptionCache:
     def test_get_returns_none_when_empty(self, tmp_path: Path, csv_file: Path):
@@ -175,6 +176,7 @@ class TestAnalyzerDescriptionCache:
 # AnalyzerDescriptionBuilder integration tests (with mocked analyzer graph)
 # ---------------------------------------------------------------------------
 
+
 class TestAnalyzerDescriptionBuilderCache:
     def _make_builder(
         self, cache_dir: Path, db_uri: str, enable_caching: bool = True
@@ -183,9 +185,7 @@ class TestAnalyzerDescriptionBuilderCache:
         mock_llm = MagicMock()
         mock_llm.model = "mock-analyzer-model"
 
-        with patch(
-            "ingestion.analyzer.ChatLiteLLM", return_value=mock_llm
-        ):
+        with patch("ingestion.analyzer.ChatLiteLLM", return_value=mock_llm):
             builder = AnalyzerDescriptionBuilder(
                 llm=mock_llm,
                 code_timeout=30,
@@ -213,15 +213,14 @@ class TestAnalyzerDescriptionBuilderCache:
 
         successful_analyzer_result["file_path"] = str(csv_file.absolute())
 
-        with patch.object(
-            builder.analyzer_graph, "invoke"
-        ) as mock_invoke, patch(
-            "ingestion.analyzer.prepare_result_from_graph_state_analyzer_agent",
-            return_value=dict(successful_analyzer_result),
-        ), patch(
-            "ingestion.analyzer.Milvus"
-        ) as mock_milvus_cls, patch(
-            "ingestion.analyzer.HuggingFaceEmbeddings"
+        with (
+            patch.object(builder.analyzer_graph, "invoke") as mock_invoke,
+            patch(
+                "ingestion.analyzer.prepare_result_from_graph_state_analyzer_agent",
+                return_value=dict(successful_analyzer_result),
+            ),
+            patch("ingestion.analyzer.Milvus") as mock_milvus_cls,
+            patch("ingestion.analyzer.HuggingFaceEmbeddings"),
         ):
             mock_milvus_cls.return_value = MagicMock()
             mock_invoke.return_value = MagicMock()
@@ -256,15 +255,14 @@ class TestAnalyzerDescriptionBuilderCache:
 
         failed_analyzer_result["file_path"] = str(csv_file.absolute())
 
-        with patch.object(
-            builder.analyzer_graph, "invoke"
-        ) as mock_invoke, patch(
-            "ingestion.analyzer.prepare_result_from_graph_state_analyzer_agent",
-            return_value=dict(failed_analyzer_result),
-        ), patch(
-            "ingestion.analyzer.Milvus"
-        ) as mock_milvus_cls, patch(
-            "ingestion.analyzer.HuggingFaceEmbeddings"
+        with (
+            patch.object(builder.analyzer_graph, "invoke") as mock_invoke,
+            patch(
+                "ingestion.analyzer.prepare_result_from_graph_state_analyzer_agent",
+                return_value=dict(failed_analyzer_result),
+            ),
+            patch("ingestion.analyzer.Milvus") as mock_milvus_cls,
+            patch("ingestion.analyzer.HuggingFaceEmbeddings"),
         ):
             mock_milvus_cls.return_value = MagicMock()
             mock_invoke.return_value = MagicMock()
@@ -290,21 +288,18 @@ class TestAnalyzerDescriptionBuilderCache:
         """With caching disabled, every run should invoke the analyzer graph."""
         db_uri = str(tmp_path / "milvus.db")
 
-        builder = self._make_builder(
-            tmp_path / "cache", db_uri, enable_caching=False
-        )
+        builder = self._make_builder(tmp_path / "cache", db_uri, enable_caching=False)
 
         successful_analyzer_result["file_path"] = str(csv_file.absolute())
 
-        with patch.object(
-            builder.analyzer_graph, "invoke"
-        ) as mock_invoke, patch(
-            "ingestion.analyzer.prepare_result_from_graph_state_analyzer_agent",
-            return_value=dict(successful_analyzer_result),
-        ), patch(
-            "ingestion.analyzer.Milvus"
-        ) as mock_milvus_cls, patch(
-            "ingestion.analyzer.HuggingFaceEmbeddings"
+        with (
+            patch.object(builder.analyzer_graph, "invoke") as mock_invoke,
+            patch(
+                "ingestion.analyzer.prepare_result_from_graph_state_analyzer_agent",
+                return_value=dict(successful_analyzer_result),
+            ),
+            patch("ingestion.analyzer.Milvus") as mock_milvus_cls,
+            patch("ingestion.analyzer.HuggingFaceEmbeddings"),
         ):
             mock_milvus_cls.return_value = MagicMock()
             mock_invoke.return_value = MagicMock()
@@ -337,15 +332,14 @@ class TestAnalyzerDescriptionBuilderCache:
 
         successful_analyzer_result["file_path"] = str(csv_file.absolute())
 
-        with patch.object(
-            builder.analyzer_graph, "invoke"
-        ) as mock_invoke, patch(
-            "ingestion.analyzer.prepare_result_from_graph_state_analyzer_agent",
-            return_value=dict(successful_analyzer_result),
-        ), patch(
-            "ingestion.analyzer.Milvus"
-        ) as mock_milvus_cls, patch(
-            "ingestion.analyzer.HuggingFaceEmbeddings"
+        with (
+            patch.object(builder.analyzer_graph, "invoke") as mock_invoke,
+            patch(
+                "ingestion.analyzer.prepare_result_from_graph_state_analyzer_agent",
+                return_value=dict(successful_analyzer_result),
+            ),
+            patch("ingestion.analyzer.Milvus") as mock_milvus_cls,
+            patch("ingestion.analyzer.HuggingFaceEmbeddings"),
         ):
             mock_milvus_cls.return_value = MagicMock()
             mock_invoke.return_value = MagicMock()

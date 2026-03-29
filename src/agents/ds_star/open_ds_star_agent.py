@@ -10,7 +10,6 @@ import logging
 from collections.abc import Iterator
 from typing import Any
 
-from experiments.core.config import AgentConfig
 from langchain_core.language_models import BaseChatModel
 
 from agents.base_agent import BaseAgent
@@ -19,6 +18,7 @@ from agents.ds_star.ds_star_results_prep import (
     prepare_result_from_graph_state_ds_star_agent,
 )
 from agents.ds_star.ds_star_state import CodeMode
+from experiments.core.config import AgentConfig
 
 logger = logging.getLogger(__name__)
 
@@ -172,12 +172,14 @@ class OpenDsStarAgent(BaseAgent):
 
         self.code_mode = CodeMode(code_mode)
         self.temperature = temperature
-        
+
         # Clean up tools list - remove empty strings or None which Langflow sometimes passes when the input is functionally empty
         _tools = tools or []
         if isinstance(_tools, list):
-            _tools = [t for t in _tools if t and not (isinstance(t, str) and not t.strip())]
-            
+            _tools = [
+                t for t in _tools if t and not (isinstance(t, str) and not t.strip())
+            ]
+
         self.tools = _tools
 
         self.max_steps = max_steps

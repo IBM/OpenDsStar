@@ -38,8 +38,7 @@ def _dsstate_to_dict(ds_state: Any) -> dict[str, Any]:
 
 
 def _jsonify_and_truncate(value: Any) -> Any:
-    """Convert value into JSON-serializable types and truncate long strings recursively.
-    """
+    """Convert value into JSON-serializable types and truncate long strings recursively."""
     if value is None or isinstance(value, (int, float, bool)):
         return value
 

@@ -72,7 +72,7 @@ def cache_setup(tmp_path: Path):
     db_storage = storage_root / "db"
     db_storage.mkdir(parents=True, exist_ok=True)
     db_uri = str(db_storage / "test_milvus.db")
-    
+
     return {
         "cache_dir": cache_dir,
         "db_uri": db_uri,
@@ -141,7 +141,8 @@ def test_process_directory_uses_cache_on_second_run(
 
             assert results_1[doc_id_1]["answer"] == results_2[doc_id_2]["answer"]
             assert (
-                results_1[doc_id_1]["md_fingerprint"] == results_2[doc_id_2]["md_fingerprint"]
+                results_1[doc_id_1]["md_fingerprint"]
+                == results_2[doc_id_2]["md_fingerprint"]
             )
 
 

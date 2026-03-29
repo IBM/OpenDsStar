@@ -70,8 +70,7 @@ def build_verifier_prompt(
     *,
     stepwise_detail_last_n: int = 20,
 ) -> tuple[str, str]:
-    """Returns (system_message, user_message) so the caller can send a proper system role.
-    """
+    """Returns (system_message, user_message) so the caller can send a proper system role."""
     if not state.steps:
         # Should generally not happen, but keep it safe.
         system_instructions = (

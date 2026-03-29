@@ -28,8 +28,7 @@ def _collect_all_outputs(state: DSState) -> dict[str, Any]:
 
 
 def _collect_all_logs(state: DSState, logs_max_length: int) -> str:
-    """Collect logs from all steps. Each step's logs are truncated individually to logs_max_length.
-    """
+    """Collect logs from all steps. Each step's logs are truncated individually to logs_max_length."""
     blocks = []
     for i, step in enumerate(state.steps):
         logs = getattr(step, "logs", None)
@@ -217,10 +216,9 @@ class FinalizerNode(BaseNode):
                             continue
 
                     if isinstance(v, str):
-                        if (
-                            v.startswith("data:image")
-                            or (v.startswith("http")
-                            and v.lower().endswith((".png", ".jpg", ".jpeg", ".gif")))
+                        if v.startswith("data:image") or (
+                            v.startswith("http")
+                            and v.lower().endswith((".png", ".jpg", ".jpeg", ".gif"))
                         ):
                             img_lines.append(v)
                     elif isinstance(v, list) or isinstance(v, tuple):

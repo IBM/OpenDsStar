@@ -55,7 +55,11 @@ class AnalyzerDescriptionBuilder(DocumentDescriptionBuilder):
             cache_dir: Directory for caching analysis results. If None, caching is disabled.
             enable_caching: Whether to enable caching (requires cache_dir).
         """
-        llm_model_name = llm if isinstance(llm, str) else getattr(llm, "model", llm.__class__.__name__)
+        llm_model_name = (
+            llm
+            if isinstance(llm, str)
+            else getattr(llm, "model", llm.__class__.__name__)
+        )
         if isinstance(llm, str):
             llm = ChatLiteLLM(model=llm)
         self.analyzer_graph = AnalyzerGraph(

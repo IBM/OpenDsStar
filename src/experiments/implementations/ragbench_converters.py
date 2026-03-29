@@ -71,7 +71,10 @@ def convert_ragbench_benchmark_to_entries(
 
         # Convert GroundTruthContextId objects to simple document IDs
         # Safely handle ground_truth_context_ids (may not exist in all versions)
-        if not hasattr(item, 'ground_truth_context_ids') or item.ground_truth_context_ids is None:
+        if (
+            not hasattr(item, "ground_truth_context_ids")
+            or item.ground_truth_context_ids is None
+        ):
             context_ids = []
         elif isinstance(item.ground_truth_context_ids, list):
             context_ids = [ctx.document_id for ctx in item.ground_truth_context_ids]

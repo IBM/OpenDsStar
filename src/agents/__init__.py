@@ -1,5 +1,4 @@
-"""OpenDsStar - A tool-based DS-Star agent implementation using LangGraph.
-"""
+"""OpenDsStar - A tool-based DS-Star agent implementation using LangGraph."""
 
 from agents.base_agent import BaseAgent
 from agents.codeact_smolagents.codeact_agent_smolagents import CodeActAgentSmolagents

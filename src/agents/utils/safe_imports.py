@@ -247,8 +247,7 @@ def safe_pow(base: Any, exp: Any, mod: Any = None) -> Any:
 
 
 def safe_getattr(obj: Any, name: Any, default: Any = None) -> Any:
-    """Safe getattr that blocks dunder attribute access.
-    """
+    """Safe getattr that blocks dunder attribute access."""
     s = name if isinstance(name, str) else str(name)
     if s.startswith("__") or s.endswith("__"):
         raise ValueError("dunder attribute access is not allowed")
@@ -259,8 +258,7 @@ def safe_getattr(obj: Any, name: Any, default: Any = None) -> Any:
 
 
 def safe_hasattr(obj: Any, name: Any) -> bool:
-    """Safe hasattr that blocks dunder attribute checks.
-    """
+    """Safe hasattr that blocks dunder attribute checks."""
     s = name if isinstance(name, str) else str(name)
     if s.startswith("__") or s.endswith("__"):
         return False

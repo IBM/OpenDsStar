@@ -285,7 +285,9 @@ def _auto_fix_csv(raw_bytes: bytes, sep: str = ",") -> pd.DataFrame:
             skip = i
             break
 
-    logger.info("auto_fix_csv: skipping %d lines, detected %d columns", skip, most_common_width)
+    logger.info(
+        "auto_fix_csv: skipping %d lines, detected %d columns", skip, most_common_width
+    )
     return pd.read_csv(
         BytesIO(raw_bytes),
         sep=sep,

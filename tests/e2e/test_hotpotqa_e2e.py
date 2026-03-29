@@ -144,12 +144,12 @@ def test_hotpotqa_sample_experiment():
             assert hasattr(output, "answer"), "Output should have answer"
             assert output.question_id is not None, "question_id should not be None"
             assert output.answer is not None, "answer should not be None"
-            assert output.answer.strip(), (
-                f"Question {output.question_id}: answer is empty"
-            )
-            assert "Process terminated due to an error" not in output.answer, (
-                f"Question {output.question_id}: got error instead of answer: {output.answer[:200]}"
-            )
+            assert (
+                output.answer.strip()
+            ), f"Question {output.question_id}: answer is empty"
+            assert (
+                "Process terminated due to an error" not in output.answer
+            ), f"Question {output.question_id}: got error instead of answer: {output.answer[:200]}"
 
         # Verify results structure
         assert all(

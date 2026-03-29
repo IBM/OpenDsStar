@@ -24,7 +24,6 @@ class ToolExecutionError(Exception):
     """Raised when tool execution fails."""
 
 
-
 class _UsageCaptureHandler(BaseCallbackHandler):
     """Capture token usage from LLM calls (supports modern + legacy paths)."""
 
@@ -193,8 +192,7 @@ def normalize_tool_result(result: Any) -> Any:
 
 
 def build_tools_map(tools_list: list[Any]) -> dict[str, Callable[..., Any]]:
-    """Wrap LangChain/LangGraph tools into simple **kwargs callables keyed by tool.name.
-    """
+    """Wrap LangChain/LangGraph tools into simple **kwargs callables keyed by tool.name."""
     mapping: dict[str, Callable[..., Any]] = {}
 
     for tool in tools_list:
@@ -262,8 +260,7 @@ def build_tools_map(tools_list: list[Any]) -> dict[str, Callable[..., Any]]:
 
 
 def format_tools_spec(tools_list: list[Any]) -> str:
-    """Build a compact JSON spec containing name, description, and a light param sketch.
-    """
+    """Build a compact JSON spec containing name, description, and a light param sketch."""
     spec = []
     for t in tools_list:
         # name
@@ -318,8 +315,7 @@ def format_tools_spec(tools_list: list[Any]) -> str:
 
 
 def steps_to_plan_string(steps: list[Any]) -> str:
-    """Convert steps list to a formatted plan string.
-    """
+    """Convert steps list to a formatted plan string."""
     msg = "\n\nPlan: "
     lines = []
     for i, s in enumerate(steps):
@@ -488,7 +484,16 @@ FORBIDDEN_CALLS = {
     "vars",
     "breakpoint",
 }
-FORBIDDEN_ATTR_BASES = {"os", "sys", "subprocess", "pathlib", "builtins", "importlib", "pickle", "threading"}
+FORBIDDEN_ATTR_BASES = {
+    "os",
+    "sys",
+    "subprocess",
+    "pathlib",
+    "builtins",
+    "importlib",
+    "pickle",
+    "threading",
+}
 
 
 class CodeValidationError(Exception):

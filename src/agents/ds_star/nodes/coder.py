@@ -53,8 +53,7 @@ def get_available_packages_list() -> list[str]:
 
 
 def build_coder_prompt(state: DSState, tools_specs: str) -> tuple[str, str]:
-    """Returns (system_message, user_message) so the caller can send a proper system role.
-    """
+    """Returns (system_message, user_message) so the caller can send a proper system role."""
     if not state.steps:
         system_msg = (
             "You are the Coder agent.\n"

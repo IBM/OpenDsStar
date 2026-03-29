@@ -76,8 +76,7 @@ class StructuredSafeSQLiteCache(BaseCache):
 
     @staticmethod
     def _serialize_generation(gen: Generation) -> dict[str, Any]:
-        """Serialize Generation or ChatGeneration to JSON-safe dict.
-        """
+        """Serialize Generation or ChatGeneration to JSON-safe dict."""
         if isinstance(gen, ChatGeneration):
             msg = gen.message
             # AIMessage.content can be str or list[dict|str]

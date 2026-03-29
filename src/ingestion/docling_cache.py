@@ -378,7 +378,9 @@ class AnalyzerDescriptionCache:
                     logger.debug("Analyzer cache hit for %s", file_path.name)
                     return result
         except Exception as e:
-            logger.warning("Failed to load analyzer cache for %s: %s", file_path.name, e)
+            logger.warning(
+                "Failed to load analyzer cache for %s: %s", file_path.name, e
+            )
 
         return None
 
@@ -399,7 +401,9 @@ class AnalyzerDescriptionCache:
                 cache.put(cache_key, result)
             logger.debug("Cached analyzer result for %s", file_path.name)
         except Exception as e:
-            logger.warning("Failed to cache analyzer result for %s: %s", file_path.name, e)
+            logger.warning(
+                "Failed to cache analyzer result for %s: %s", file_path.name, e
+            )
 
     def clear(self) -> None:
         """Clear all cached analyzer results."""

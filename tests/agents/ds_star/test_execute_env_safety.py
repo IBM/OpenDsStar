@@ -8,8 +8,6 @@ import pandas as pd
 import pytest
 
 from agents.ds_star.ds_star_execute_env import (
-    RemoteToolError,
-    TimeoutException,
     _build_base_env,
     _build_shared_execution_scope,
     _collect_prev_outputs,
@@ -43,47 +41,57 @@ def _exec(code, tools=None, state=None, timeout=30):
 # Validation-time blocking (CodeValidationError)
 # ---------------------------------------------------------------------------
 
+
 class TestValidationBlocking:
     """Calls/attrs rejected at AST validation before execution starts."""
 
-    @pytest.mark.parametrize("code", [
-        "open('/etc/passwd', 'r')",
-        "exec('x = 1')",
-        "eval('1+1')",
-        "compile('1', '<>', 'eval')",
-        "__import__('os')",
-        "input('>')",
-        "globals()",
-        "locals()",
-        "vars()",
-        "breakpoint()",
-    ])
+    @pytest.mark.parametrize(
+        "code",
+        [
+            "open('/etc/passwd', 'r')",
+            "exec('x = 1')",
+            "eval('1+1')",
+            "compile('1', '<>', 'eval')",
+            "__import__('os')",
+            "input('>')",
+            "globals()",
+            "locals()",
+            "vars()",
+            "breakpoint()",
+        ],
+    )
     def test_forbidden_calls(self, code):
         with pytest.raises(CodeValidationError):
             validate_generated_code(code)
 
-    @pytest.mark.parametrize("code", [
-        "os.system('ls')",
-        "sys.exit(1)",
-        "subprocess.run(['ls'])",
-        "pathlib.Path('.')",
-        "builtins.open('x')",
-        "importlib.import_module('os')",
-        "pickle.loads(b'')",
-        "threading.Thread(target=print)",
-    ])
+    @pytest.mark.parametrize(
+        "code",
+        [
+            "os.system('ls')",
+            "sys.exit(1)",
+            "subprocess.run(['ls'])",
+            "pathlib.Path('.')",
+            "builtins.open('x')",
+            "importlib.import_module('os')",
+            "pickle.loads(b'')",
+            "threading.Thread(target=print)",
+        ],
+    )
     def test_forbidden_attr_bases(self, code):
         with pytest.raises(CodeValidationError):
             validate_generated_code(code)
 
-    @pytest.mark.parametrize("code", [
-        "(1).__class__",
-        "int.__subclasses__()",
-        "(lambda:0).__globals__",
-        "(lambda:0).__code__",
-        "object.__dict__",
-        "int.__bases__",
-    ])
+    @pytest.mark.parametrize(
+        "code",
+        [
+            "(1).__class__",
+            "int.__subclasses__()",
+            "(lambda:0).__globals__",
+            "(lambda:0).__code__",
+            "object.__dict__",
+            "int.__bases__",
+        ],
+    )
     def test_dunder_attrs_blocked(self, code):
         with pytest.raises(CodeValidationError):
             validate_generated_code(code)
@@ -101,11 +109,19 @@ class TestValidationBlocking:
 # Import stripping
 # ---------------------------------------------------------------------------
 
+
 class TestImportStripping:
-    @pytest.mark.parametrize("imp", [
-        "import os", "import subprocess", "import shutil",
-        "import socket", "import ctypes", "from os import path",
-    ])
+    @pytest.mark.parametrize(
+        "imp",
+        [
+            "import os",
+            "import subprocess",
+            "import shutil",
+            "import socket",
+            "import ctypes",
+            "from os import path",
+        ],
+    )
     def test_imports_stripped_code_still_runs(self, imp):
         logs, out = _exec(f"{imp}\noutputs['x'] = 42")
         assert out.get("x") == 42
@@ -124,6 +140,7 @@ class TestImportStripping:
 # ---------------------------------------------------------------------------
 # Filesystem / PurePath
 # ---------------------------------------------------------------------------
+
 
 class TestFilesystemBlocked:
     def test_purepath_no_io_methods(self):
@@ -148,6 +165,7 @@ outputs['e'] = hasattr(p, 'exists')
 # ---------------------------------------------------------------------------
 # Safe builtins
 # ---------------------------------------------------------------------------
+
 
 class TestSafeBuiltins:
     def test_range_ok(self):
@@ -196,6 +214,7 @@ class TestSafeBuiltins:
 # exit / quit
 # ---------------------------------------------------------------------------
 
+
 class TestExitQuit:
     def test_exit(self):
         _, out = _exec("exit(0)")
@@ -209,6 +228,7 @@ class TestExitQuit:
 # ---------------------------------------------------------------------------
 # Timeout
 # ---------------------------------------------------------------------------
+
 
 class TestTimeout:
     def test_infinite_loop(self):
@@ -224,6 +244,7 @@ class TestTimeout:
 # Stdout/stderr
 # ---------------------------------------------------------------------------
 
+
 class TestOutputCapture:
     def test_print(self):
         logs, out = _exec("print('hello')\noutputs['d']=True")
@@ -233,6 +254,7 @@ class TestOutputCapture:
 # ---------------------------------------------------------------------------
 # _extract_outputs_from_scope
 # ---------------------------------------------------------------------------
+
 
 class TestExtractOutputs:
     def test_normal(self):
@@ -249,6 +271,7 @@ class TestExtractOutputs:
 # ---------------------------------------------------------------------------
 # _is_picklable / _should_normalize_tool_result
 # ---------------------------------------------------------------------------
+
 
 class TestPicklableAndNormalize:
     def test_basic_picklable(self):
@@ -272,9 +295,12 @@ class TestPicklableAndNormalize:
 # _tool_to_runtime_callable / _wrap_tool
 # ---------------------------------------------------------------------------
 
+
 class TestToolConversion:
     def test_plain_function(self):
-        f = lambda x: x
+        def f(x):
+            return x
+
         assert _tool_to_runtime_callable(f) is f
 
     def test_non_callable_raises(self):
@@ -282,18 +308,35 @@ class TestToolConversion:
             _tool_to_runtime_callable(42)
 
     def test_wrap_sync(self):
-        assert _wrap_tool(lambda: 10, None)() == 10
+        def tool_func():
+            return 10
+
+        assert _wrap_tool(tool_func, None)() == 10
 
     def test_wrap_normalizer_applied(self):
-        assert _wrap_tool(lambda: "v", lambda v: f"n:{v}")() == "n:v"
+        def tool_func():
+            return "v"
+
+        def normalizer(v):
+            return f"n:{v}"
+
+        assert _wrap_tool(tool_func, normalizer)() == "n:v"
 
     def test_wrap_normalizer_skipped_df(self):
         df = pd.DataFrame({"a": [1]})
-        assert isinstance(_wrap_tool(lambda: df, lambda v: "bad")(), pd.DataFrame)
+
+        def tool_func():
+            return df
+
+        def normalizer(v):
+            return "bad"
+
+        assert isinstance(_wrap_tool(tool_func, normalizer)(), pd.DataFrame)
 
     def test_wrap_normalizer_error(self):
         def bad(v):
             raise ValueError("boom")
+
         with pytest.raises(RuntimeError, match="normalization failed"):
             _wrap_tool(lambda: "v", bad)()
 
@@ -302,19 +345,27 @@ class TestToolConversion:
 # _collect_prev_outputs
 # ---------------------------------------------------------------------------
 
+
 class TestCollectPrevOutputs:
     def test_no_steps(self):
         assert _collect_prev_outputs(_make_state()) == {}
 
     def test_single_step(self):
-        assert _collect_prev_outputs(_make_state(steps=[DSStep(plan="s0", outputs={"a": 1})])) == {}
+        assert (
+            _collect_prev_outputs(
+                _make_state(steps=[DSStep(plan="s0", outputs={"a": 1})])
+            )
+            == {}
+        )
 
     def test_aggregates(self):
-        s = _make_state(steps=[
-            DSStep(plan="s0", outputs={"a": 1}),
-            DSStep(plan="s1", outputs={"b": 2}),
-            DSStep(plan="s2"),
-        ])
+        s = _make_state(
+            steps=[
+                DSStep(plan="s0", outputs={"a": 1}),
+                DSStep(plan="s1", outputs={"b": 2}),
+                DSStep(plan="s2"),
+            ]
+        )
         assert _collect_prev_outputs(s) == {"a": 1, "b": 2}
 
 
@@ -322,18 +373,25 @@ class TestCollectPrevOutputs:
 # _build_shared_execution_scope
 # ---------------------------------------------------------------------------
 
+
 class TestBuildScope:
     def test_basics(self):
         s = _build_shared_execution_scope(state=None)
         assert "__builtins__" in s and "np" in s and isinstance(s["outputs"], dict)
 
     def test_stepwise_prev(self):
-        st = _make_state(code_mode=CodeMode.STEPWISE, steps=[DSStep(plan="s0", outputs={"d": 1}), DSStep(plan="s1")])
+        st = _make_state(
+            code_mode=CodeMode.STEPWISE,
+            steps=[DSStep(plan="s0", outputs={"d": 1}), DSStep(plan="s1")],
+        )
         s = _build_shared_execution_scope(state=st)
         assert s["prev_step_outputs"]["d"] == 1
 
     def test_full_no_prev(self):
-        st = _make_state(code_mode=CodeMode.FULL, steps=[DSStep(plan="s0", outputs={"d": 1}), DSStep(plan="s1")])
+        st = _make_state(
+            code_mode=CodeMode.FULL,
+            steps=[DSStep(plan="s0", outputs={"d": 1}), DSStep(plan="s1")],
+        )
         s = _build_shared_execution_scope(state=st)
         assert "prev_step_outputs" not in s
 
@@ -342,12 +400,15 @@ class TestBuildScope:
 # Tool RPC through subprocess
 # ---------------------------------------------------------------------------
 
+
 class TestToolRPC:
     def test_simple_call(self):
         log = []
+
         def search(query):
             log.append(query)
             return [{"path": "/f.csv"}]
+
         _, out = _exec('outputs["r"]=search(query="hi")', tools={"search": search})
         assert log == ["hi"] and out["r"] == [{"path": "/f.csv"}]
 
@@ -361,6 +422,7 @@ class TestToolRPC:
     def test_tool_error(self):
         def bad():
             raise ValueError("boom")
+
         _, out = _exec("bad()", tools={"bad": bad})
         assert "_error" in out and "boom" in out["_error"]
 
@@ -376,12 +438,17 @@ class TestToolRPC:
 # _serve_tools_over_connection edge cases
 # ---------------------------------------------------------------------------
 
+
 class TestServeTools:
     def _pipe(self):
         return multiprocessing.Pipe(duplex=True)
 
     def _run_server(self, parent_conn, tools):
-        t = threading.Thread(target=_serve_tools_over_connection, args=(parent_conn, tools, None), daemon=True)
+        t = threading.Thread(
+            target=_serve_tools_over_connection,
+            args=(parent_conn, tools, None),
+            daemon=True,
+        )
         t.start()
         return t
 
@@ -390,21 +457,27 @@ class TestServeTools:
         t = self._run_server(p, {})
         c.send({"op": "call_tool", "tool_name": "nope", "args": (), "kwargs": {}})
         assert "not found" in c.recv()["error"]
-        c.send({"op": "shutdown"}); c.recv(); t.join(2)
+        c.send({"op": "shutdown"})
+        c.recv()
+        t.join(2)
 
     def test_invalid_request(self):
         p, c = self._pipe()
         t = self._run_server(p, {})
         c.send("not a dict")
         assert "Invalid" in c.recv()["error"]
-        c.send({"op": "shutdown"}); c.recv(); t.join(2)
+        c.send({"op": "shutdown"})
+        c.recv()
+        t.join(2)
 
     def test_unknown_op(self):
         p, c = self._pipe()
         t = self._run_server(p, {})
         c.send({"op": "bad_op"})
         assert "Unknown op" in c.recv()["error"]
-        c.send({"op": "shutdown"}); c.recv(); t.join(2)
+        c.send({"op": "shutdown"})
+        c.recv()
+        t.join(2)
 
     def test_eof_stops(self):
         p, c = self._pipe()
@@ -418,15 +491,18 @@ class TestServeTools:
 # Async tool handling
 # ---------------------------------------------------------------------------
 
+
 class TestAsync:
     def test_basic_coro(self):
         async def f():
             return 42
+
         assert _run_coroutine_safely(f()) == 42
 
     def test_coro_exception(self):
         async def f():
             raise ValueError("boom")
+
         with pytest.raises(ValueError, match="boom"):
             _run_coroutine_safely(f())
 
@@ -434,6 +510,7 @@ class TestAsync:
 # ---------------------------------------------------------------------------
 # Runtime errors
 # ---------------------------------------------------------------------------
+
 
 class TestRuntimeErrors:
     def test_division_by_zero(self):
@@ -453,6 +530,7 @@ class TestRuntimeErrors:
 # Syntax errors
 # ---------------------------------------------------------------------------
 
+
 class TestSyntaxErrors:
     def test_unclosed_paren(self):
         _, out = _exec("outputs['x'] = (1 + 2")
@@ -467,14 +545,18 @@ class TestSyntaxErrors:
 # Preloaded libraries
 # ---------------------------------------------------------------------------
 
+
 class TestPreloaded:
-    @pytest.mark.parametrize("code,key,expected", [
-        ("outputs['r']=list(np.arange(3))", "r", [0, 1, 2]),
-        ("outputs['r']=int(pd.DataFrame({'a':[1,2,3]})['a'].sum())", "r", 6),
-        ("outputs['r']=round(math.pi,2)", "r", 3.14),
-        ("outputs['r']=statistics.mean([1,2,3,4,5])", "r", 3),
-        ("outputs['r']=json.loads(json.dumps({'a':1}))", "r", {"a": 1}),
-    ])
+    @pytest.mark.parametrize(
+        "code,key,expected",
+        [
+            ("outputs['r']=list(np.arange(3))", "r", [0, 1, 2]),
+            ("outputs['r']=int(pd.DataFrame({'a':[1,2,3]})['a'].sum())", "r", 6),
+            ("outputs['r']=round(math.pi,2)", "r", 3.14),
+            ("outputs['r']=statistics.mean([1,2,3,4,5])", "r", 3),
+            ("outputs['r']=json.loads(json.dumps({'a':1}))", "r", {"a": 1}),
+        ],
+    )
     def test_library(self, code, key, expected):
         _, out = _exec(code)
         assert out[key] == expected
@@ -484,13 +566,16 @@ class TestPreloaded:
 # Complex code patterns
 # ---------------------------------------------------------------------------
 
+
 class TestCodePatterns:
     def test_list_comprehension(self):
         _, out = _exec("outputs['r']=[x**2 for x in range(5)]")
         assert out["r"] == [0, 1, 4, 9, 16]
 
     def test_nested_functions(self):
-        _, out = _exec("def o(x):\n def i(y): return x+y\n return i(10)\noutputs['r']=o(5)")
+        _, out = _exec(
+            "def o(x):\n def i(y): return x+y\n return i(10)\noutputs['r']=o(5)"
+        )
         assert out["r"] == 15
 
     def test_try_except(self):
@@ -510,6 +595,7 @@ outputs['r']=float(df.groupby('n')['s'].mean()['A'])
 # Edge cases
 # ---------------------------------------------------------------------------
 
+
 class TestEdgeCases:
     def test_empty_code(self):
         _, out = _exec("")
@@ -524,7 +610,9 @@ class TestEdgeCases:
         assert out["x"] == 2
 
     def test_non_picklable_scope_doesnt_crash(self):
-        scope = _build_shared_execution_scope(state=None, initial_scope={"lock": threading.Lock()})
+        scope = _build_shared_execution_scope(
+            state=None, initial_scope={"lock": threading.Lock()}
+        )
         logs, out = run_code_with_timeout("outputs['v']=42", scope, scope, seconds=30)
         assert out.get("v") == 42
 
@@ -532,6 +620,7 @@ class TestEdgeCases:
 # ---------------------------------------------------------------------------
 # Memory limit
 # ---------------------------------------------------------------------------
+
 
 class TestMemoryLimit:
     @pytest.mark.skipif(
@@ -550,4 +639,5 @@ class TestMemoryLimit:
 class TestBuildBaseEnv:
     def test_path_is_purepath(self):
         from pathlib import PurePath
+
         assert _build_base_env()["Path"] is PurePath
