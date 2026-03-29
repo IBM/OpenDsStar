@@ -3,7 +3,7 @@ from __future__ import annotations
 import ast
 import json
 from dataclasses import asdict, is_dataclass
-from typing import Any, Dict, List, Union, cast
+from typing import Any, cast
 
 from agents.ds_star.ds_star_state import DSState
 from agents.ds_star.ds_star_utils import steps_to_plan_string
@@ -15,32 +15,30 @@ def _truncate_str(s: str, max_len: int = 1000) -> str:
     return s[: max_len - 3] + "..."
 
 
-def _dsstate_to_dict(ds_state: Any) -> Dict[str, Any]:
-    """
-    Best-effort conversion of DSState to a dict.
+def _dsstate_to_dict(ds_state: Any) -> dict[str, Any]:
+    """Best-effort conversion of DSState to a dict.
     Supports pydantic (model_dump/dict), dataclasses, or __dict__ fallback.
     """
     if isinstance(ds_state, dict):
         return ds_state
 
     if hasattr(ds_state, "model_dump") and callable(ds_state.model_dump):
-        return cast(Dict[str, Any], ds_state.model_dump())
+        return cast("dict[str, Any]", ds_state.model_dump())
 
     if hasattr(ds_state, "dict") and callable(ds_state.dict):
-        return cast(Dict[str, Any], ds_state.dict())
+        return cast("dict[str, Any]", ds_state.dict())
 
     if is_dataclass(ds_state):
-        return cast(Dict[str, Any], asdict(ds_state))
+        return cast("dict[str, Any]", asdict(ds_state))
 
     if hasattr(ds_state, "__dict__"):
-        return cast(Dict[str, Any], dict(ds_state.__dict__))
+        return cast("dict[str, Any]", dict(ds_state.__dict__))
 
     raise TypeError(f"Unsupported DSState type for serialization: {type(ds_state)!r}")
 
 
 def _jsonify_and_truncate(value: Any) -> Any:
-    """
-    Convert value into JSON-serializable types and truncate long strings recursively.
+    """Convert value into JSON-serializable types and truncate long strings recursively.
     """
     if value is None or isinstance(value, (int, float, bool)):
         return value
@@ -66,13 +64,12 @@ def _jsonify_and_truncate(value: Any) -> Any:
     return _truncate_str(str(value))
 
 
-def _split_top_level_commas(s: str) -> List[str]:
-    """
-    Split `s` on commas that are not inside quotes/brackets/braces/parens.
+def _split_top_level_commas(s: str) -> list[str]:
+    """Split `s` on commas that are not inside quotes/brackets/braces/parens.
     Used to parse repr strings like DSStep(a='..', b={...}, c=[...]).
     """
-    parts: List[str] = []
-    buf: List[str] = []
+    parts: list[str] = []
+    buf: list[str] = []
     depth_paren = depth_brack = depth_brace = 0
     in_single = in_double = False
     escape = False
@@ -125,9 +122,8 @@ def _split_top_level_commas(s: str) -> List[str]:
     return parts
 
 
-def _parse_repr_step_to_dict(step_repr: str) -> Dict[str, Any]:
-    """
-    Parse strings like:
+def _parse_repr_step_to_dict(step_repr: str) -> dict[str, Any]:
+    """Parse strings like:
       DSStep(plan='..', code='..', outputs={...}, execution_error=None, verifier_sufficient=False, ...)
     into a Python dict.
 
@@ -141,7 +137,7 @@ def _parse_repr_step_to_dict(step_repr: str) -> Dict[str, Any]:
     inner = s[left + 1 : -1].strip()
 
     items = _split_top_level_commas(inner)
-    out: Dict[str, Any] = {}
+    out: dict[str, Any] = {}
 
     for item in items:
         if not item or "=" not in item:
@@ -158,35 +154,33 @@ def _parse_repr_step_to_dict(step_repr: str) -> Dict[str, Any]:
     return out
 
 
-def _normalize_trajectory_event(event: Any) -> Dict[str, Any]:
-    """
-    Make a single trajectory event JSON-safe + truncate long strings.
+def _normalize_trajectory_event(event: Any) -> dict[str, Any]:
+    """Make a single trajectory event JSON-safe + truncate long strings.
     Note: last_step is already a dict (converted in add_event_to_trajectory).
     """
     # Make dict-ish
     if isinstance(event, dict):
-        evt: Dict[str, Any] = dict(event)
+        evt: dict[str, Any] = dict(event)
     elif hasattr(event, "model_dump") and callable(event.model_dump):
-        evt = cast(Dict[str, Any], event.model_dump())
+        evt = cast("dict[str, Any]", event.model_dump())
     elif hasattr(event, "dict") and callable(event.dict):
-        evt = cast(Dict[str, Any], event.dict())
+        evt = cast("dict[str, Any]", event.dict())
     elif is_dataclass(event):
-        evt = cast(Dict[str, Any], asdict(event))
+        evt = cast("dict[str, Any]", asdict(event))
     elif hasattr(event, "__dict__"):
-        evt = cast(Dict[str, Any], dict(event.__dict__))
+        evt = cast("dict[str, Any]", dict(event.__dict__))
     else:
         evt = {"value": str(event)}
 
     # last_step is already a dict from add_event_to_trajectory, no conversion needed
 
-    return cast(Dict[str, Any], _jsonify_and_truncate(evt))
+    return cast("dict[str, Any]", _jsonify_and_truncate(evt))
 
 
 def prepare_result_from_graph_state_ds_star_agent(
-    state: Union[DSState, Dict[str, Any]],
-) -> Dict[str, Any]:
-    """
-    Extract and format key results from the final graph state.
+    state: DSState | dict[str, Any],
+) -> dict[str, Any]:
+    """Extract and format key results from the final graph state.
 
     Requirements:
     1) Shorten strings longer than 1000 characters to 997 chars + "..." (recursively).
@@ -204,7 +198,7 @@ def prepare_result_from_graph_state_ds_star_agent(
     steps = getattr(ds_state, "steps", None) or []
     last_step_raw = str(steps[-1]) if steps else ""
 
-    last_step: Dict[str, Any] = {}
+    last_step: dict[str, Any] = {}
     if last_step_raw.strip():
         try:
             last_step = _parse_repr_step_to_dict(last_step_raw)
@@ -239,7 +233,7 @@ def prepare_result_from_graph_state_ds_star_agent(
     # Update state snapshot to include normalized trajectory
     state_dict["trajectory"] = normalized_trajectory
 
-    result: Dict[str, Any] = {
+    result: dict[str, Any] = {
         "answer": str(getattr(ds_state, "final_answer", "") or ""),
         "trajectory": normalized_trajectory,
         "plan": plan,
@@ -254,11 +248,11 @@ def prepare_result_from_graph_state_ds_star_agent(
         "context_ids": state_dict.get("context_ids", []) or [],
         "input_tokens": int(input_tokens),
         "output_tokens": int(output_tokens),
-        "num_llm_calls": int(len(token_usage)),
+        "num_llm_calls": len(token_usage),
         "state": state_dict,
     }
 
     # Ensure JSON-serializable + truncate long strings everywhere
-    result = cast(Dict[str, Any], _jsonify_and_truncate(result))
+    result = cast("dict[str, Any]", _jsonify_and_truncate(result))
     json.dumps(result)
     return result

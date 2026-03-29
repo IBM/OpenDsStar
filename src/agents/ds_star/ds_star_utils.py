@@ -3,8 +3,9 @@ import json
 import logging
 import re
 import time
+from collections.abc import Callable
 from dataclasses import asdict
-from typing import Any, Callable, Dict, List, Optional, Tuple
+from typing import Any
 
 from langchain_core.callbacks import BaseCallbackHandler
 
@@ -22,7 +23,6 @@ COMPLETION_TOKENS_KEY = "completion_tokens"
 class ToolExecutionError(Exception):
     """Raised when tool execution fails."""
 
-    pass
 
 
 class _UsageCaptureHandler(BaseCallbackHandler):
@@ -52,10 +52,9 @@ class _UsageCaptureHandler(BaseCallbackHandler):
 
 
 def invoke_structured_with_usage(
-    runnable, messages: List[Dict[str, str]], run_name: str
-) -> Tuple[Any, Dict[str, Any]]:
-    """
-    Invoke a structured output runnable and capture token usage.
+    runnable, messages: list[dict[str, str]], run_name: str
+) -> tuple[Any, dict[str, Any]]:
+    """Invoke a structured output runnable and capture token usage.
     No JSON repair is attempted; errors are propagated.
     """
     cb = _UsageCaptureHandler()
@@ -64,8 +63,7 @@ def invoke_structured_with_usage(
 
 
 def add_event_to_trajectory(state: DSState, node: str, **fields: Any) -> None:
-    """
-    Add an event to the trajectory log and invoke callback if present.
+    """Add an event to the trajectory log and invoke callback if present.
 
     Note: Modifies state.trajectory in-place.
     Converts DSStep objects to dicts for proper JSON serialization.
@@ -102,7 +100,7 @@ def add_event_to_trajectory(state: DSState, node: str, **fields: Any) -> None:
         emitted_events = getattr(state, "_emitted_events", None)
         if emitted_events is None:
             emitted_events = set()
-            setattr(state, "_emitted_events", emitted_events)
+            state._emitted_events = emitted_events
 
         # Only emit if we haven't seen this (node, step_idx) before
         if event_key not in emitted_events:
@@ -117,7 +115,7 @@ def add_event_to_trajectory(state: DSState, node: str, **fields: Any) -> None:
             logger.debug(f"Skipping duplicate event: node={node}, step_idx={step_idx}")
 
 
-def safe_get(lst: List, idx: int, default: Any = None) -> Any:
+def safe_get(lst: list, idx: int, default: Any = None) -> Any:
     """Safely get an item from a list by index, returning default if out of bounds."""
     try:
         return lst[idx]
@@ -126,8 +124,7 @@ def safe_get(lst: List, idx: int, default: Any = None) -> Any:
 
 
 def normalize_tool_result(result: Any) -> Any:
-    """
-    Normalize various tool return shapes into a usable Python primitive.
+    """Normalize various tool return shapes into a usable Python primitive.
 
     - Unwrap CallToolResult-like objects with a `.content` list of TextContent
     - Accept lists of TextContent and return the first `.text` if present
@@ -195,11 +192,10 @@ def normalize_tool_result(result: Any) -> Any:
     return str(result)
 
 
-def build_tools_map(tools_list: List[Any]) -> Dict[str, Callable[..., Any]]:
+def build_tools_map(tools_list: list[Any]) -> dict[str, Callable[..., Any]]:
+    """Wrap LangChain/LangGraph tools into simple **kwargs callables keyed by tool.name.
     """
-    Wrap LangChain/LangGraph tools into simple **kwargs callables keyed by tool.name.
-    """
-    mapping: Dict[str, Callable[..., Any]] = {}
+    mapping: dict[str, Callable[..., Any]] = {}
 
     for tool in tools_list:
         name = getattr(tool, "name", None) or tool.__class__.__name__
@@ -265,9 +261,8 @@ def build_tools_map(tools_list: List[Any]) -> Dict[str, Callable[..., Any]]:
     return mapping
 
 
-def format_tools_spec(tools_list: List[Any]) -> str:
-    """
-    Build a compact JSON spec containing name, description, and a light param sketch.
+def format_tools_spec(tools_list: list[Any]) -> str:
+    """Build a compact JSON spec containing name, description, and a light param sketch.
     """
     spec = []
     for t in tools_list:
@@ -290,7 +285,7 @@ def format_tools_spec(tools_list: List[Any]) -> str:
                 break
 
         # schema
-        schema_dict: Optional[Dict[str, Any]] = None
+        schema_dict: dict[str, Any] | None = None
         try:
             args_schema = t.args_schema
         except Exception:
@@ -305,8 +300,8 @@ def format_tools_spec(tools_list: List[Any]) -> str:
                 except Exception:
                     schema_dict = None
 
-        params: Dict[str, Any] = {}
-        required: List[str] = []
+        params: dict[str, Any] = {}
+        required: list[str] = []
         if isinstance(schema_dict, dict):
             params = schema_dict.get("properties") or {}
             required = schema_dict.get("required") or []
@@ -322,9 +317,8 @@ def format_tools_spec(tools_list: List[Any]) -> str:
     return json.dumps(spec, ensure_ascii=False, indent=2)
 
 
-def steps_to_plan_string(steps: List[Any]) -> str:
-    """
-    Convert steps list to a formatted plan string.
+def steps_to_plan_string(steps: list[Any]) -> str:
+    """Convert steps list to a formatted plan string.
     """
     msg = "\n\nPlan: "
     lines = []
@@ -339,7 +333,7 @@ def steps_to_plan_string(steps: List[Any]) -> str:
 # --- Helpers ---
 
 
-def _format_tools(tools: Dict[str, Callable[..., Any]]) -> str:
+def _format_tools(tools: dict[str, Callable[..., Any]]) -> str:
     """Format tool names and docstrings for inclusion in prompts."""
     if not tools:
         return "(no tools available)"
@@ -353,9 +347,8 @@ def _format_tools(tools: Dict[str, Callable[..., Any]]) -> str:
     return "\n".join(lines)
 
 
-def truncate_text(text: Optional[str], max_len: int, suffix: str = "...") -> str:
-    """
-    Truncate text to max_len characters, appending suffix if truncated.
+def truncate_text(text: str | None, max_len: int, suffix: str = "...") -> str:
+    """Truncate text to max_len characters, appending suffix if truncated.
 
     Args:
         text: Text to truncate (can be None)
@@ -377,8 +370,7 @@ def truncate_text(text: Optional[str], max_len: int, suffix: str = "...") -> str
 
 
 class _ImportStripper(ast.NodeTransformer):
-    """
-    Removes all import statements at any depth.
+    """Removes all import statements at any depth.
     Replaces each with `pass` so block structure remains valid.
     """
 
@@ -390,8 +382,7 @@ class _ImportStripper(ast.NodeTransformer):
 
 
 def _fallback_remove_imports(code: str) -> str:
-    """
-    Best-effort fallback for syntactically invalid Python.
+    """Best-effort fallback for syntactically invalid Python.
     Removes lines that start with import/from and attempts to swallow
     multiline continuations using parentheses and backslashes.
     """
@@ -441,8 +432,7 @@ def _assert_no_import_nodes(tree: ast.AST) -> None:
 
 
 def remove_imports(code: str) -> str:
-    """
-    Remove ALL `import ...` and `from ... import ...` statements at any depth,
+    """Remove ALL `import ...` and `from ... import ...` statements at any depth,
     including nested imports inside functions/classes/conditionals/try blocks.
 
     Behavior:
@@ -543,8 +533,7 @@ def build_execution_environment_instructions(
     include_tools_instructions: bool = True,
     logs_max_length: int = 2000,
 ) -> str:
-    """
-    Build standardized execution environment instructions for coder and debugger.
+    """Build standardized execution environment instructions for coder and debugger.
 
     Args:
         state: Current state (DSState or dict-like), optional for simple cases

@@ -2,7 +2,7 @@
 
 import logging
 import re
-from typing import Any, Dict
+from typing import Any
 
 from langchain_core.language_models import BaseChatModel
 from pydantic import BaseModel, Field
@@ -21,8 +21,7 @@ class CodeOutput(BaseModel):
 
 
 class DebuggerNode:
-    """
-    Simple debugger that uses structured output to fix code errors.
+    """Simple debugger that uses structured output to fix code errors.
     """
 
     def __init__(self, llm: BaseChatModel):
@@ -35,7 +34,7 @@ class DebuggerNode:
                 "Provided llm does not support `with_structured_output(...)`."
             )
 
-    def __call__(self, state: Dict[str, Any]) -> Dict[str, Any]:
+    def __call__(self, state: dict[str, Any]) -> dict[str, Any]:
         """Debug and fix the code."""
         if state["fatal_error"]:
             state["trajectory"].append(

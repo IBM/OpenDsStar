@@ -1,5 +1,5 @@
 import logging
-from typing import Any, Dict, Optional, Tuple, Type
+from typing import Any
 
 from pydantic import BaseModel, Field, ValidationError
 
@@ -19,8 +19,8 @@ class AnswerOutput(BaseModel):
     answer: str = Field(..., description="Final answer for the user.")
 
 
-def _collect_all_outputs(state: DSState) -> Dict[str, Any]:
-    merged: Dict[str, Any] = {}
+def _collect_all_outputs(state: DSState) -> dict[str, Any]:
+    merged: dict[str, Any] = {}
     for step in state.steps:
         if isinstance(getattr(step, "outputs", None), dict):
             merged.update(step.outputs)
@@ -28,8 +28,7 @@ def _collect_all_outputs(state: DSState) -> Dict[str, Any]:
 
 
 def _collect_all_logs(state: DSState, logs_max_length: int) -> str:
-    """
-    Collect logs from all steps. Each step's logs are truncated individually to logs_max_length.
+    """Collect logs from all steps. Each step's logs are truncated individually to logs_max_length.
     """
     blocks = []
     for i, step in enumerate(state.steps):
@@ -43,9 +42,8 @@ def _collect_all_logs(state: DSState, logs_max_length: int) -> str:
     return "\n\n".join(blocks)
 
 
-def build_finalizer_prompt(state: DSState) -> Tuple[str, str]:
-    """
-    Returns (system_message, user_message) so the caller can send a proper system role.
+def build_finalizer_prompt(state: DSState) -> tuple[str, str]:
+    """Returns (system_message, user_message) so the caller can send a proper system role.
 
     Visibility rules requested:
     - STEPWISE: include outputs + logs aggregated across ALL steps.
@@ -145,7 +143,7 @@ def build_finalizer_prompt(state: DSState) -> Tuple[str, str]:
 
 
 class FinalizerNode(BaseNode):
-    structured_output_schema: Optional[Type[BaseModel]] = AnswerOutput
+    structured_output_schema: type[BaseModel] | None = AnswerOutput
 
     def __call__(self, state: DSState) -> DSState:
         """Generate final answer summary."""
@@ -221,8 +219,8 @@ class FinalizerNode(BaseNode):
                     if isinstance(v, str):
                         if (
                             v.startswith("data:image")
-                            or v.startswith("http")
-                            and v.lower().endswith((".png", ".jpg", ".jpeg", ".gif"))
+                            or (v.startswith("http")
+                            and v.lower().endswith((".png", ".jpg", ".jpeg", ".gif")))
                         ):
                             img_lines.append(v)
                     elif isinstance(v, list) or isinstance(v, tuple):

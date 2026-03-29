@@ -1,5 +1,4 @@
-"""
-ReactAgentSmolagents - Wrapper for smolagents ToolCallingAgent.
+"""ReactAgentSmolagents - Wrapper for smolagents ToolCallingAgent.
 
 Wrapper around smolagents' ToolCallingAgent with the same interface as OpenDsStarAgent.
 ToolCallingAgent uses a ReAct-style approach with tool calling.
@@ -11,20 +10,17 @@ import logging
 from pathlib import Path
 from typing import Any
 
-from langchain_core.tools import BaseTool as LangChainBaseTool
-from smolagents import RunResult
-from smolagents import Tool as SmolagentsTool
-from smolagents import ToolCallingAgent
-
 from agents.base_agent import BaseAgent
 from experiments.core.config import AgentConfig
+from langchain_core.tools import BaseTool as LangChainBaseTool
+from smolagents import RunResult, ToolCallingAgent
+from smolagents import Tool as SmolagentsTool
 
 logger = logging.getLogger(__name__)
 
 
 class ReactAgentSmolagents(BaseAgent):
-    """
-    ReactAgentSmolagents - Wrapper around smolagents' ToolCallingAgent.
+    """ReactAgentSmolagents - Wrapper around smolagents' ToolCallingAgent.
 
     Provides the same interface as OpenDsStarAgent for consistency.
     Uses smolagents' ToolCallingAgent which follows a ReAct-style reasoning approach.
@@ -42,8 +38,7 @@ class ReactAgentSmolagents(BaseAgent):
         code_mode: str = "stepwise",  # Ignored for smolagents
         cache_dir: Path | None = None,
     ) -> None:
-        """
-        Initialize the ReactAgentSmolagents.
+        """Initialize the ReactAgentSmolagents.
 
         Args:
             model: smolagents LiteLLMModel instance (use ModelBuilder.build() with framework="smolagents" to create).
@@ -73,7 +68,13 @@ class ReactAgentSmolagents(BaseAgent):
         logger.info(f"Using LiteLLMModel for model_id: {self._model_id}")
 
         self.temperature = temperature
-        self.tools = tools or []
+        
+        # Clean up empty strings or None which Langflow sometimes passes when the input is functionally empty
+        _tools = tools or []
+        if isinstance(_tools, list):
+            _tools = [t for t in _tools if t and not (isinstance(t, str) and not t.strip())]
+        self.tools = _tools
+        
         self.max_steps = max_steps
         self.code_timeout = code_timeout  # Stored for interface compatibility
         self.code_mode = code_mode  # Stored for interface compatibility
@@ -116,8 +117,7 @@ class ReactAgentSmolagents(BaseAgent):
         )
 
     def _convert_tools(self, tools: list[Any]) -> list[Any]:
-        """
-        Convert LangChain tools to smolagents format if needed.
+        """Convert LangChain tools to smolagents format if needed.
 
         Uses smolagents' built-in Tool.from_langchain() method to convert
         LangChain BaseTool instances to smolagents tools.
@@ -153,8 +153,7 @@ class ReactAgentSmolagents(BaseAgent):
         config: dict[str, Any] | None = None,
         return_state: bool = False,
     ) -> dict[str, Any]:
-        """
-        Execute the agent with a query.
+        """Execute the agent with a query.
         """
         if not query or not isinstance(query, str):
             raise ValueError("query must be a non-empty string")

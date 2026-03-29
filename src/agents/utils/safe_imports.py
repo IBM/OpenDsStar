@@ -1,5 +1,4 @@
-"""
-Safe imports for code execution environments.
+"""Safe imports for code execution environments.
 
 Provides safe builtins and scientific libraries for sandboxed code execution.
 Used by both DS-Star and CodeAct agents for consistency.
@@ -36,7 +35,8 @@ import math
 import random
 import statistics
 import traceback
-from typing import Any, Dict, Iterable, Optional, Set
+from collections.abc import Iterable
+from typing import Any
 
 import matplotlib
 
@@ -165,10 +165,9 @@ def _safe_import(
     fromlist=(),
     level: int = 0,
     *,
-    extra_allowed: Optional[Iterable[str]] = None,
+    extra_allowed: Iterable[str] | None = None,
 ):
-    """
-    Safe import that allows internal imports only for approved modules.
+    """Safe import that allows internal imports only for approved modules.
 
     Behavior:
     - Allows importing submodules if the top-level package is allowed.
@@ -184,7 +183,7 @@ def _safe_import(
     if not isinstance(name, str) or not name:
         raise ImportError(f"Invalid import name: {name!r}")
 
-    allowed: Set[str] = set(_ALLOWED_IMPORT_TOP_LEVEL)
+    allowed: set[str] = set(_ALLOWED_IMPORT_TOP_LEVEL)
     if extra_allowed:
         allowed.update(extra_allowed)
 
@@ -201,8 +200,7 @@ def _safe_import(
 
 
 def safe_range(*args: Any) -> range:
-    """
-    A bounded replacement for built-in range().
+    """A bounded replacement for built-in range().
 
     Prevents creation of extremely large ranges that could be used to consume
     memory/CPU unexpectedly.
@@ -235,8 +233,7 @@ def safe_range(*args: Any) -> range:
 
 
 def safe_pow(base: Any, exp: Any, mod: Any = None) -> Any:
-    """
-    A bounded replacement for built-in pow().
+    """A bounded replacement for built-in pow().
 
     Prevents extremely large exponents that could be abused for CPU/memory
     exhaustion.
@@ -250,8 +247,7 @@ def safe_pow(base: Any, exp: Any, mod: Any = None) -> Any:
 
 
 def safe_getattr(obj: Any, name: Any, default: Any = None) -> Any:
-    """
-    Safe getattr that blocks dunder attribute access.
+    """Safe getattr that blocks dunder attribute access.
     """
     s = name if isinstance(name, str) else str(name)
     if s.startswith("__") or s.endswith("__"):
@@ -263,8 +259,7 @@ def safe_getattr(obj: Any, name: Any, default: Any = None) -> Any:
 
 
 def safe_hasattr(obj: Any, name: Any) -> bool:
-    """
-    Safe hasattr that blocks dunder attribute checks.
+    """Safe hasattr that blocks dunder attribute checks.
     """
     s = name if isinstance(name, str) else str(name)
     if s.startswith("__") or s.endswith("__"):
@@ -273,8 +268,7 @@ def safe_hasattr(obj: Any, name: Any) -> bool:
 
 
 def safe_type(*args):
-    """
-    Safe replacement for type().
+    """Safe replacement for type().
 
     - 1 arg: type(x) returns the type of x (normal usage).
     - 3 args: type(name, bases, dict) creates a new class dynamically.
@@ -297,9 +291,8 @@ def _safe_quit(code: Any = 0) -> None:
     raise SystemExit(f"quit() called with code={code}")
 
 
-def get_safe_builtins() -> Dict[str, Any]:
-    """
-    Return a dictionary of safe built-in functions and types.
+def get_safe_builtins() -> dict[str, Any]:
+    """Return a dictionary of safe built-in functions and types.
 
     Includes a safe __import__ to support internal library imports (e.g., pandas),
     while preventing users from importing arbitrary modules.
@@ -388,9 +381,8 @@ def get_safe_builtins() -> Dict[str, Any]:
     }
 
 
-def get_safe_scientific_env() -> Dict[str, Any]:
-    """
-    Return pre-imported numerical / plotting libraries.
+def get_safe_scientific_env() -> dict[str, Any]:
+    """Return pre-imported numerical / plotting libraries.
 
     Matplotlib is exposed in headless mode only:
     - `matplotlib` is already configured to use backend "Agg"
@@ -416,8 +408,7 @@ def get_safe_scientific_env() -> Dict[str, Any]:
 
 
 def get_authorized_imports_list() -> list[str]:
-    """
-    Return canonical top-level package names exposed in the scientific environment.
+    """Return canonical top-level package names exposed in the scientific environment.
 
     This is derived from get_safe_scientific_env() so that documentation and
     authorization stay aligned.

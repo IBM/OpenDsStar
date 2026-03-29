@@ -1,5 +1,4 @@
-"""
-OpenDsStar - A tool-based DS-Star agent implementation using LangGraph.
+"""OpenDsStar - A tool-based DS-Star agent implementation using LangGraph.
 """
 
 from agents.base_agent import BaseAgent
@@ -13,9 +12,9 @@ __version__ = "0.1.0"
 
 __all__ = [
     "BaseAgent",
-    "OpenDsStarAgent",
-    "DSStarGraph",
-    "ReactAgentLangchain",
     "CodeActAgentSmolagents",
+    "DSStarGraph",
+    "OpenDsStarAgent",
+    "ReactAgentLangchain",
     "ReactAgentSmolagents",
 ]

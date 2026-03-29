@@ -12,7 +12,7 @@ authors = [
 ]
 description = "A tool-based DS-Star agent implementation using LangGraph"
 readme = "README.md"
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.10,<3.14"
 keywords = ["agent", "llm", "langgraph", "data-science", "ds-star"]
 license = {text = "Apache-2.0"}
 classifiers = [
@@ -23,6 +23,7 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
@@ -37,21 +38,22 @@ dependencies = [
     "langchain-huggingface==0.3.1",
     "pymilvus==2.6.7",
     "milvus-lite==2.5.1",
-    "scipy==1.17.0",
+    "scipy>=1.15.2,<2.0.0",
     "pydantic==2.12.5",
-    "numpy==2.4.1",
-    "pandas==2.3.3",
+    "numpy>=1.26.4,<2.5.0",
+    "pandas>=2.2.3,<2.4",
     "python-dotenv==1.2.1",
-    "litellm==1.81.4",
+    "litellm>=1.70.0,<1.83.0",
+    "openai>=1.82.0,<1.83.0",
     "docling==2.68.0",
     "sentence-transformers==5.2.0",
     "diskcache==5.6.3",
     "tqdm==4.67.1",
-    "smolagents==1.24.0",
+    "smolagents>=1.0.0,<2.0.0",
     "matplotlib==3.10.8",
     "plotly==6.6.0",
     "kaleido==1.2.0",
-    "datasets==4.0.0",
+    "datasets>=2.14.7,<4.0.0",
     "huggingface-hub==0.36.0",
     "ragworkbench",
 ]
@@ -62,21 +64,21 @@ mcp = [
     "fastmcp>=3.1.1,<4.0.0",
 ]
 dev = [
-    "pytest==9.0.2",
+    "pytest>=8.3.3,<9.0.0",
     "pytest-asyncio>=0.21.0",
     "black==25.1.0",
-    "ruff==0.11.13",
+    "ruff==0.13.1",
     "mypy>=1.19.1,<2.0.0",
     "pre-commit==4.5.1",
 ]
 test = [
-    "pytest==9.0.2",
+    "pytest>=8.3.3,<9.0.0",
     "pytest-asyncio>=0.21.0",
     "ragworkbench",
 ]
 ui = [
     "streamlit>=1.55.0,<2.0.0",
-    "pandas==2.3.3",
+    "pandas>=2.2.3,<2.4",
 ]
 
 [project.urls]

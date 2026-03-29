@@ -1,5 +1,4 @@
 import logging
-from typing import List, Optional, Type
 
 from pydantic import BaseModel, Field, ValidationError
 
@@ -31,7 +30,7 @@ def _summarize_step_for_verifier(
     output_max_length: int,
     logs_max_length: int,
 ) -> str:
-    parts: List[str] = [f"Step {index} – Planned action:\n{step.plan.strip()}"]
+    parts: list[str] = [f"Step {index} – Planned action:\n{step.plan.strip()}"]
 
     if step.logs:
         logs_text = truncate_text(step.logs.strip(), logs_max_length)
@@ -40,7 +39,7 @@ def _summarize_step_for_verifier(
     if step.execution_error:
         parts.append(f"  Execution error: {step.execution_error.strip()}")
     elif step.outputs:
-        out_summaries: List[str] = []
+        out_summaries: list[str] = []
         for k, v in step.outputs.items():
             v_repr = truncate_text(repr(v), output_max_length)
             out_summaries.append(f"{k} = {v_repr}")
@@ -71,8 +70,7 @@ def build_verifier_prompt(
     *,
     stepwise_detail_last_n: int = 20,
 ) -> tuple[str, str]:
-    """
-    Returns (system_message, user_message) so the caller can send a proper system role.
+    """Returns (system_message, user_message) so the caller can send a proper system role.
     """
     if not state.steps:
         # Should generally not happen, but keep it safe.
@@ -122,7 +120,7 @@ def build_verifier_prompt(
     if code_mode == CodeMode.STEPWISE:
         # In STEPWISE mode, avoid prompt bloat: include *detailed* dump for last N steps only.
         start_i = max(0, len(state.steps) - stepwise_detail_last_n)
-        per_step_blocks: List[str] = []
+        per_step_blocks: list[str] = []
         for i in range(start_i, len(state.steps)):
             s = state.steps[i]
             code_text = s.code or "(none)"
@@ -179,7 +177,7 @@ def build_verifier_prompt(
 
 
 class VerifierNode(BaseNode):
-    structured_output_schema: Optional[Type[BaseModel]] = VerifierOutput
+    structured_output_schema: type[BaseModel] | None = VerifierOutput
 
     def __call__(self, state: DSState) -> DSState:
         # Defensive: if something upstream passed a dict, fail loudly and early.
