@@ -1,10 +1,10 @@
 [build-system]
-requires = ["setuptools==69.5.1", "wheel>=0.45"]
+requires = ["setuptools>=75.0", "wheel>=0.45"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "OpenDsStar"
-version = "0.1.0"
+version = "1.0.0"
 authors = [
     {name = "Yoav Kantor", email = "yoavka@il.ibm.com"},
     {name = "Assaf Toledo", email = "assaf.toledo@ibm.com"},
@@ -28,7 +28,6 @@ classifiers = [
 ]
 
 dependencies = [
-    "setuptools==69.5.1",
     "langgraph==1.0.1",
     "langchain==0.3.28",
     "langchain-core==0.3.83",
@@ -54,7 +53,7 @@ dependencies = [
     "kaleido==1.2.0",
     "datasets==4.0.0",
     "huggingface-hub==0.36.0",
-    "ragworkbench @ git+https://github.com/IBM/RagWorkbench.git",
+    "ragworkbench",
 ]
 
 [project.optional-dependencies]
@@ -73,6 +72,7 @@ dev = [
 test = [
     "pytest==9.0.2",
     "pytest-asyncio>=0.21.0",
+    "ragworkbench",
 ]
 ui = [
     "streamlit>=1.55.0,<2.0.0",
