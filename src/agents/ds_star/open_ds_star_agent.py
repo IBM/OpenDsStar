@@ -1,5 +1,4 @@
-"""
-OpenDsStarAgent - Main user-facing agent class.
+"""OpenDsStarAgent - Main user-facing agent class.
 
 This module provides a simple interface for users to interact with
 the agent implementation.
@@ -8,8 +7,10 @@ the agent implementation.
 from __future__ import annotations
 
 import logging
-from typing import Any, Iterator
+from collections.abc import Iterator
+from typing import Any
 
+from experiments.core.config import AgentConfig
 from langchain_core.language_models import BaseChatModel
 
 from agents.base_agent import BaseAgent
@@ -18,7 +19,6 @@ from agents.ds_star.ds_star_results_prep import (
     prepare_result_from_graph_state_ds_star_agent,
 )
 from agents.ds_star.ds_star_state import CodeMode
-from experiments.core.config import AgentConfig
 
 logger = logging.getLogger(__name__)
 
@@ -30,8 +30,7 @@ class OpenDsStarAgent(BaseAgent):
         config: dict[str, Any] | None = None,
         yield_state: bool = False,
     ) -> Iterator[dict[str, Any]]:
-        """
-        Generator version of invoke: yields after each trajectory event/state.
+        """Generator version of invoke: yields after each trajectory event/state.
 
         Args:
             query: The user's question or task to solve.
@@ -134,8 +133,7 @@ class OpenDsStarAgent(BaseAgent):
         logs_max_length: int = 1000,
         cache_dir: Any = None,
     ) -> None:
-        """
-        Initialize the OpenDsStarAgent.
+        """Initialize the OpenDsStarAgent.
 
         Args:
             model: LangChain BaseChatModel instance (use ModelBuilder.build() to create).
@@ -174,7 +172,14 @@ class OpenDsStarAgent(BaseAgent):
 
         self.code_mode = CodeMode(code_mode)
         self.temperature = temperature
-        self.tools = tools or []
+        
+        # Clean up tools list - remove empty strings or None which Langflow sometimes passes when the input is functionally empty
+        _tools = tools or []
+        if isinstance(_tools, list):
+            _tools = [t for t in _tools if t and not (isinstance(t, str) and not t.strip())]
+            
+        self.tools = _tools
+
         self.max_steps = max_steps
         self.max_debug_tries = max_debug_tries
         self.code_timeout = code_timeout
@@ -239,8 +244,7 @@ class OpenDsStarAgent(BaseAgent):
         config: dict[str, Any] | None = None,
         return_state: bool = False,
     ) -> dict[str, Any] | Any:
-        """
-        Execute the agent with the given query.
+        """Execute the agent with the given query.
 
         Args:
             query: The user's question or task to solve.

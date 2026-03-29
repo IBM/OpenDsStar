@@ -1,5 +1,4 @@
-"""
-StructuredSafeSQLiteCache - JSON-based SQLite cache for LangChain.
+"""StructuredSafeSQLiteCache - JSON-based SQLite cache for LangChain.
 
 This module provides a SQLite cache that stores generations as JSON (not pickle),
 while preserving chat structure needed for structured output parsing.
@@ -13,7 +12,8 @@ import json
 import logging
 import sqlite3
 import threading
-from typing import Any, Optional, Sequence
+from collections.abc import Sequence
+from typing import Any
 
 from langchain_core.caches import BaseCache
 from langchain_core.messages import AIMessage
@@ -23,8 +23,7 @@ logger = logging.getLogger(__name__)
 
 
 class StructuredSafeSQLiteCache(BaseCache):
-    """
-    SQLite cache that stores generations as JSON (not pickle), while preserving
+    """SQLite cache that stores generations as JSON (not pickle), while preserving
     chat structure needed for structured output parsing.
 
     Why this cache?
@@ -77,8 +76,7 @@ class StructuredSafeSQLiteCache(BaseCache):
 
     @staticmethod
     def _serialize_generation(gen: Generation) -> dict[str, Any]:
-        """
-        Serialize Generation or ChatGeneration to JSON-safe dict.
+        """Serialize Generation or ChatGeneration to JSON-safe dict.
         """
         if isinstance(gen, ChatGeneration):
             msg = gen.message
@@ -129,7 +127,7 @@ class StructuredSafeSQLiteCache(BaseCache):
             generation_info=payload.get("generation_info", {}) or {},
         )
 
-    def lookup(self, prompt: str, llm_string: str) -> Optional[Sequence[Generation]]:
+    def lookup(self, prompt: str, llm_string: str) -> Sequence[Generation] | None:
         prompt_hash = self._hash_prompt(prompt, llm_string)
 
         with self._lock:
@@ -200,7 +198,7 @@ class StructuredSafeSQLiteCache(BaseCache):
     # -------- Async wrappers --------
     async def alookup(
         self, prompt: str, llm_string: str
-    ) -> Optional[Sequence[Generation]]:
+    ) -> Sequence[Generation] | None:
         return await asyncio.to_thread(self.lookup, prompt, llm_string)
 
     async def aupdate(

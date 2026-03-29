@@ -1,5 +1,4 @@
 import logging
-from typing import List, Optional, Type
 
 from pydantic import BaseModel, Field, ValidationError
 
@@ -46,7 +45,7 @@ def fix_name(package_name: str) -> str:
     return str(package_name)
 
 
-def get_available_packages_list() -> List[str]:
+def get_available_packages_list() -> list[str]:
     available_packages = list(get_safe_builtins().keys()) + list(
         get_safe_scientific_env().keys()
     )
@@ -54,8 +53,7 @@ def get_available_packages_list() -> List[str]:
 
 
 def build_coder_prompt(state: DSState, tools_specs: str) -> tuple[str, str]:
-    """
-    Returns (system_message, user_message) so the caller can send a proper system role.
+    """Returns (system_message, user_message) so the caller can send a proper system role.
     """
     if not state.steps:
         system_msg = (
@@ -203,7 +201,7 @@ def build_coder_prompt(state: DSState, tools_specs: str) -> tuple[str, str]:
 
 
 class CoderNode(BaseNode):
-    structured_output_schema: Optional[Type[BaseModel]] = CodeOutput
+    structured_output_schema: type[BaseModel] | None = CodeOutput
 
     def __call__(self, state: DSState) -> DSState:
         # Defensive: if something upstream passed a dict, fail loudly and early.

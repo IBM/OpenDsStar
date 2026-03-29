@@ -1,5 +1,4 @@
-"""
-ReactAgentLangchain - Wrapper for a LangChain ReAct-style agent graph.
+"""ReactAgentLangchain - Wrapper for a LangChain ReAct-style agent graph.
 
 Simple wrapper around LangGraph's create_react_agent with the same interface as OpenDsStarAgent.
 """
@@ -9,19 +8,17 @@ from __future__ import annotations
 import logging
 from typing import Any
 
+from agents.base_agent import BaseAgent
+from experiments.core.config import AgentConfig
 from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 from langgraph.prebuilt import create_react_agent
-
-from agents.base_agent import BaseAgent
-from experiments.core.config import AgentConfig
 
 logger = logging.getLogger(__name__)
 
 
 class ReactAgentLangchain(BaseAgent):
-    """
-    ReactAgentLangchain - Wrapper around a LangChain agent graph.
+    """ReactAgentLangchain - Wrapper around a LangChain agent graph.
 
     Provides the same interface as OpenDsStarAgent for consistency.
     Uses LangChain's create_react_agent function.
@@ -38,8 +35,7 @@ class ReactAgentLangchain(BaseAgent):
         code_timeout: int = 30,  # Ignored for React agent
         code_mode: str = "stepwise",  # Ignored for React agent
     ) -> None:
-        """
-        Initialize the ReactAgentLangchain.
+        """Initialize the ReactAgentLangchain.
 
         Args:
             model: LangChain BaseChatModel instance (use ModelBuilder.build() to create).
@@ -57,7 +53,13 @@ class ReactAgentLangchain(BaseAgent):
         self.model = model
         self._model_id = getattr(model, "model", model.__class__.__name__)
         self.temperature = temperature
-        self.tools = tools or []
+        
+        # Clean up empty strings or None which Langflow sometimes passes when the input is functionally empty
+        _tools = tools or []
+        if isinstance(_tools, list):
+            _tools = [t for t in _tools if t and not (isinstance(t, str) and not t.strip())]
+        self.tools = _tools
+        
         self.max_steps = max_steps
         self.code_timeout = code_timeout  # Stored for interface compatibility
         self.code_mode = code_mode  # Stored for interface compatibility
@@ -110,8 +112,7 @@ class ReactAgentLangchain(BaseAgent):
         config: dict[str, Any] | None = None,
         return_state: bool = False,
     ) -> dict[str, Any]:
-        """
-        Execute the agent with a query.
+        """Execute the agent with a query.
         """
         if not query or not isinstance(query, str):
             raise ValueError("query must be a non-empty string")
@@ -194,8 +195,7 @@ class ReactAgentLangchain(BaseAgent):
         }
 
     def _extract_token_usage(self, messages: list[Any]) -> tuple[int, int]:
-        """
-        Extract token usage from LangChain messages.
+        """Extract token usage from LangChain messages.
 
         LangChain messages may contain usage_metadata or response_metadata
         with token information.

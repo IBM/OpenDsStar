@@ -1,5 +1,4 @@
-"""
-CodeActAgentSmolagents - Wrapper for smolagents CodeAgent.
+"""CodeActAgentSmolagents - Wrapper for smolagents CodeAgent.
 
 Wrapper around smolagents' CodeAgent with the same interface as OpenDsStarAgent.
 CodeAgent uses a code-based action approach for solving tasks.
@@ -10,16 +9,16 @@ from __future__ import annotations
 import logging
 import os
 import warnings
+from collections.abc import Iterator
 from pathlib import Path
-from typing import Any, Iterator
+from typing import Any
 
+from agents.base_agent import BaseAgent
+from experiments.core.config import AgentConfig
 from langchain_core.language_models import BaseChatModel
 from langchain_core.tools import BaseTool as LangChainBaseTool
 from smolagents import CodeAgent, LiteLLMModel, RunResult
 from smolagents import Tool as SmolagentsTool
-
-from agents.base_agent import BaseAgent
-from experiments.core.config import AgentConfig
 from tools.string_to_stream_tool import StringToStreamTool
 
 # Suppress litellm proxy import warnings (we don't use proxy features)
@@ -34,8 +33,7 @@ logger = logging.getLogger(__name__)
 
 
 class CodeActAgentSmolagents(BaseAgent):
-    """
-    CodeActAgentSmolagents - Wrapper around smolagents' CodeAgent.
+    """CodeActAgentSmolagents - Wrapper around smolagents' CodeAgent.
 
     Provides the same interface as OpenDsStarAgent for consistency.
     Uses smolagents' CodeAgent which generates and executes code to solve tasks.
@@ -53,8 +51,7 @@ class CodeActAgentSmolagents(BaseAgent):
         code_mode: str = "stepwise",  # Ignored for smolagents
         cache_dir: Path | None = None,
     ) -> None:
-        """
-        Initialize the CodeActAgentSmolagents.
+        """Initialize the CodeActAgentSmolagents.
 
         Args:
             model: smolagents LiteLLMModel instance (use ModelBuilder.build() with framework="smolagents" to create).
@@ -203,8 +200,7 @@ class CodeActAgentSmolagents(BaseAgent):
         )
 
     def _convert_tools(self, tools: list[Any]) -> list[Any]:
-        """
-        Convert LangChain tools to smolagents format if needed.
+        """Convert LangChain tools to smolagents format if needed.
 
         Uses smolagents' built-in Tool.from_langchain() method to convert
         LangChain BaseTool instances to smolagents tools.
@@ -212,6 +208,9 @@ class CodeActAgentSmolagents(BaseAgent):
         Raises:
             TypeError: If a tool is not a valid Tool object (e.g., empty string)
         """
+        # Clean up empty strings or None which Langflow sometimes passes when the input is functionally empty
+        if isinstance(tools, list):
+            tools = [t for t in tools if t and not (isinstance(t, str) and not t.strip())]
 
         converted_tools = []
         for idx, tool in enumerate(tools):
@@ -253,8 +252,7 @@ class CodeActAgentSmolagents(BaseAgent):
         return converted_tools
 
     def _wrap_tool_for_string_results(self, tool: Any) -> Any:
-        """
-        Ensure the given smolagents tool always returns a **string** result.
+        """Ensure the given smolagents tool always returns a **string** result.
 
         LangChain tools wrapped via `Tool.from_langchain()` (and several
         MCP/CodeAct helpers) may return complex objects such as
@@ -306,8 +304,7 @@ class CodeActAgentSmolagents(BaseAgent):
         config: dict[str, Any] | None = None,
         return_state: bool = False,
     ) -> dict[str, Any]:
-        """
-        Execute the agent with a query.
+        """Execute the agent with a query.
         """
         if not query or not isinstance(query, str):
             raise ValueError("query must be a non-empty string")
@@ -386,8 +383,7 @@ class CodeActAgentSmolagents(BaseAgent):
         config: dict[str, Any] | None = None,
         yield_state: bool = False,
     ) -> Iterator[dict[str, Any]]:
-        """
-        Stream execution of the agent, yielding code and results step-by-step.
+        """Stream execution of the agent, yielding code and results step-by-step.
 
         Uses smolagents' built-in streaming capability (stream=True parameter)
         to yield intermediate steps as they're generated.
@@ -489,9 +485,7 @@ class CodeActAgentSmolagents(BaseAgent):
 
         # After streaming completes, smolagents returns the final result
         # The stream_result variable now contains the final RunResult
-        if isinstance(stream_result, RunResult):
-            final_answer = stream_result.output
-        elif hasattr(stream_result, "output"):
+        if isinstance(stream_result, RunResult) or hasattr(stream_result, "output"):
             final_answer = stream_result.output
 
         # ALWAYS yield final answer event at the end (required by Langflow component)
@@ -514,8 +508,7 @@ class CodeActAgentSmolagents(BaseAgent):
         return str(value) if value else None
 
     def _set_env_vars_from_model(self, model: BaseChatModel, model_id: str) -> None:
-        """
-        Set environment variables from LangChain model attributes.
+        """Set environment variables from LangChain model attributes.
 
         This allows LiteLLM to auto-detect provider and credentials.
         """
@@ -604,8 +597,7 @@ class CodeActAgentSmolagents(BaseAgent):
                         break
 
     def _get_litellm_model_id(self, model: BaseChatModel, model_id: str) -> str:
-        """
-        Get the LiteLLM model ID with provider prefix if needed.
+        """Get the LiteLLM model ID with provider prefix if needed.
 
         Some providers require a prefix (e.g., 'watsonx/', 'anthropic/', 'ollama/').
         """
