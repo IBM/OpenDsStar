@@ -7,7 +7,7 @@ import numpy as np
 import pandas as pd
 import pytest
 
-from agents.ds_star.ds_star_execute_env import (
+from OpenDsStar.agents.ds_star.ds_star_execute_env import (
     _build_base_env,
     _build_shared_execution_scope,
     _collect_prev_outputs,
@@ -21,8 +21,11 @@ from agents.ds_star.ds_star_execute_env import (
     execute_user_code,
     run_code_with_timeout,
 )
-from agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
-from agents.ds_star.ds_star_utils import CodeValidationError, validate_generated_code
+from OpenDsStar.agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
+from OpenDsStar.agents.ds_star.ds_star_utils import (
+    CodeValidationError,
+    validate_generated_code,
+)
 
 
 def _make_state(**overrides):

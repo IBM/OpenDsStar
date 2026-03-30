@@ -2,9 +2,12 @@
 
 import pytest
 
-from agents.ds_star.ds_star_execute_env import execute_user_code
-from agents.ds_star.ds_star_state import DSState
-from agents.ds_star.ds_star_utils import CodeValidationError, validate_generated_code
+from OpenDsStar.agents.ds_star.ds_star_execute_env import execute_user_code
+from OpenDsStar.agents.ds_star.ds_star_state import DSState
+from OpenDsStar.agents.ds_star.ds_star_utils import (
+    CodeValidationError,
+    validate_generated_code,
+)
 
 
 class TestExecuteEnvDirectCalls:

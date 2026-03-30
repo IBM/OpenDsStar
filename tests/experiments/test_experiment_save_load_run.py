@@ -16,7 +16,7 @@ def test_demo_experiment_save_load_run_cycle(tmp_path):
     """
     Test complete cycle: run experiment -> save config -> load config -> run again -> compare results.
     """
-    from experiments.benchmarks.demo.experiment_main import DemoExperiment
+    from OpenDsStar.experiments.benchmarks.demo.experiment_main import DemoExperiment
 
     # Create a simple test experiment with deterministic settings
     experiment1 = DemoExperiment(
@@ -60,7 +60,7 @@ def test_experiment_config_persistence(tmp_path):
     """
     Test that experiment config is correctly persisted and can be loaded.
     """
-    from experiments.benchmarks.demo.experiment_main import DemoExperiment
+    from OpenDsStar.experiments.benchmarks.demo.experiment_main import DemoExperiment
 
     # Create experiment with specific parameters
     original_config = {
@@ -91,7 +91,7 @@ def test_experiment_with_defaults_save_load(tmp_path):
     """
     Test that experiments with default parameters save and load correctly.
     """
-    from experiments.benchmarks.demo.experiment_main import DemoExperiment
+    from OpenDsStar.experiments.benchmarks.demo.experiment_main import DemoExperiment
 
     # Create experiment with only required parameter
     experiment1 = DemoExperiment(model="test-model")
@@ -117,7 +117,7 @@ def test_multiple_save_load_cycles(tmp_path):
     """
     Test that multiple save/load cycles preserve config integrity.
     """
-    from experiments.benchmarks.demo.experiment_main import DemoExperiment
+    from OpenDsStar.experiments.benchmarks.demo.experiment_main import DemoExperiment
 
     # Original experiment
     original = DemoExperiment(
@@ -142,7 +142,7 @@ def test_experiment_config_immutability(tmp_path):
     """
     Test that saved config doesn't change after experiment modifications.
     """
-    from experiments.benchmarks.demo.experiment_main import DemoExperiment
+    from OpenDsStar.experiments.benchmarks.demo.experiment_main import DemoExperiment
 
     # Create and save experiment
     experiment = DemoExperiment(model="immutable-test", max_steps=5)
@@ -166,7 +166,7 @@ def test_config_file_format(tmp_path):
     """
     Test that the saved config file has the correct JSON format.
     """
-    from experiments.benchmarks.demo.experiment_main import DemoExperiment
+    from OpenDsStar.experiments.benchmarks.demo.experiment_main import DemoExperiment
 
     experiment = DemoExperiment(model="format-test", max_steps=4)
     config_file = tmp_path / "format_test.json"
@@ -196,7 +196,7 @@ def test_load_with_security_allowed_types(tmp_path):
     """
     Test that load_instance respects allowed_types security parameter.
     """
-    from experiments.benchmarks.demo.experiment_main import DemoExperiment
+    from OpenDsStar.experiments.benchmarks.demo.experiment_main import DemoExperiment
 
     experiment = DemoExperiment(model="security-test")
     config_file = tmp_path / "security_test.json"
@@ -220,8 +220,10 @@ def test_hotpotqa_experiment_save_and_load(tmp_path):
     """
     Test that HotpotQAExperiment can be saved and loaded correctly.
     """
-    from experiments.benchmarks.hotpotqa.hotpotqa_main import HotpotQAExperiment
-    from experiments.implementations.agent_factory import AgentType
+    from OpenDsStar.experiments.benchmarks.hotpotqa.hotpotqa_main import (
+        HotpotQAExperiment,
+    )
+    from OpenDsStar.experiments.implementations.agent_factory import AgentType
 
     # Create experiment with all parameters including new ones
     experiment1 = HotpotQAExperiment(

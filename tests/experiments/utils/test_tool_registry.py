@@ -4,7 +4,7 @@ from unittest.mock import Mock
 
 import pytest
 
-from experiments.utils.tool_registry import ToolRegistry, _RenamedTool
+from OpenDsStar.experiments.utils.tool_registry import ToolRegistry, _RenamedTool
 
 
 class TestToolRegistry:

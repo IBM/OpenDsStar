@@ -5,11 +5,11 @@ from unittest.mock import Mock
 import pytest
 from pydantic import BaseModel, Field
 
-from agents.ds_star.ds_star_graph import DSStarGraph
-from agents.ds_star.ds_star_results_prep import (
+from OpenDsStar.agents.ds_star.ds_star_graph import DSStarGraph
+from OpenDsStar.agents.ds_star.ds_star_results_prep import (
     prepare_result_from_graph_state_ds_star_agent,
 )
-from agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
+from OpenDsStar.agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
 
 
 class MockToolInput(BaseModel):

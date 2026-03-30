@@ -18,7 +18,7 @@ def test_databench_codeact_watsonx():
         [
             ".venv/bin/python",
             "-m",
-            "src.experiments.benchmarks.databench.databench_main",
+            "OpenDsStar.experiments.benchmarks.databench.databench_main",
             "--agent-type",
             "codeact_smolagents",
             "--model-agent",
@@ -54,7 +54,7 @@ def test_databench_codeact_custom_api():
         [
             ".venv/bin/python",
             "-m",
-            "src.experiments.benchmarks.databench.databench_main",
+            "OpenDsStar.experiments.benchmarks.databench.databench_main",
             "--agent-type",
             "codeact_smolagents",
             "--model-agent",

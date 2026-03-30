@@ -7,7 +7,9 @@ from pathlib import Path
 
 from langchain_core.caches import BaseCache, InMemoryCache
 
-from OpenDsStar.agents.utils.structured_safe_sqlite_cache import StructuredSafeSQLiteCache
+from OpenDsStar.agents.utils.structured_safe_sqlite_cache import (
+    StructuredSafeSQLiteCache,
+)
 
 logger = logging.getLogger(__name__)
 

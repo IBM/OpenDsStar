@@ -7,15 +7,17 @@ from unittest.mock import MagicMock, patch
 import pytest
 from langchain.tools import BaseTool
 
-from experiments.benchmarks.kramabench.tools_builder import KramaBenchToolsBuilder
-from experiments.benchmarks.shared_tools import (
+from OpenDsStar.experiments.benchmarks.kramabench.tools_builder import (
+    KramaBenchToolsBuilder,
+)
+from OpenDsStar.experiments.benchmarks.shared_tools import (
     FileContentInput,
     FileContentTool,
     MilvusSearchInput,
     MilvusSearchTool,
 )
-from experiments.core.context import PipelineConfig, PipelineContext
-from experiments.core.types import Document
+from OpenDsStar.experiments.core.context import PipelineConfig, PipelineContext
+from OpenDsStar.experiments.core.types import Document
 
 
 def create_test_document(doc_id: str, path: str) -> Document:
@@ -291,7 +293,9 @@ def test_kramabench_tools_builder_name_property():
     assert builder.name == "kramabench_tools"
 
 
-@patch("experiments.benchmarks.kramabench.tools_builder.DoclingDescriptionBuilder")
+@patch(
+    "OpenDsStar.experiments.benchmarks.kramabench.tools_builder.DoclingDescriptionBuilder"
+)
 def test_kramabench_tools_builder_build_tools(mock_builder_class):
     """Test KramaBenchToolsBuilder.build_tools method."""
     # Setup mocks
@@ -344,7 +348,9 @@ def test_kramabench_tools_builder_build_tools(mock_builder_class):
     assert "load_dataframe" in tool_names
 
 
-@patch("experiments.benchmarks.kramabench.tools_builder.DoclingDescriptionBuilder")
+@patch(
+    "OpenDsStar.experiments.benchmarks.kramabench.tools_builder.DoclingDescriptionBuilder"
+)
 def test_kramabench_tools_builder_no_corpus(mock_builder_class):
     """Test KramaBenchToolsBuilder.build_tools with no corpus."""
     builder = KramaBenchToolsBuilder(
@@ -363,7 +369,9 @@ def test_kramabench_tools_builder_no_corpus(mock_builder_class):
     mock_builder_class.assert_not_called()
 
 
-@patch("experiments.benchmarks.kramabench.tools_builder.DoclingDescriptionBuilder")
+@patch(
+    "OpenDsStar.experiments.benchmarks.kramabench.tools_builder.DoclingDescriptionBuilder"
+)
 def test_kramabench_tools_builder_empty_corpus(mock_builder_class):
     """Test KramaBenchToolsBuilder.build_tools with empty corpus."""
     # Setup mocks
@@ -394,7 +402,9 @@ def test_kramabench_tools_builder_empty_corpus(mock_builder_class):
     mock_builder_instance.process_corpus.assert_called_once_with(corpus)
 
 
-@patch("experiments.benchmarks.kramabench.tools_builder.DoclingDescriptionBuilder")
+@patch(
+    "OpenDsStar.experiments.benchmarks.kramabench.tools_builder.DoclingDescriptionBuilder"
+)
 def test_kramabench_tools_builder_multiple_documents(mock_builder_class):
     """Test KramaBenchToolsBuilder.build_tools with multiple documents."""
     # Setup mocks - use paths as keys (matching new design)

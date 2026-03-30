@@ -7,7 +7,7 @@ from unittest.mock import Mock, patch
 import pytest
 from pydantic import BaseModel, Field
 
-from agents.ds_star.open_ds_star_agent import OpenDsStarAgent
+from OpenDsStar.agents.ds_star.open_ds_star_agent import OpenDsStarAgent
 
 
 class TestOpenDsStarAgentValidation:
@@ -44,7 +44,7 @@ class TestOpenDsStarAgentValidation:
 class TestOpenDsStarAgentInvoke:
     """Test agent invoke method - business logic and error handling."""
 
-    @patch("agents.ds_star.open_ds_star_agent.DSStarGraph")
+    @patch("OpenDsStar.agents.ds_star.open_ds_star_agent.DSStarGraph")
     def test_invoke_with_empty_query(self, mock_graph_class):
         """Test that empty query raises ValueError."""
         from langchain_core.language_models.fake_chat_models import FakeChatModel
@@ -56,7 +56,7 @@ class TestOpenDsStarAgentInvoke:
             with pytest.raises(ValueError, match="non-empty string"):
                 agent.invoke("")
 
-    @patch("agents.ds_star.open_ds_star_agent.DSStarGraph")
+    @patch("OpenDsStar.agents.ds_star.open_ds_star_agent.DSStarGraph")
     def test_invoke_with_none_query(self, mock_graph_class):
         """Test that None query raises ValueError."""
         from langchain_core.language_models.fake_chat_models import FakeChatModel
@@ -68,7 +68,7 @@ class TestOpenDsStarAgentInvoke:
             with pytest.raises(ValueError, match="non-empty string"):
                 agent.invoke(None)  # type: ignore
 
-    @patch("agents.ds_star.open_ds_star_agent.DSStarGraph")
+    @patch("OpenDsStar.agents.ds_star.open_ds_star_agent.DSStarGraph")
     def test_invoke_with_tool_update_description(self, mock_graph_class):
         """Test invoke updates tool descriptions if available."""
         from langchain_core.language_models.fake_chat_models import FakeChatModel
@@ -111,7 +111,7 @@ class TestOpenDsStarAgentInvoke:
             mock_tool.update_description.assert_called_once_with("Test query")
             mock_graph.update_tools_spec.assert_called_once()
 
-    @patch("agents.ds_star.open_ds_star_agent.DSStarGraph")
+    @patch("OpenDsStar.agents.ds_star.open_ds_star_agent.DSStarGraph")
     def test_invoke_error_handling(self, mock_graph_class):
         """Test that invoke propagates exceptions."""
         from langchain_core.language_models.fake_chat_models import FakeChatModel

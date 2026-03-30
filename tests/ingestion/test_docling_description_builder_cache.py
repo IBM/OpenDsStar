@@ -16,8 +16,8 @@ from unittest.mock import MagicMock, Mock, patch
 import pytest
 from langchain_core.language_models import BaseChatModel
 
-from experiments.core.types import Document
-from ingestion.docling_based_ingestion.docling_description_builder import (
+from OpenDsStar.experiments.core.types import Document
+from OpenDsStar.ingestion.docling_based_ingestion.docling_description_builder import (
     DoclingDescriptionBuilder,
 )
 
@@ -99,13 +99,15 @@ def test_process_directory_uses_cache_on_second_run(
     test_dir = test_file.parent
 
     # Patch Milvus and ModelBuilder
-    with patch("ingestion.docling_based_ingestion.milvus_manager.Milvus") as milvus_cls:
+    with patch(
+        "OpenDsStar.ingestion.docling_based_ingestion.milvus_manager.Milvus"
+    ) as milvus_cls:
         milvus_instance = MagicMock()
         milvus_cls.return_value = milvus_instance
         milvus_instance.add_documents.return_value = None
 
         with patch(
-            "ingestion.docling_based_ingestion.docling_description_builder.ModelBuilder.build"
+            "OpenDsStar.ingestion.docling_based_ingestion.docling_description_builder.ModelBuilder.build"
         ) as mock_build:
             mock_build.return_value = (mock_llm, "mock-model")
 
@@ -158,13 +160,15 @@ def test_process_corpus_stream_uses_cache_on_second_run(
     )
 
     # Patch Milvus and ModelBuilder
-    with patch("ingestion.docling_based_ingestion.milvus_manager.Milvus") as milvus_cls:
+    with patch(
+        "OpenDsStar.ingestion.docling_based_ingestion.milvus_manager.Milvus"
+    ) as milvus_cls:
         milvus_instance = MagicMock()
         milvus_cls.return_value = milvus_instance
         milvus_instance.add_documents.return_value = None
 
         with patch(
-            "ingestion.docling_based_ingestion.docling_description_builder.ModelBuilder.build"
+            "OpenDsStar.ingestion.docling_based_ingestion.docling_description_builder.ModelBuilder.build"
         ) as mock_build:
             mock_build.return_value = (mock_llm, "mock-model")
 
@@ -210,13 +214,15 @@ def test_process_corpus_stream_cache_miss_when_content_changes(
     )
 
     # Patch Milvus and ModelBuilder
-    with patch("ingestion.docling_based_ingestion.milvus_manager.Milvus") as milvus_cls:
+    with patch(
+        "OpenDsStar.ingestion.docling_based_ingestion.milvus_manager.Milvus"
+    ) as milvus_cls:
         milvus_instance = MagicMock()
         milvus_cls.return_value = milvus_instance
         milvus_instance.add_documents.return_value = None
 
         with patch(
-            "ingestion.docling_based_ingestion.docling_description_builder.ModelBuilder.build"
+            "OpenDsStar.ingestion.docling_based_ingestion.docling_description_builder.ModelBuilder.build"
         ) as mock_build:
             mock_build.return_value = (mock_llm, "mock-model")
 
@@ -267,14 +273,16 @@ def test_caching_disabled(test_file: Path, tmp_path: Path, mock_llm: Mock, caplo
     db_uri = str(db_storage / "test_milvus.db")
 
     # Patch Milvus in the milvus_manager module where it's actually used
-    with patch("ingestion.docling_based_ingestion.milvus_manager.Milvus") as milvus_cls:
+    with patch(
+        "OpenDsStar.ingestion.docling_based_ingestion.milvus_manager.Milvus"
+    ) as milvus_cls:
         milvus_instance = MagicMock()
         milvus_cls.return_value = milvus_instance
         milvus_instance.add_documents.return_value = None
 
         # Also patch ModelBuilder to return our mock LLM
         with patch(
-            "ingestion.docling_based_ingestion.docling_description_builder.ModelBuilder.build"
+            "OpenDsStar.ingestion.docling_based_ingestion.docling_description_builder.ModelBuilder.build"
         ) as mock_build:
             mock_build.return_value = (mock_llm, "mock-model")
 

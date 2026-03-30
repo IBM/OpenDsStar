@@ -6,7 +6,7 @@ Tests the iter_batches function for processing items in chunks.
 
 import pytest
 
-from src.ingestion.docling_based_ingestion.batching import iter_batches
+from OpenDsStar.ingestion.docling_based_ingestion.batching import iter_batches
 
 
 class TestIterBatches:

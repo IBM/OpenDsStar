@@ -1,6 +1,6 @@
 """Tests for DSState and DSStep - meaningful tests only."""
 
-from agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
+from OpenDsStar.agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
 
 
 class TestDSStepDictionaryBehavior:

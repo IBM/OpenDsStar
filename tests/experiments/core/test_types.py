@@ -5,7 +5,7 @@ from io import BytesIO
 
 import pytest
 
-from experiments.core.types import (
+from OpenDsStar.experiments.core.types import (
     AgentOutput,
     BenchmarkEntry,
     Document,

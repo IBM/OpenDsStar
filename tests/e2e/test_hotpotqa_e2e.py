@@ -29,10 +29,10 @@ def test_hotpotqa_sample_experiment():
     - Internet connection for model access
     - Takes ~30-60 seconds to run
     """
-    from src.experiments.benchmarks.hotpotqa.hotpotqa_main import (
+    from OpenDsStar.experiments.benchmarks.hotpotqa.hotpotqa_main import (
         HotpotQAExperiment,
     )
-    from src.experiments.core.types import AgentOutput, EvalResult
+    from OpenDsStar.experiments.core.types import AgentOutput, EvalResult
 
     # Mock Milvus to avoid local database connection issues
     with patch("src.tools.vector_store_tool.Milvus") as milvus_cls:
@@ -73,7 +73,7 @@ def test_hotpotqa_sample_experiment():
         )
 
         # Build tools
-        from src.experiments.core.context import PipelineConfig, PipelineContext
+        from OpenDsStar.experiments.core.context import PipelineConfig, PipelineContext
 
         ctx = PipelineContext(config=PipelineConfig())
         tools_builders = experiment.get_tools_builder()

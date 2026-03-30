@@ -4,7 +4,7 @@ from unittest.mock import MagicMock
 
 import pytest
 
-from src.ingestion.docling_based_ingestion.file_description_generator import (
+from OpenDsStar.ingestion.docling_based_ingestion.file_description_generator import (
     FileDescriptionGenerator,
 )
 

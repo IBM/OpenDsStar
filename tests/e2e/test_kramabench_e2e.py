@@ -30,14 +30,14 @@ def test_kramabench_sample_experiment():
     - Internet connection for model access
     - Takes ~30-60 seconds to run
     """
-    from src.experiments.benchmarks.kramabench.kramabench_main import (
+    from OpenDsStar.experiments.benchmarks.kramabench.kramabench_main import (
         KramaBenchExperiment,
     )
-    from src.experiments.core.types import AgentOutput, EvalResult
+    from OpenDsStar.experiments.core.types import AgentOutput, EvalResult
 
     # Mock Milvus to avoid local database connection issues
     with patch(
-        "src.ingestion.docling_based_ingestion.milvus_manager.Milvus"
+        "OpenDsStar.ingestion.docling_based_ingestion.milvus_manager.Milvus"
     ) as milvus_cls:
         milvus_instance = MagicMock()
         milvus_cls.return_value = milvus_instance
@@ -75,7 +75,7 @@ def test_kramabench_sample_experiment():
         print(f"✓ Data loaded: {len(benchmarks)} questions, {len(corpus)} corpus files")
 
         # Build tools
-        from src.experiments.core.context import PipelineConfig, PipelineContext
+        from OpenDsStar.experiments.core.context import PipelineConfig, PipelineContext
 
         ctx = PipelineContext(config=PipelineConfig())
         tools_builders = experiment.get_tools_builder()

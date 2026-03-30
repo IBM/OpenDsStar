@@ -2,7 +2,7 @@
 
 from pathlib import Path
 
-from experiments.core.config import AgentConfig, ExperimentConfig
+from OpenDsStar.experiments.core.config import AgentConfig, ExperimentConfig
 
 
 class TestAgentConfig:

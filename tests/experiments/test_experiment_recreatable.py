@@ -5,7 +5,7 @@ from tempfile import TemporaryDirectory
 
 import pytest
 
-from experiments.benchmarks.demo.experiment_main import DemoExperiment
+from OpenDsStar.experiments.benchmarks.demo.experiment_main import DemoExperiment
 
 
 def test_demo_experiment_save_and_load():

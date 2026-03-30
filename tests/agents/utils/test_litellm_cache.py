@@ -5,7 +5,7 @@ from pathlib import Path
 
 import pytest
 
-from agents.utils.model_builder import ModelBuilder
+from OpenDsStar.agents.utils.model_builder import ModelBuilder
 
 
 class TestLiteLLMCache:
@@ -13,14 +13,14 @@ class TestLiteLLMCache:
 
     def setup_method(self):
         """Reset cache state before each test."""
-        from agents.utils.cache_manager import CacheManager
+        from OpenDsStar.agents.utils.cache_manager import CacheManager
 
         # Reset global state
         CacheManager.clear()
 
     def test_configure_cache_creates_directory(self):
         """Test that configure_cache creates the cache directory."""
-        from agents.utils.cache_manager import CacheManager
+        from OpenDsStar.agents.utils.cache_manager import CacheManager
 
         with tempfile.TemporaryDirectory() as tmpdir:
             cache_dir = Path(tmpdir) / "test_cache"
@@ -39,8 +39,10 @@ class TestLiteLLMCache:
 
     def test_configure_cache_returns_text_only_cache(self):
         """Test that configure_cache returns StructuredSafeSQLiteCache instance."""
-        from agents.utils.cache_manager import CacheManager
-        from agents.utils.structured_safe_sqlite_cache import StructuredSafeSQLiteCache
+        from OpenDsStar.agents.utils.cache_manager import CacheManager
+        from OpenDsStar.agents.utils.structured_safe_sqlite_cache import (
+            StructuredSafeSQLiteCache,
+        )
 
         with tempfile.TemporaryDirectory() as tmpdir:
             cache_dir = Path(tmpdir) / "test_cache"
@@ -53,7 +55,7 @@ class TestLiteLLMCache:
 
     def test_configure_cache_reuses_same_model_cache(self):
         """Test that configure_cache reuses cache for same model+cache_dir."""
-        from agents.utils.cache_manager import CacheManager
+        from OpenDsStar.agents.utils.cache_manager import CacheManager
 
         with tempfile.TemporaryDirectory() as tmpdir:
             cache_dir = Path(tmpdir) / "cache"
@@ -70,7 +72,7 @@ class TestLiteLLMCache:
 
     def test_configure_cache_different_models(self):
         """Test that different models get different caches."""
-        from agents.utils.cache_manager import CacheManager
+        from OpenDsStar.agents.utils.cache_manager import CacheManager
 
         with tempfile.TemporaryDirectory() as tmpdir:
             cache_dir = Path(tmpdir) / "cache"

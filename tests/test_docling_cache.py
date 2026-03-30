@@ -7,8 +7,8 @@ from pathlib import Path
 def test_docling_description_builder_cache():
     """Test that DoclingDescriptionBuilder configures LangChain cache."""
     # Reset cache state
-    from agents.utils.cache_manager import CacheManager
-    from agents.utils.model_builder import ModelBuilder
+    from OpenDsStar.agents.utils.cache_manager import CacheManager
+    from OpenDsStar.agents.utils.model_builder import ModelBuilder
 
     CacheManager.clear()
 

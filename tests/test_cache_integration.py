@@ -7,7 +7,7 @@ from pathlib import Path
 def test_cache_dir_flows_to_agent():
     """Test that cache_dir is passed from AgentFactory to OpenDsStarAgent."""
     # Reset cache state
-    from agents.utils.cache_manager import CacheManager
+    from OpenDsStar.agents.utils.cache_manager import CacheManager
 
     CacheManager.clear()
 
@@ -17,9 +17,12 @@ def test_cache_dir_flows_to_agent():
         # Create a mock context with cache_dir
         from langchain_core.tools import tool
 
-        from experiments.core.config import AgentConfig
-        from experiments.core.context import PipelineConfig, PipelineContext
-        from experiments.implementations.agent_factory import AgentFactory, AgentType
+        from OpenDsStar.experiments.core.config import AgentConfig
+        from OpenDsStar.experiments.core.context import PipelineConfig, PipelineContext
+        from OpenDsStar.experiments.implementations.agent_factory import (
+            AgentFactory,
+            AgentType,
+        )
 
         @tool
         def dummy_tool(query: str) -> str:

@@ -6,8 +6,8 @@ from unittest.mock import Mock
 import pytest
 from pydantic import BaseModel, Field
 
-from agents.ds_star.ds_star_state import DSState, DSStep
-from agents.ds_star.ds_star_utils import (
+from OpenDsStar.agents.ds_star.ds_star_state import DSState, DSStep
+from OpenDsStar.agents.ds_star.ds_star_utils import (
     ToolExecutionError,
     add_event_to_trajectory,
     build_tools_map,

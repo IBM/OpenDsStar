@@ -10,7 +10,7 @@ from typing import Any, Sequence
 from langchain_core.tools import BaseTool
 
 from OpenDsStar.core.model_registry import ModelRegistry
-from tools import VectorStoreTool
+from OpenDsStar.tools import VectorStoreTool
 
 from ...core.context import PipelineContext
 from ...core.types import BenchmarkEntry

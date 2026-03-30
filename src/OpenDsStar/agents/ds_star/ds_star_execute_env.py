@@ -117,7 +117,10 @@ from OpenDsStar.agents.ds_star.ds_star_utils import (
     remove_imports,
     validate_generated_code,
 )
-from OpenDsStar.agents.utils.safe_imports import get_safe_builtins, get_safe_scientific_env
+from OpenDsStar.agents.utils.safe_imports import (
+    get_safe_builtins,
+    get_safe_scientific_env,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -252,7 +255,9 @@ def _load_normalize_tool_result() -> Optional[Callable[[Any], Any]]:
     - arbitrary runtime objects
     """
     try:
-        from OpenDsStar.agents.ds_star.ds_star_utils import normalize_tool_result  # type: ignore
+        from OpenDsStar.agents.ds_star.ds_star_utils import (
+            normalize_tool_result,  # type: ignore
+        )
     except Exception:
         return None
     return normalize_tool_result

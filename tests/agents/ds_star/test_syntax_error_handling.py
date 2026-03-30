@@ -1,7 +1,7 @@
 """Test that syntax errors during code validation are caught and routed to debugger."""
 
-from agents.ds_star.ds_star_execute_env import execute_user_code
-from agents.ds_star.ds_star_state import CodeMode, DSState
+from OpenDsStar.agents.ds_star.ds_star_execute_env import execute_user_code
+from OpenDsStar.agents.ds_star.ds_star_state import CodeMode, DSState
 
 
 def test_syntax_error_during_validation():

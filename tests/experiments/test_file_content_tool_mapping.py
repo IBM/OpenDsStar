@@ -11,8 +11,11 @@ from unittest.mock import Mock
 
 import pytest
 
-from experiments.benchmarks.shared_tools import FileContentTool, MilvusSearchTool
-from experiments.core.types import Document
+from OpenDsStar.experiments.benchmarks.shared_tools import (
+    FileContentTool,
+    MilvusSearchTool,
+)
+from OpenDsStar.experiments.core.types import Document
 
 
 def test_file_content_tool_with_relative_paths():

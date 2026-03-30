@@ -6,8 +6,8 @@ from typing import Optional, Type
 
 from pydantic import BaseModel, Field
 
-from agents.ds_star.nodes.base_node import BaseNode
-from agents.utils.model_builder import ModelBuilder
+from OpenDsStar.agents.ds_star.nodes.base_node import BaseNode
+from OpenDsStar.agents.utils.model_builder import ModelBuilder
 
 
 class OutputSchema(BaseModel):

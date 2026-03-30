@@ -13,12 +13,13 @@ from collections.abc import Iterator
 from pathlib import Path
 from typing import Any
 
-from OpenDsStar.agents.base_agent import BaseAgent
-from OpenDsStar.experiments.core.config import AgentConfig
 from langchain_core.language_models import BaseChatModel
 from langchain_core.tools import BaseTool as LangChainBaseTool
 from smolagents import CodeAgent, LiteLLMModel, RunResult
 from smolagents import Tool as SmolagentsTool
+
+from OpenDsStar.agents.base_agent import BaseAgent
+from OpenDsStar.experiments.core.config import AgentConfig
 from OpenDsStar.tools.string_to_stream_tool import StringToStreamTool
 
 # Suppress litellm proxy import warnings (we don't use proxy features)
@@ -210,7 +211,9 @@ class CodeActAgentSmolagents(BaseAgent):
         """
         # Clean up empty strings or None which Langflow sometimes passes when the input is functionally empty
         if isinstance(tools, list):
-            tools = [t for t in tools if t and not (isinstance(t, str) and not t.strip())]
+            tools = [
+                t for t in tools if t and not (isinstance(t, str) and not t.strip())
+            ]
 
         converted_tools = []
         for idx, tool in enumerate(tools):
@@ -304,8 +307,7 @@ class CodeActAgentSmolagents(BaseAgent):
         config: dict[str, Any] | None = None,
         return_state: bool = False,
     ) -> dict[str, Any]:
-        """Execute the agent with a query.
-        """
+        """Execute the agent with a query."""
         if not query or not isinstance(query, str):
             raise ValueError("query must be a non-empty string")
 

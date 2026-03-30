@@ -16,12 +16,11 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 import pandas as pd
-from tqdm import tqdm
-
 from experiments.benchmarks.databench.databench_main import DataBenchExperiment
 from experiments.core.context import PipelineConfig, PipelineContext
 from experiments.core.types import AgentOutput
 from experiments.evaluators.ragbench_llm_judge import RagbenchLLMJudgeEvaluator
+from tqdm import tqdm
 
 logging.basicConfig(
     level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"

@@ -2,7 +2,7 @@
 Test build_tools_map function with various tool calling patterns.
 """
 
-from agents.ds_star.ds_star_utils import build_tools_map
+from OpenDsStar.agents.ds_star.ds_star_utils import build_tools_map
 
 
 class MockTool:

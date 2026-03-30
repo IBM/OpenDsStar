@@ -3,11 +3,11 @@
 import json
 from dataclasses import asdict
 
-from agents.ds_star.ds_star_results_prep import (
+from OpenDsStar.agents.ds_star.ds_star_results_prep import (
     _normalize_trajectory_event,
     prepare_result_from_graph_state_ds_star_agent,
 )
-from agents.ds_star.ds_star_state import DSState, DSStep
+from OpenDsStar.agents.ds_star.ds_star_state import DSState, DSStep
 
 
 class TestNormalizeTrajectoryEvent:

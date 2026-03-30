@@ -1,6 +1,6 @@
 """Tests for remove_imports utility function."""
 
-from agents.ds_star.ds_star_utils import remove_imports
+from OpenDsStar.agents.ds_star.ds_star_utils import remove_imports
 
 
 class TestRemoveImports:

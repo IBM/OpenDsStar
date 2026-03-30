@@ -2,11 +2,11 @@
 
 import json
 
-from agents.ds_star.ds_star_results_prep import (
+from OpenDsStar.agents.ds_star.ds_star_results_prep import (
     prepare_result_from_graph_state_ds_star_agent,
 )
-from agents.ds_star.ds_star_state import DSState, DSStep
-from agents.ds_star.ds_star_utils import add_event_to_trajectory
+from OpenDsStar.agents.ds_star.ds_star_state import DSState, DSStep
+from OpenDsStar.agents.ds_star.ds_star_utils import add_event_to_trajectory
 
 # Create a state with steps
 step1 = DSStep(

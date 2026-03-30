@@ -7,7 +7,7 @@ from unittest.mock import Mock, patch
 import pytest
 from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 
-from agents import ReactAgentLangchain
+from OpenDsStar.agents import ReactAgentLangchain
 
 
 class TestReactAgentLangchain:
@@ -40,7 +40,7 @@ class TestReactAgentLangchain:
         assert agent.max_steps == 10
         assert agent.system_prompt == "Custom prompt"
 
-    @patch("agents.react_langchain.react_agent_langchain.create_react_agent")
+    @patch("OpenDsStar.agents.react_langchain.react_agent_langchain.create_react_agent")
     def test_initialization_with_tools(self, mock_create_react):
         """Test initialization with custom tools."""
         from langchain_core.language_models.fake_chat_models import FakeChatModel

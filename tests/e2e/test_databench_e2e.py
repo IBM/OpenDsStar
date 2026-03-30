@@ -30,14 +30,14 @@ def test_databench_sample_experiment():
     - Internet connection for model access and HuggingFace downloads
     - Takes ~60-120 seconds to run (includes data download and processing)
     """
-    from src.experiments.benchmarks.databench.databench_main import (
+    from OpenDsStar.experiments.benchmarks.databench.databench_main import (
         DataBenchExperiment,
     )
-    from src.experiments.core.types import AgentOutput, EvalResult
+    from OpenDsStar.experiments.core.types import AgentOutput, EvalResult
 
     # Mock Milvus to avoid local database connection issues
     with patch(
-        "src.ingestion.docling_based_ingestion.milvus_manager.Milvus"
+        "OpenDsStar.ingestion.docling_based_ingestion.milvus_manager.Milvus"
     ) as milvus_cls:
         milvus_instance = MagicMock()
         milvus_cls.return_value = milvus_instance
@@ -62,7 +62,7 @@ def test_databench_sample_experiment():
         redirect_experiment_dirs(experiment)
         # confirm default code_mode is stepwise
         builder = experiment.get_agent_builder()
-        from src.experiments.core.context import PipelineConfig, PipelineContext
+        from OpenDsStar.experiments.core.context import PipelineConfig, PipelineContext
 
         ctx = PipelineContext(config=PipelineConfig())
         config = builder._resolve_config(ctx)
@@ -85,7 +85,7 @@ def test_databench_sample_experiment():
         print(f"✓ Data loaded: {len(benchmarks)} questions, {len(corpus)} corpus files")
 
         # Build tools
-        from src.experiments.core.context import PipelineConfig, PipelineContext
+        from OpenDsStar.experiments.core.context import PipelineConfig, PipelineContext
 
         ctx = PipelineContext(config=PipelineConfig())
         tools_builders = experiment.get_tools_builder()
