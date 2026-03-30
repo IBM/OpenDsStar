@@ -1,5 +1,9 @@
 """OpenDsStar package wrapper."""
 
-from . import agents, core, experiments, ingestion, runner, tools, ui
+# Core package imports that are generally required in all entrypoints.
+from . import agents, core, experiments, ingestion, runner, tools
 
-__all__ = ["agents", "core", "experiments", "ingestion", "runner", "tools", "ui"]
+# UI is optional and can be imported explicitly by users, as it brings streamlit
+# and other interactive dependencies that should not be required at import-time.
+__all__ = ["agents", "core", "experiments", "ingestion", "runner", "tools"]
+
