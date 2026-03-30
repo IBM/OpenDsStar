@@ -8,8 +8,8 @@ E2E_DIR = Path(__file__).parent
 E2E_OUTPUT_DIR = E2E_DIR / "output"
 E2E_CACHE_DIR = E2E_DIR / "cache"
 
-# 20-minute timeout for all e2e tests (they call external APIs and process data)
-E2E_TIMEOUT = 1200
+# 60-minute timeout for all e2e tests (they call external APIs and process data)
+E2E_TIMEOUT = 3600
 
 
 @pytest.fixture(autouse=True)
