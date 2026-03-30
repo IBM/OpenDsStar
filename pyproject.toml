@@ -12,7 +12,7 @@ authors = [
 ]
 description = "A tool-based DS-Star agent implementation using LangGraph"
 readme = "README.md"
-requires-python = ">=3.10,<3.14"
+requires-python = ">=3.11,<3.14"
 keywords = ["agent", "llm", "langgraph", "data-science", "ds-star"]
 license = {text = "Apache-2.0"}
 classifiers = [
@@ -23,7 +23,6 @@ classifiers = [
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
     "License :: OSI Approved :: Apache Software License",
     "Operating System :: OS Independent",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
 ]
