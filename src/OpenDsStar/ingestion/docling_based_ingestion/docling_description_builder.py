@@ -60,6 +60,7 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
         max_fallback_bytes: int = 2_000_000,
         enable_caching: bool = True,
         progress_every: int = 5,
+        llm: Optional[Any] = None,
         **kwargs: Any,
     ):
         """
@@ -78,6 +79,8 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
             max_fallback_bytes: Max fallback bytes
             enable_caching: Enable caching
             progress_every: Progress logging frequency
+            llm: Optional pre-built BaseChatModel instance. If provided,
+                skips ModelBuilder.build() and uses this LLM directly.
         """
         _ = kwargs
 
@@ -91,9 +94,13 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
         # Set cache_dir first so we can pass it to ModelBuilder
         self.cache_dir = Path(cache_dir)
 
-        self.llm, llm_model_name = ModelBuilder.build(
-            self.model, temperature=self.temperature, cache_dir=self.cache_dir
-        )
+        if llm is not None:
+            self.llm = llm
+            llm_model_name = getattr(llm, "model_name", None) or type(llm).__name__
+        else:
+            self.llm, llm_model_name = ModelBuilder.build(
+                self.model, temperature=self.temperature, cache_dir=self.cache_dir
+            )
 
         # Create a hash of model + prompt to ensure different models/prompts use different Milvus DBs
         # Get prompt template for hashing
@@ -566,7 +573,8 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
         sources: Sequence[SourceFile],
         *,
         progress_label: str = "Process",
-    ) -> Tuple[Milvus, Dict[str, Dict[str, Any]], Dict[str, Any]]:
+        skip_vectordb: bool = False,
+    ) -> Tuple[Optional[Milvus], Dict[str, Dict[str, Any]], Dict[str, Any]]:
         started = time.perf_counter()
         total_sources = len(sources)
 
@@ -643,9 +651,11 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
                 len(docs_to_add),
             )
 
-            # Stage 4: vector db
-            vector_db = self._open_vector_db()
-            self._add_to_vector_db(vector_db, docs_to_add, progress_label)
+            # Stage 4: vector db (optional)
+            vector_db: Optional[Milvus] = None
+            if not skip_vectordb:
+                vector_db = self._open_vector_db()
+                self._add_to_vector_db(vector_db, docs_to_add, progress_label)
 
             total_dt_s = time.perf_counter() - started
             logger.info(
@@ -667,6 +677,43 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
     # ----------------------------
     # Public entrypoints
     # ----------------------------
+
+    def describe_files(
+        self,
+        file_paths: List[Path],
+        *,
+        progress_label: str = "DescribeFiles",
+    ) -> Tuple[Dict[str, Dict[str, Any]], Dict[str, Any]]:
+        """Run ingestion stages 1-3 (analyze + describe) without vector DB insertion.
+
+        This is useful when the caller manages its own vector store (e.g., Langflow).
+
+        Args:
+            file_paths: List of file paths to process.
+            progress_label: Label for progress logging.
+
+        Returns:
+            Tuple of (analysis_results, path_to_bytes_factory).
+            analysis_results maps doc_id to metadata dict with keys:
+                success, answer (description), file_path, filename, etc.
+            path_to_bytes_factory maps file paths to callables returning bytes.
+        """
+        sources: List[SourceFile] = []
+        for p in file_paths:
+            p = Path(p)
+            sources.append(
+                SourceFile(
+                    display_name=p.name,
+                    path_hint=str(p),
+                    temp_path=str(p.resolve()),
+                    stream_factory=None,
+                )
+            )
+
+        _, analysis_results, path_to_bytes_factory = self._process_sources(
+            sources, progress_label=progress_label, skip_vectordb=True
+        )
+        return analysis_results, path_to_bytes_factory
 
     def process_directory(
         self,
