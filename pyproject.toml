@@ -36,6 +36,7 @@ dependencies = [
     "langchain-milvus==0.1.7",
     "langchain-huggingface==0.3.1",
     "pymilvus[model]==2.6.7",
+    "pymilvus[milvus_lite]==2.6.7; sys_platform != 'win32'",
     "scipy>=1.13.0,<2.0.0",
     "pydantic==2.12.5",
     "numpy>=1.26.4,<2.5.0",
@@ -68,11 +69,13 @@ dev = [
     "ruff==0.13.1",
     "mypy>=1.19.1,<2.0.0",
     "pre-commit==4.5.1",
+    "pymilvus[milvus_lite]==2.6.7; sys_platform != 'win32'",
 ]
 test = [
     "pytest>=8.3.3,<9.0.0",
     "pytest-asyncio>=0.21.0",
     "ragworkbench",
+    "pymilvus[milvus_lite]==2.6.7; sys_platform != 'win32'",
 ]
 ui = [
     "streamlit>=1.55.0,<2.0.0",

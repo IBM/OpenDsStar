@@ -43,12 +43,12 @@ def main():
         code_mode="stepwise",  # Execute steps separately (efficient)
     )
 
-    print(f"Configuration:")
-    print(f"  - Agent: DS-Star")
-    print(f"  - Model: watsonx/mistralai/mistral-medium-2505")
-    print(f"  - Max steps: 10")
-    print(f"  - Questions: 3")
-    print(f"  - Code mode: stepwise")
+    print("Configuration:")
+    print("  - Agent: DS-Star")
+    print("  - Model: watsonx/mistralai/mistral-medium-2505")
+    print("  - Max steps: 10")
+    print("  - Questions: 3")
+    print("  - Code mode: stepwise")
     print()
 
     # Run experiment
@@ -86,8 +86,8 @@ def main():
 
     # Show where results are saved
     print("Results saved to:")
-    print(f"  - Outputs: experiments/databench/outputs/databench_3questions/")
-    print(f"  - Cache: experiments/databench/cache/")
+    print("  - Outputs: experiments/databench/outputs/databench_3questions/")
+    print("  - Cache: experiments/databench/cache/")
     print()
 
 

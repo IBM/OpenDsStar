@@ -1,8 +1,30 @@
 """Shared helpers for e2e tests."""
 
+import os
+import sys
 from pathlib import Path
 
 import pytest
+
+
+def _milvus_available() -> bool:
+    """Check if Milvus is usable (milvus-lite installed or remote URI configured)."""
+    if os.environ.get("OPENDSSTAR_MILVUS_URI", "").strip():
+        return True
+    try:
+        import milvus_lite  # noqa: F401
+
+        return True
+    except ImportError:
+        return False
+
+
+if sys.platform == "win32" and not _milvus_available():
+    raise RuntimeError(
+        "milvus-lite is not available on Windows. "
+        "Set the OPENDSSTAR_MILVUS_URI environment variable to a remote "
+        "Milvus server (e.g. http://localhost:19530) to run e2e tests."
+    )
 
 E2E_DIR = Path(__file__).parent
 E2E_CACHE_OUTPUTS_DIR = E2E_DIR / "cache_outputs"

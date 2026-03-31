@@ -10,6 +10,8 @@ from langchain_core.documents import Document as LangchainDocument
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_milvus.vectorstores.milvus import Milvus
 
+from OpenDsStar.core.milvus_uri import resolve_milvus_uri
+
 logger = logging.getLogger(__name__)
 
 
@@ -43,7 +45,7 @@ class MilvusManager:
     def open(self) -> Milvus:
         return Milvus(
             embedding_function=self._embeddings,
-            connection_args={"uri": self.config.db_uri},
+            connection_args={"uri": resolve_milvus_uri(self.config.db_uri)},
             collection_name=self.config.collection_name,
             auto_id=True,
         )
