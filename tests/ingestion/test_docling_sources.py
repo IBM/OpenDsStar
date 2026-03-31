@@ -8,7 +8,10 @@ from pathlib import Path
 
 import pytest
 
-from ingestion.docling_based_ingestion.sources import SourceFile, TempMaterializer
+from OpenDsStar.ingestion.docling_based_ingestion.sources import (
+    SourceFile,
+    TempMaterializer,
+)
 
 
 class TestSourceFile:

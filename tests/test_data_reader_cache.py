@@ -6,7 +6,7 @@ from pathlib import Path
 
 import pytest
 
-from src.experiments.benchmarks.hotpotqa.data_reader import HotpotQADataReader
+from OpenDsStar.experiments.benchmarks.hotpotqa.data_reader import HotpotQADataReader
 
 # Configure logging
 logging.basicConfig(

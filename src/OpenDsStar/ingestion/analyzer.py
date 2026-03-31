@@ -18,6 +18,7 @@ from OpenDsStar.agents.analyzer.analyzer_graph import (
     AnalyzerGraph,
     prepare_result_from_graph_state_analyzer_agent,
 )
+from OpenDsStar.core.milvus_uri import resolve_milvus_uri
 
 from .docling_cache import AnalyzerDescriptionCache
 from .document_description_builder import DocumentDescriptionBuilder
@@ -151,7 +152,7 @@ class AnalyzerDescriptionBuilder(DocumentDescriptionBuilder):
         # Create vector database
         vector_db = Milvus(
             embedding_function=HuggingFaceEmbeddings(model_name=self.embedding_model),
-            connection_args={"uri": self.db_uri},
+            connection_args={"uri": resolve_milvus_uri(self.db_uri)},
             auto_id=True,
         )
 

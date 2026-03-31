@@ -5,8 +5,8 @@ from unittest.mock import Mock, patch
 import pytest
 from pydantic import ValidationError
 
-from agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
-from agents.ds_star.nodes.coder import (
+from OpenDsStar.agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
+from OpenDsStar.agents.ds_star.nodes.coder import (
     CodeOutput,
     CoderNode,
     _collect_available_parameter_names,
@@ -56,7 +56,7 @@ class TestCoderNodeErrorHandling:
         assert len(result["trajectory"]) == 1
         assert result["trajectory"][0]["skipped"] is True
 
-    @patch("agents.ds_star.nodes.coder.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.coder.invoke_structured_with_usage")
     def test_handles_validation_error(self, mock_invoke, coder_node):
         """Test handling of ValidationError."""
         mock_invoke.side_effect = ValidationError.from_exception_data(
@@ -80,7 +80,7 @@ class TestCoderNodeErrorHandling:
         assert result["fatal_error"] is not None
         assert "Coder schema validation failed" in result["fatal_error"]
 
-    @patch("agents.ds_star.nodes.coder.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.coder.invoke_structured_with_usage")
     def test_handles_general_exception(self, mock_invoke, coder_node):
         """Test handling of general Exception."""
         mock_invoke.side_effect = Exception("Test error")

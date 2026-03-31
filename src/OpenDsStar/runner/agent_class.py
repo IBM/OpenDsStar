@@ -2,11 +2,11 @@ from pathlib import Path
 
 from dotenv import load_dotenv
 
-from agents import OpenDsStarAgent
+from OpenDsStar.agents import OpenDsStarAgent
 from OpenDsStar.agents.utils.model_builder import ModelBuilder
 from OpenDsStar.core.model_registry import ModelRegistry
 from OpenDsStar.ingestion.analyzer import AnalyzerDocumentProcessor
-from tools import AnalyzerSummaryRetrievalTool
+from OpenDsStar.tools import AnalyzerSummaryRetrievalTool
 
 # Load environment variables
 load_dotenv()

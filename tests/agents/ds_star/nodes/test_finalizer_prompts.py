@@ -5,8 +5,8 @@ from unittest.mock import Mock, patch
 import pytest
 from pydantic import ValidationError
 
-from agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
-from agents.ds_star.nodes.finalizer import (
+from OpenDsStar.agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
+from OpenDsStar.agents.ds_star.nodes.finalizer import (
     AnswerOutput,
     FinalizerNode,
     _collect_all_logs,
@@ -387,7 +387,7 @@ class TestFinalizerPromptEdgeCases:
 class TestFinalizerNodeBehavior:
     """Test FinalizerNode execution behavior."""
 
-    @patch("agents.ds_star.nodes.finalizer.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.finalizer.invoke_structured_with_usage")
     def test_sets_final_answer(self, mock_invoke, finalizer_node):
         """Test that final_answer is set correctly."""
         mock_invoke.return_value = (
@@ -430,7 +430,7 @@ class TestFinalizerNodeBehavior:
         assert "Process terminated due to an error" in result["final_answer"]
         assert "Critical error occurred" in result["final_answer"]
 
-    @patch("agents.ds_star.nodes.finalizer.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.finalizer.invoke_structured_with_usage")
     def test_handles_validation_error(self, mock_invoke, finalizer_node):
         """Test handling of ValidationError."""
         mock_invoke.side_effect = ValidationError.from_exception_data(
@@ -454,7 +454,7 @@ class TestFinalizerNodeBehavior:
         assert result["final_answer"] == "Unable to answer."
         assert "Finalizer schema validation failed" in result["fatal_error"]
 
-    @patch("agents.ds_star.nodes.finalizer.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.finalizer.invoke_structured_with_usage")
     def test_handles_general_exception(self, mock_invoke, finalizer_node):
         """Test handling of general Exception."""
         mock_invoke.side_effect = Exception("Test error")

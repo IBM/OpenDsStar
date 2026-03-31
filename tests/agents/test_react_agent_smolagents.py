@@ -7,13 +7,13 @@ from unittest.mock import Mock, patch
 import pytest
 from smolagents import RunResult
 
-from agents import ReactAgentSmolagents
+from OpenDsStar.agents import ReactAgentSmolagents
 
 
 class TestReactAgentSmolagents:
     """Test suite for ReactAgentSmolagents."""
 
-    @patch("agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
+    @patch("OpenDsStar.agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
     def test_initialization_with_string_model(self, mock_tool_agent):
         """Test initialization with a model string."""
         from smolagents import LiteLLMModel
@@ -29,7 +29,7 @@ class TestReactAgentSmolagents:
         assert agent.max_steps == 5
         assert agent.tools == []
 
-    @patch("agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
+    @patch("OpenDsStar.agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
     def test_initialization_with_custom_params(self, mock_tool_agent):
         """Test initialization with custom parameters."""
         from smolagents import LiteLLMModel
@@ -50,7 +50,7 @@ class TestReactAgentSmolagents:
         assert agent.max_steps == 10
         assert agent.system_prompt == "Custom prompt"
 
-    @patch("agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
+    @patch("OpenDsStar.agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
     def test_initialization_with_tools(self, mock_tool_agent):
         """Test initialization with custom tools."""
         from langchain_core.tools import tool
@@ -75,7 +75,7 @@ class TestReactAgentSmolagents:
         with pytest.raises(ValueError, match="model must be a smolagents LiteLLMModel"):
             ReactAgentSmolagents(model=123)  # type: ignore
 
-    @patch("agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
+    @patch("OpenDsStar.agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
     def test_invoke_with_empty_query(self, mock_tool_agent):
         """Test that empty query raises ValueError."""
         from smolagents import LiteLLMModel
@@ -94,7 +94,7 @@ class TestReactAgentSmolagents:
         with pytest.raises(ValueError, match="query must be a non-empty string"):
             agent.invoke(None)  # type: ignore
 
-    @patch("agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
+    @patch("OpenDsStar.agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
     def test_invoke_basic(self, mock_tool_agent):
         """Test basic invoke functionality."""
         from smolagents import LiteLLMModel
@@ -120,7 +120,7 @@ class TestReactAgentSmolagents:
         assert len(result["trajectory"]) == 2
         assert result["steps_used"] == 2
 
-    @patch("agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
+    @patch("OpenDsStar.agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
     def test_invoke_with_error(self, mock_tool_agent):
         """Test invoke when agent raises an error."""
         from smolagents import LiteLLMModel
@@ -141,7 +141,7 @@ class TestReactAgentSmolagents:
         assert result["steps_used"] == 0
         assert result["verifier_sufficient"] is False
 
-    @patch("agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
+    @patch("OpenDsStar.agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
     def test_invoke_return_format(self, mock_tool_agent):
         """Test that invoke returns the correct format."""
         from smolagents import LiteLLMModel
@@ -177,7 +177,7 @@ class TestReactAgentSmolagents:
         for key in required_keys:
             assert key in result, f"Missing key: {key}"
 
-    @patch("agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
+    @patch("OpenDsStar.agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
     def test_system_prompt_override(self, mock_tool_agent):
         """Test that system prompt can be overridden."""
         from smolagents import LiteLLMModel
@@ -197,7 +197,7 @@ class TestReactAgentSmolagents:
         # Verify the agent's system_prompt was set
         assert mock_agent_instance.system_prompt == custom_prompt
 
-    @patch("agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
+    @patch("OpenDsStar.agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
     def test_invoke_with_empty_steps(self, mock_tool_agent):
         """Test invoke when RunResult has empty steps."""
         from smolagents import LiteLLMModel

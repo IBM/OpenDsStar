@@ -204,7 +204,9 @@ class ModelBuilder:
 
         # Configure global LiteLLM cache if cache_dir provided
         if cache_dir:
-            from OpenDsStar.agents.utils.litellm_cache_config import configure_litellm_cache
+            from OpenDsStar.agents.utils.litellm_cache_config import (
+                configure_litellm_cache,
+            )
 
             configure_litellm_cache(cache_dir)
 

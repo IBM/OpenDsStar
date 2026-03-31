@@ -5,8 +5,8 @@ from unittest.mock import Mock, patch
 import pytest
 from pydantic import BaseModel, Field
 
-from agents.ds_star.ds_star_graph import DSStarGraph
-from agents.ds_star.ds_star_state import CodeMode
+from OpenDsStar.agents.ds_star.ds_star_graph import DSStarGraph
+from OpenDsStar.agents.ds_star.ds_star_state import CodeMode
 
 
 class MockToolInput(BaseModel):
@@ -37,18 +37,18 @@ def mock_tool():
 class TestSuccessfulWorkflow:
     """Test successful execution workflows."""
 
-    @patch("agents.ds_star.nodes.planner.invoke_structured_with_usage")
-    @patch("agents.ds_star.nodes.coder.invoke_structured_with_usage")
-    @patch("agents.ds_star.nodes.verifier.invoke_structured_with_usage")
-    @patch("agents.ds_star.nodes.router.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.planner.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.coder.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.verifier.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.router.invoke_structured_with_usage")
     def test_simple_two_step_workflow(
         self, mock_router, mock_verifier, mock_coder, mock_planner, mock_llm, mock_tool
     ):
         """Test a simple successful 2-step workflow."""
-        from agents.ds_star.nodes.coder import CodeOutput
-        from agents.ds_star.nodes.planner import PlanOneStepOutput
-        from agents.ds_star.nodes.router import RouteAction, RouterOutput
-        from agents.ds_star.nodes.verifier import VerifierOutput
+        from OpenDsStar.agents.ds_star.nodes.coder import CodeOutput
+        from OpenDsStar.agents.ds_star.nodes.planner import PlanOneStepOutput
+        from OpenDsStar.agents.ds_star.nodes.router import RouteAction, RouterOutput
+        from OpenDsStar.agents.ds_star.nodes.verifier import VerifierOutput
 
         # Mock planner to create 2 steps
         mock_planner.side_effect = [
@@ -110,18 +110,18 @@ class TestSuccessfulWorkflow:
 class TestMaxStepsTermination:
     """Test max_steps termination."""
 
-    @patch("agents.ds_star.nodes.planner.invoke_structured_with_usage")
-    @patch("agents.ds_star.nodes.coder.invoke_structured_with_usage")
-    @patch("agents.ds_star.nodes.verifier.invoke_structured_with_usage")
-    @patch("agents.ds_star.nodes.router.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.planner.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.coder.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.verifier.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.router.invoke_structured_with_usage")
     def test_terminates_at_max_steps(
         self, mock_router, mock_verifier, mock_coder, mock_planner, mock_llm, mock_tool
     ):
         """Test that workflow terminates at max_steps."""
-        from agents.ds_star.nodes.coder import CodeOutput
-        from agents.ds_star.nodes.planner import PlanOneStepOutput
-        from agents.ds_star.nodes.router import RouteAction, RouterOutput
-        from agents.ds_star.nodes.verifier import VerifierOutput
+        from OpenDsStar.agents.ds_star.nodes.coder import CodeOutput
+        from OpenDsStar.agents.ds_star.nodes.planner import PlanOneStepOutput
+        from OpenDsStar.agents.ds_star.nodes.router import RouteAction, RouterOutput
+        from OpenDsStar.agents.ds_star.nodes.verifier import VerifierOutput
 
         # Mock planner to always create new steps
         mock_planner.return_value = (
@@ -164,18 +164,18 @@ class TestMaxStepsTermination:
 class TestFixStepWorkflow:
     """Test fix_step workflow."""
 
-    @patch("agents.ds_star.nodes.planner.invoke_structured_with_usage")
-    @patch("agents.ds_star.nodes.coder.invoke_structured_with_usage")
-    @patch("agents.ds_star.nodes.verifier.invoke_structured_with_usage")
-    @patch("agents.ds_star.nodes.router.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.planner.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.coder.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.verifier.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.router.invoke_structured_with_usage")
     def test_fix_step_replaces_and_continues(
         self, mock_router, mock_verifier, mock_coder, mock_planner, mock_llm, mock_tool
     ):
         """Test that fix_step workflow replaces step and continues."""
-        from agents.ds_star.nodes.coder import CodeOutput
-        from agents.ds_star.nodes.planner import PlanOneStepOutput
-        from agents.ds_star.nodes.router import RouteAction, RouterOutput
-        from agents.ds_star.nodes.verifier import VerifierOutput
+        from OpenDsStar.agents.ds_star.nodes.coder import CodeOutput
+        from OpenDsStar.agents.ds_star.nodes.planner import PlanOneStepOutput
+        from OpenDsStar.agents.ds_star.nodes.router import RouteAction, RouterOutput
+        from OpenDsStar.agents.ds_star.nodes.verifier import VerifierOutput
 
         # Planner: step 1, then corrected step 0, then step 1 again
         mock_planner.side_effect = [
@@ -246,15 +246,15 @@ class TestFixStepWorkflow:
 class TestDebuggerWorkflow:
     """Test debugger workflow."""
 
-    @patch("agents.ds_star.nodes.planner.invoke_structured_with_usage")
-    @patch("agents.ds_star.nodes.coder.invoke_structured_with_usage")
-    @patch("agents.ds_star.nodes.debugger.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.planner.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.coder.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.debugger.invoke_structured_with_usage")
     def test_debugger_fixes_execution_error(
         self, mock_debugger, mock_coder, mock_planner, mock_llm, mock_tool
     ):
         """Test that debugger fixes execution errors."""
-        from agents.ds_star.nodes.coder import CodeOutput
-        from agents.ds_star.nodes.planner import PlanOneStepOutput
+        from OpenDsStar.agents.ds_star.nodes.coder import CodeOutput
+        from OpenDsStar.agents.ds_star.nodes.planner import PlanOneStepOutput
 
         # Planner creates one step
         mock_planner.return_value = (
@@ -290,7 +290,7 @@ class TestDebuggerWorkflow:
 class TestFatalErrorPropagation:
     """Test fatal error propagation through nodes."""
 
-    @patch("agents.ds_star.nodes.planner.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.planner.invoke_structured_with_usage")
     def test_fatal_error_stops_execution(self, mock_planner, mock_llm, mock_tool):
         """Test that fatal error stops execution."""
         from pydantic import ValidationError
@@ -312,16 +312,16 @@ class TestFatalErrorPropagation:
 class TestCodeModes:
     """Test different code modes."""
 
-    @patch("agents.ds_star.nodes.planner.invoke_structured_with_usage")
-    @patch("agents.ds_star.nodes.coder.invoke_structured_with_usage")
-    @patch("agents.ds_star.nodes.verifier.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.planner.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.coder.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.verifier.invoke_structured_with_usage")
     def test_stepwise_mode(
         self, mock_verifier, mock_coder, mock_planner, mock_llm, mock_tool
     ):
         """Test STEPWISE code mode."""
-        from agents.ds_star.nodes.coder import CodeOutput
-        from agents.ds_star.nodes.planner import PlanOneStepOutput
-        from agents.ds_star.nodes.verifier import VerifierOutput
+        from OpenDsStar.agents.ds_star.nodes.coder import CodeOutput
+        from OpenDsStar.agents.ds_star.nodes.planner import PlanOneStepOutput
+        from OpenDsStar.agents.ds_star.nodes.verifier import VerifierOutput
 
         mock_planner.return_value = (
             PlanOneStepOutput(step="Test step"),
@@ -346,16 +346,16 @@ class TestCodeModes:
 
         assert result["code_mode"] == CodeMode.STEPWISE
 
-    @patch("agents.ds_star.nodes.planner.invoke_structured_with_usage")
-    @patch("agents.ds_star.nodes.coder.invoke_structured_with_usage")
-    @patch("agents.ds_star.nodes.verifier.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.planner.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.coder.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.verifier.invoke_structured_with_usage")
     def test_full_mode(
         self, mock_verifier, mock_coder, mock_planner, mock_llm, mock_tool
     ):
         """Test FULL code mode."""
-        from agents.ds_star.nodes.coder import CodeOutput
-        from agents.ds_star.nodes.planner import PlanOneStepOutput
-        from agents.ds_star.nodes.verifier import VerifierOutput
+        from OpenDsStar.agents.ds_star.nodes.coder import CodeOutput
+        from OpenDsStar.agents.ds_star.nodes.planner import PlanOneStepOutput
+        from OpenDsStar.agents.ds_star.nodes.verifier import VerifierOutput
 
         mock_planner.return_value = (
             PlanOneStepOutput(step="Test step"),

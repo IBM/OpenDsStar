@@ -4,8 +4,8 @@ import shutil
 import tempfile
 from pathlib import Path
 
-from src.experiments.core.types import EvalResult
-from src.experiments.utils.evaluation_cache import EvaluationCache
+from OpenDsStar.experiments.core.types import EvalResult
+from OpenDsStar.experiments.utils.evaluation_cache import EvaluationCache
 
 
 class MockEvaluator:

@@ -11,6 +11,35 @@ E2E tests differ from unit tests in that they:
 - Take longer to run (30-60 seconds or more)
 - Validate system behavior in realistic scenarios
 
+## Directory Structure
+
+E2E test artifacts are organized by benchmark:
+
+```
+tests/e2e/
+├── cache_outputs/           # All test artifacts (persisted after runs)
+│   ├── hotpotqa/           # HotpotQA benchmark artifacts
+│   │   ├── cache/          # LLM cache, embeddings, etc.
+│   │   └── output/         # Results, logs, trajectories
+│   ├── databench/          # DataBench benchmark artifacts
+│   │   ├── cache/
+│   │   └── output/
+│   └── kramabench/         # KramaBench benchmark artifacts
+│       ├── cache/
+│       └── output/
+├── conftest.py             # Shared test configuration
+├── test_hotpotqa_e2e.py
+├── test_databench_e2e.py
+├── test_kramabench_e2e.py
+└── test_databench_codeact_e2e.py
+```
+
+This structure ensures:
+- Each benchmark's artifacts are isolated
+- Easy to inspect results for specific benchmarks
+- No pollution of benchmark source directories
+- Artifacts persist after test runs for debugging
+
 ## Running E2E Tests
 
 ### Run all E2E tests

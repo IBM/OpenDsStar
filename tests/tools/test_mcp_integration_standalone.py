@@ -6,8 +6,8 @@ from unittest.mock import AsyncMock, Mock
 
 import pytest
 
-from tools.mcp_client_standalone import MCPToolInfo
-from tools.mcp_integration_standalone import (
+from OpenDsStar.tools.mcp_client_standalone import MCPToolInfo
+from OpenDsStar.tools.mcp_integration_standalone import (
     MCPToolWrapper,
     create_http_config,
     create_stdio_config,
@@ -198,7 +198,7 @@ class TestIntegration:
 
     def test_import_standalone_modules(self):
         """Test that standalone modules can be imported."""
-        from tools import mcp_client_standalone, mcp_integration_standalone
+        from OpenDsStar.tools import mcp_client_standalone, mcp_integration_standalone
 
         assert hasattr(mcp_client_standalone, "StandaloneMCPClient")
         assert hasattr(mcp_integration_standalone, "MCPToolWrapper")
@@ -206,7 +206,7 @@ class TestIntegration:
 
     def test_config_helpers_available(self):
         """Test that config helper functions are available."""
-        from tools.mcp_integration_standalone import (
+        from OpenDsStar.tools.mcp_integration_standalone import (
             create_http_config,
             create_stdio_config,
         )

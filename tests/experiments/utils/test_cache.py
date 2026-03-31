@@ -1,6 +1,6 @@
 """Tests for cache utilities."""
 
-from experiments.utils.cache import FileCache, NullCache
+from OpenDsStar.experiments.utils.cache import FileCache, NullCache
 
 
 class TestNullCache:

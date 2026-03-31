@@ -6,8 +6,8 @@ from pathlib import Path
 
 import pytest
 
-from experiments.benchmarks.hotpotqa.hotpotqa_main import HotpotQAExperiment
-from experiments.implementations.agent_factory import AgentType
+from OpenDsStar.experiments.benchmarks.hotpotqa.hotpotqa_main import HotpotQAExperiment
+from OpenDsStar.experiments.implementations.agent_factory import AgentType
 
 
 def test_experiment_params_save_format():
@@ -43,7 +43,7 @@ def test_experiment_params_save_format():
         # Verify type
         assert (
             config["type"]
-            == "experiments.benchmarks.hotpotqa.hotpotqa_main.HotpotQAExperiment"
+            == "OpenDsStar.experiments.benchmarks.hotpotqa.hotpotqa_main.HotpotQAExperiment"
         )
 
         # Verify args contain all constructor parameters

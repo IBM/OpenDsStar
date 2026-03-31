@@ -8,9 +8,9 @@ from langchain_core.language_models import BaseChatModel
 from langchain_core.messages import AIMessage
 from langchain_core.tools import BaseTool
 
-from experiments.core.config import AgentConfig, ExperimentConfig
-from experiments.core.context import PipelineConfig, PipelineContext
-from experiments.core.types import (
+from OpenDsStar.experiments.core.config import AgentConfig, ExperimentConfig
+from OpenDsStar.experiments.core.context import PipelineConfig, PipelineContext
+from OpenDsStar.experiments.core.types import (
     AgentOutput,
     BenchmarkEntry,
     Document,
@@ -18,8 +18,7 @@ from experiments.core.types import (
     GroundTruth,
     ProcessedBenchmark,
 )
-from experiments.interfaces.evaluator import Evaluator
-from experiments.utils.logging import StdoutLogger
+from OpenDsStar.experiments.interfaces.evaluator import Evaluator
 
 
 @pytest.fixture
@@ -232,5 +231,5 @@ def pipeline_context(pipeline_config):
     """Create a pipeline context for testing."""
     return PipelineContext(
         config=pipeline_config,
-        logger=StdoutLogger(),
+        cache=None,
     )

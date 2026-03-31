@@ -6,15 +6,19 @@ Verifies that agents properly extract and report token usage.
 
 from unittest.mock import Mock, patch
 
-from agents.codeact_smolagents.codeact_agent_smolagents import CodeActAgentSmolagents
-from agents.react_langchain.react_agent_langchain import ReactAgentLangchain
-from agents.react_smolagents.react_agent_smolagents import ReactAgentSmolagents
+from OpenDsStar.agents.codeact_smolagents.codeact_agent_smolagents import (
+    CodeActAgentSmolagents,
+)
+from OpenDsStar.agents.react_langchain.react_agent_langchain import ReactAgentLangchain
+from OpenDsStar.agents.react_smolagents.react_agent_smolagents import (
+    ReactAgentSmolagents,
+)
 
 
 class TestTokenTracking:
     """Test token tracking across different agent implementations."""
 
-    @patch("agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
+    @patch("OpenDsStar.agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
     def test_codeact_uses_monitor_for_tokens(self, mock_code_agent):
         """Test CodeActAgentSmolagents uses monitor for token tracking."""
         from smolagents import LiteLLMModel
@@ -38,7 +42,7 @@ class TestTokenTracking:
         assert token_usage.input_tokens == 0
         assert token_usage.output_tokens == 0
 
-    @patch("agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
+    @patch("OpenDsStar.agents.react_smolagents.react_agent_smolagents.ToolCallingAgent")
     def test_react_smolagents_uses_monitor_for_tokens(self, mock_tool_agent):
         """Test ReactAgentSmolagents uses monitor for token tracking."""
         from smolagents import LiteLLMModel

@@ -157,7 +157,9 @@ class Recreatable:
         # Convert agent_type string back to enum if needed (for experiments)
         if "agent_type" in args and isinstance(args["agent_type"], str):
             try:
-                from OpenDsStar.experiments.implementations.agent_factory import AgentType
+                from OpenDsStar.experiments.implementations.agent_factory import (
+                    AgentType,
+                )
 
                 args["agent_type"] = AgentType(args["agent_type"])
             except (ImportError, ValueError):

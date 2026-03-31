@@ -1,7 +1,9 @@
 """Tests to verify that prompts correctly reflect execution mode."""
 
-from agents.ds_star.ds_star_state import CodeMode, DSState
-from agents.ds_star.ds_star_utils import build_execution_environment_instructions
+from OpenDsStar.agents.ds_star.ds_star_state import CodeMode, DSState
+from OpenDsStar.agents.ds_star.ds_star_utils import (
+    build_execution_environment_instructions,
+)
 
 
 class TestExecutionModePrompts:

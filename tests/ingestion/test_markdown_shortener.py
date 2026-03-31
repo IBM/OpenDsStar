@@ -10,7 +10,9 @@ Tests focus on complex scenarios and edge cases:
 
 import pytest
 
-from ingestion.docling_based_ingestion.markdown_shortener import MarkdownShortener
+from OpenDsStar.ingestion.docling_based_ingestion.markdown_shortener import (
+    MarkdownShortener,
+)
 
 
 class TestMarkdownShortenerTables:

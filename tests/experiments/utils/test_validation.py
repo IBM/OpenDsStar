@@ -2,8 +2,12 @@
 
 import pytest
 
-from experiments.core.types import AgentOutput, GroundTruth, ProcessedBenchmark
-from experiments.utils.validation import (
+from OpenDsStar.experiments.core.types import (
+    AgentOutput,
+    GroundTruth,
+    ProcessedBenchmark,
+)
+from OpenDsStar.experiments.utils.validation import (
     ensure_unique_question_ids,
     index_by_question_id,
 )

@@ -5,8 +5,8 @@ from unittest.mock import Mock, patch
 import pytest
 from pydantic import ValidationError
 
-from agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
-from agents.ds_star.nodes.router import (
+from OpenDsStar.agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
+from OpenDsStar.agents.ds_star.nodes.router import (
     RouteAction,
     RouterNode,
     RouterOutput,
@@ -76,7 +76,7 @@ class TestRouterNodeDecisionMaking:
         assert len(result["trajectory"]) == 1
         assert result["trajectory"][0]["skipped"] is True
 
-    @patch("agents.ds_star.nodes.router.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.router.invoke_structured_with_usage")
     def test_add_next_step_action(self, mock_invoke, router_node):
         """Test handling of add_next_step action."""
         mock_invoke.return_value = (
@@ -107,7 +107,7 @@ class TestRouterNodeDecisionMaking:
         assert last_step.router_fix_index is None
         assert last_step.router_explanation == "Need more analysis"
 
-    @patch("agents.ds_star.nodes.router.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.router.invoke_structured_with_usage")
     def test_fix_step_action(self, mock_invoke, router_node):
         """Test handling of fix_step action."""
         mock_invoke.return_value = (
@@ -141,7 +141,7 @@ class TestRouterNodeDecisionMaking:
         assert last_step.router_fix_index == 0
         assert last_step.router_explanation == "Step 0 needs correction"
 
-    @patch("agents.ds_star.nodes.router.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.router.invoke_structured_with_usage")
     def test_fix_index_clamping_negative(self, mock_invoke, router_node):
         """Test that negative fix_index is clamped to 0."""
         mock_invoke.return_value = (
@@ -173,7 +173,7 @@ class TestRouterNodeDecisionMaking:
         last_step = result["steps"][-1]
         assert last_step.router_fix_index == 0
 
-    @patch("agents.ds_star.nodes.router.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.router.invoke_structured_with_usage")
     def test_fix_index_clamping_too_large(self, mock_invoke, router_node):
         """Test that fix_index >= len(steps) is clamped."""
         mock_invoke.return_value = (
@@ -206,7 +206,7 @@ class TestRouterNodeDecisionMaking:
         # Should be clamped to len(steps) - 1 = 1
         assert last_step.router_fix_index == 1
 
-    @patch("agents.ds_star.nodes.router.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.router.invoke_structured_with_usage")
     def test_none_fix_index_with_fix_step_raises_error(self, mock_invoke, router_node):
         """Test that None fix_index with fix_step action raises error."""
         mock_invoke.return_value = (
@@ -237,7 +237,7 @@ class TestRouterNodeDecisionMaking:
 class TestRouterNodeErrorHandling:
     """Test error handling in RouterNode.__call__."""
 
-    @patch("agents.ds_star.nodes.router.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.router.invoke_structured_with_usage")
     def test_handles_validation_error(self, mock_invoke, router_node):
         """Test handling of ValidationError."""
         mock_invoke.side_effect = ValidationError.from_exception_data(
@@ -261,7 +261,7 @@ class TestRouterNodeErrorHandling:
         assert result["fatal_error"] is not None
         assert "Router schema validation failed" in result["fatal_error"]
 
-    @patch("agents.ds_star.nodes.router.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.router.invoke_structured_with_usage")
     def test_handles_general_exception(self, mock_invoke, router_node):
         """Test handling of general Exception."""
         mock_invoke.side_effect = Exception("Test error")

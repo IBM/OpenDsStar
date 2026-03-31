@@ -6,7 +6,7 @@ from tempfile import TemporaryDirectory
 
 import pytest
 
-from experiments.utils.recreatable import Recreatable
+from OpenDsStar.experiments.utils.recreatable import Recreatable
 
 
 class SimpleClass(Recreatable):
@@ -162,7 +162,9 @@ def test_resolve_type_invalid():
         Recreatable._resolve_type("nonexistent.module.Class")
 
     with pytest.raises(AttributeError):
-        Recreatable._resolve_type("experiments.utils.recreatable.NonexistentClass")
+        Recreatable._resolve_type(
+            "OpenDsStar.experiments.utils.recreatable.NonexistentClass"
+        )
 
 
 def test_missing_capture_init_args():

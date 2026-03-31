@@ -7,7 +7,7 @@ and text reading with various encodings and formats.
 
 import pytest
 
-from ingestion.docling_based_ingestion.docling_converter import (
+from OpenDsStar.ingestion.docling_based_ingestion.docling_converter import (
     DoclingConverter,
     FallbackTextDoc,
 )

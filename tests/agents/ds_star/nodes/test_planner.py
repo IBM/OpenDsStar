@@ -5,8 +5,8 @@ from unittest.mock import Mock, patch
 import pytest
 from pydantic import ValidationError
 
-from agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
-from agents.ds_star.nodes.planner import (
+from OpenDsStar.agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
+from OpenDsStar.agents.ds_star.nodes.planner import (
     PlannerNode,
     PlanOneStepOutput,
     build_planner_prompt,
@@ -37,7 +37,7 @@ def planner_node(mock_llm):
 class TestPlannerNodeStepReplacement:
     """Test step replacement logic in PlannerNode.__call__."""
 
-    @patch("agents.ds_star.nodes.planner.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.planner.invoke_structured_with_usage")
     def test_replaces_step_at_valid_fix_index(self, mock_invoke, planner_node):
         """Test replacing a step at valid fix_index."""
         mock_invoke.return_value = (
@@ -69,7 +69,7 @@ class TestPlannerNodeStepReplacement:
         assert result["steps"][1].plan == "corrected step"
         assert result["steps_used"] == 3
 
-    @patch("agents.ds_star.nodes.planner.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.planner.invoke_structured_with_usage")
     def test_fix_index_out_of_bounds_negative(self, mock_invoke, planner_node):
         """Test fix_index that is negative (clamped to 0)."""
         mock_invoke.return_value = (
@@ -98,7 +98,7 @@ class TestPlannerNodeStepReplacement:
         assert len(result["steps"]) == 1
         assert result["steps"][0].plan == "new step"
 
-    @patch("agents.ds_star.nodes.planner.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.planner.invoke_structured_with_usage")
     def test_fix_index_out_of_bounds_too_large(self, mock_invoke, planner_node):
         """Test fix_index >= len(steps) (clamped to last step)."""
         mock_invoke.return_value = (
@@ -127,7 +127,7 @@ class TestPlannerNodeStepReplacement:
         assert len(result["steps"]) == 2
         assert result["steps"][1].plan == "new step"
 
-    @patch("agents.ds_star.nodes.planner.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.planner.invoke_structured_with_usage")
     def test_truncates_steps_after_replaced_step(self, mock_invoke, planner_node):
         """Test that steps after replaced step are removed."""
         mock_invoke.return_value = (
@@ -159,7 +159,7 @@ class TestPlannerNodeStepReplacement:
         assert result["steps"][0].plan == "step 0"
         assert result["steps"][1].plan == "corrected step"
 
-    @patch("agents.ds_star.nodes.planner.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.planner.invoke_structured_with_usage")
     def test_appends_when_no_router_action(self, mock_invoke, planner_node):
         """Test appending when no router_action."""
         mock_invoke.return_value = (
@@ -184,7 +184,7 @@ class TestPlannerNodeStepReplacement:
         assert len(result["steps"]) == 2
         assert result["steps"][1].plan == "new step"
 
-    @patch("agents.ds_star.nodes.planner.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.planner.invoke_structured_with_usage")
     def test_appends_when_add_next_step(self, mock_invoke, planner_node):
         """Test appending when router_action is add_next_step."""
         mock_invoke.return_value = (
@@ -209,7 +209,7 @@ class TestPlannerNodeStepReplacement:
         assert len(result["steps"]) == 2
         assert result["steps"][1].plan == "new step"
 
-    @patch("agents.ds_star.nodes.planner.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.planner.invoke_structured_with_usage")
     def test_steps_used_increments(self, mock_invoke, planner_node):
         """Test that steps_used counter increments correctly."""
         mock_invoke.return_value = (
@@ -257,7 +257,7 @@ class TestPlannerNodeErrorHandling:
         assert len(result["trajectory"]) == 1
         assert result["trajectory"][0]["skipped"] is True
 
-    @patch("agents.ds_star.nodes.planner.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.planner.invoke_structured_with_usage")
     def test_handles_validation_error(self, mock_invoke, planner_node):
         """Test handling of ValidationError."""
         mock_invoke.side_effect = ValidationError.from_exception_data(
@@ -281,7 +281,7 @@ class TestPlannerNodeErrorHandling:
         assert result["fatal_error"] is not None
         assert "Planner schema validation failed" in result["fatal_error"]
 
-    @patch("agents.ds_star.nodes.planner.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.planner.invoke_structured_with_usage")
     def test_handles_general_exception(self, mock_invoke, planner_node):
         """Test handling of general Exception."""
         mock_invoke.side_effect = Exception("Test error")
@@ -303,7 +303,7 @@ class TestPlannerNodeErrorHandling:
         assert result["fatal_error"] is not None
         assert "Planner invocation failed" in result["fatal_error"]
 
-    @patch("agents.ds_star.nodes.planner.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.planner.invoke_structured_with_usage")
     def test_handles_empty_step_text(self, mock_invoke, planner_node):
         """Test handling of empty step text."""
         mock_invoke.return_value = (

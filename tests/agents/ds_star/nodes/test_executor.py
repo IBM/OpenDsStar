@@ -2,8 +2,8 @@
 
 import pytest
 
-from agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
-from agents.ds_star.nodes.executer import ExecutorNode
+from OpenDsStar.agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
+from OpenDsStar.agents.ds_star.nodes.executer import ExecutorNode
 
 
 @pytest.fixture

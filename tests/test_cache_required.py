@@ -3,7 +3,7 @@
 
 def test_cache_dir_required():
     """Test that ModelBuilder.build() throws exception without cache_dir."""
-    from agents.utils.model_builder import ModelBuilder
+    from OpenDsStar.agents.utils.model_builder import ModelBuilder
 
     try:
         # Try to build without cache_dir - should raise ValueError

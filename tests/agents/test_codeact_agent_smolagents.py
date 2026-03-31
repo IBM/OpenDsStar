@@ -7,13 +7,13 @@ from unittest.mock import Mock, patch
 import pytest
 from smolagents import RunResult
 
-from agents import CodeActAgentSmolagents
+from OpenDsStar.agents import CodeActAgentSmolagents
 
 
 class TestCodeActAgentSmolagents:
     """Test suite for CodeActAgentSmolagents."""
 
-    @patch("agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
+    @patch("OpenDsStar.agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
     def test_initialization_with_litellm_model(self, mock_code_agent):
         """Test initialization with a LiteLLMModel instance."""
         from smolagents import LiteLLMModel
@@ -30,11 +30,11 @@ class TestCodeActAgentSmolagents:
         assert agent.max_steps == 5
         # StringToStreamTool is always added automatically
         assert len(agent.tools) == 1
-        from tools.string_to_stream_tool import StringToStreamTool
+        from OpenDsStar.tools.string_to_stream_tool import StringToStreamTool
 
         assert isinstance(agent.tools[0], StringToStreamTool)
 
-    @patch("agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
+    @patch("OpenDsStar.agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
     def test_initialization_with_custom_params(self, mock_code_agent):
         """Test initialization with custom parameters."""
         from smolagents import LiteLLMModel
@@ -57,7 +57,7 @@ class TestCodeActAgentSmolagents:
         assert agent.system_prompt == "Custom prompt"
         assert agent.code_timeout == 60
 
-    @patch("agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
+    @patch("OpenDsStar.agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
     def test_initialization_with_tools(self, mock_code_agent):
         """Test initialization with custom tools."""
         from langchain_core.tools import tool
@@ -86,7 +86,7 @@ class TestCodeActAgentSmolagents:
         ):
             CodeActAgentSmolagents(model=123)  # type: ignore
 
-    @patch("agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
+    @patch("OpenDsStar.agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
     def test_invoke_with_empty_query(self, mock_code_agent):
         """Test that empty query raises ValueError."""
         from smolagents import LiteLLMModel
@@ -105,7 +105,7 @@ class TestCodeActAgentSmolagents:
         with pytest.raises(ValueError, match="query must be a non-empty string"):
             agent.invoke(None)  # type: ignore
 
-    @patch("agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
+    @patch("OpenDsStar.agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
     def test_invoke_basic(self, mock_code_agent):
         """Test basic invoke functionality."""
         from smolagents import LiteLLMModel
@@ -130,7 +130,7 @@ class TestCodeActAgentSmolagents:
         assert len(result["trajectory"]) == 2
         assert result["steps_used"] == 2
 
-    @patch("agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
+    @patch("OpenDsStar.agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
     def test_invoke_with_error(self, mock_code_agent):
         """Test invoke when agent raises an error."""
         from smolagents import LiteLLMModel
@@ -150,7 +150,7 @@ class TestCodeActAgentSmolagents:
         assert result["steps_used"] == 0
         assert result["verifier_sufficient"] is False
 
-    @patch("agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
+    @patch("OpenDsStar.agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
     def test_invoke_return_format(self, mock_code_agent):
         """Test that invoke returns the correct format."""
         from smolagents import LiteLLMModel
@@ -185,7 +185,7 @@ class TestCodeActAgentSmolagents:
         for key in required_keys:
             assert key in result, f"Missing key: {key}"
 
-    @patch("agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
+    @patch("OpenDsStar.agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
     def test_system_prompt_override(self, mock_code_agent):
         """Test that system prompt is stored but not applied to CodeAgent."""
         from smolagents import LiteLLMModel
@@ -201,7 +201,7 @@ class TestCodeActAgentSmolagents:
         # (CodeAgent needs its default prompt structure to include tool descriptions)
         assert agent.system_prompt == custom_prompt
 
-    @patch("agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
+    @patch("OpenDsStar.agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
     def test_extract_config_from_langchain_model(self, mock_code_agent):
         """Test that we can pass a pre-built LiteLLMModel."""
         from smolagents import LiteLLMModel
@@ -221,7 +221,7 @@ class TestCodeActAgentSmolagents:
         # Model already built, so ModelBuilder.build should not be called
         assert agent.model_id == "gpt-4o-mini"
 
-    @patch("agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
+    @patch("OpenDsStar.agents.codeact_smolagents.codeact_agent_smolagents.CodeAgent")
     def test_extract_all_model_kwargs(self, mock_code_agent):
         """Test that we can pass a pre-built LiteLLMModel with custom config."""
         from smolagents import LiteLLMModel

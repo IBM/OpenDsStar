@@ -4,8 +4,8 @@ from unittest.mock import Mock, patch
 
 import pytest
 
-from agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
-from agents.ds_star.nodes.debugger import (
+from OpenDsStar.agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
+from OpenDsStar.agents.ds_star.nodes.debugger import (
     CodeOutput,
     DebuggerNode,
     _build_debugger_prompt,
@@ -420,7 +420,7 @@ class TestDebuggerPromptInstructions:
 class TestDebuggerNodeDebugTriesCounter:
     """Test debug_tries counter increments correctly."""
 
-    @patch("agents.ds_star.nodes.debugger.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.debugger.invoke_structured_with_usage")
     def test_increments_debug_tries_on_each_call(self, mock_invoke, debugger_node):
         """Test that debug_tries increments on each debugger call."""
         mock_invoke.return_value = (
@@ -455,7 +455,7 @@ class TestDebuggerNodeDebugTriesCounter:
         result = debugger_node(result)
         assert result["steps"][-1].debug_tries == 2
 
-    @patch("agents.ds_star.nodes.debugger.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.debugger.invoke_structured_with_usage")
     def test_debug_tries_starts_at_zero(self, mock_invoke, debugger_node):
         """Test that debug_tries starts at 0 for new steps."""
         mock_invoke.return_value = (

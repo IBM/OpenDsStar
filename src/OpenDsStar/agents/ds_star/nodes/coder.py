@@ -10,7 +10,10 @@ from OpenDsStar.agents.ds_star.ds_star_utils import (
 )
 from OpenDsStar.agents.ds_star.nodes.base_node import BaseNode
 from OpenDsStar.agents.utils.agents_utils import print_once
-from OpenDsStar.agents.utils.safe_imports import get_safe_builtins, get_safe_scientific_env
+from OpenDsStar.agents.utils.safe_imports import (
+    get_safe_builtins,
+    get_safe_scientific_env,
+)
 
 logger = logging.getLogger(__name__)
 

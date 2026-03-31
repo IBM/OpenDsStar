@@ -4,8 +4,8 @@ from unittest.mock import Mock
 
 import pytest
 
-from agents.ds_star.ds_star_graph import DSStarGraph
-from agents.ds_star.ds_star_state import CodeMode, DSState
+from OpenDsStar.agents.ds_star.ds_star_graph import DSStarGraph
+from OpenDsStar.agents.ds_star.ds_star_state import CodeMode, DSState
 
 
 @pytest.mark.integration

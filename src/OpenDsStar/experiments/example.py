@@ -9,6 +9,12 @@ This demonstrates the 5-step pipeline:
 5. Evaluate agent's output
 """
 
+from src.experiments import (
+    ExperimentPipeline,
+    PipelineConfig,
+    PipelineContext,
+)
+
 from OpenDsStar.experiments.implementations import (
     EchoToolBuilder,
     NumericExactEvaluator,
@@ -19,11 +25,6 @@ from OpenDsStar.experiments.implementations import (
     create_sample_benchmarks,
 )
 from OpenDsStar.experiments.utils import StdoutLogger
-from src.experiments import (
-    ExperimentPipeline,
-    PipelineConfig,
-    PipelineContext,
-)
 
 
 def main() -> None:

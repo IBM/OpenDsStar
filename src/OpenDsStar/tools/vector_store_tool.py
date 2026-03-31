@@ -16,6 +16,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 from pydantic import BaseModel, Field
 from tqdm import tqdm
 
+from OpenDsStar.core.milvus_uri import resolve_milvus_uri
 from OpenDsStar.core.model_registry import ModelRegistry
 from OpenDsStar.experiments.core.types import Document
 
@@ -243,7 +244,7 @@ class VectorStoreTool(BaseTool):
                 # Load existing Milvus vector store with AUTOINDEX for local mode
                 self.vector_db = Milvus(
                     embedding_function=embeddings,
-                    connection_args={"uri": str(milvus_db_path)},
+                    connection_args={"uri": resolve_milvus_uri(str(milvus_db_path))},
                     collection_name="corpus_documents",
                     auto_id=True,
                     index_params={
@@ -269,7 +270,7 @@ class VectorStoreTool(BaseTool):
             # (HNSW not supported in local Milvus)
             self.vector_db = Milvus(
                 embedding_function=embeddings,
-                connection_args={"uri": str(milvus_db_path)},
+                connection_args={"uri": resolve_milvus_uri(str(milvus_db_path))},
                 collection_name="corpus_documents",
                 auto_id=True,
                 index_params={

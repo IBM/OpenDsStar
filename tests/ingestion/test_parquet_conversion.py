@@ -6,7 +6,9 @@ from pathlib import Path
 import pandas as pd
 import pytest
 
-from ingestion.docling_based_ingestion.docling_converter import DoclingConverter
+from OpenDsStar.ingestion.docling_based_ingestion.docling_converter import (
+    DoclingConverter,
+)
 
 
 @pytest.fixture

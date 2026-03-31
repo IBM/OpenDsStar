@@ -24,7 +24,7 @@ import pandas as pd
 from fastmcp import FastMCP
 
 from OpenDsStar.experiments.core.types import Document
-from tools import VectorStoreTool
+from OpenDsStar.tools import VectorStoreTool
 
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)

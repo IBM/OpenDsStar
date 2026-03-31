@@ -10,7 +10,7 @@ from docling.exceptions import ConversionError
 from docling_core.types.doc.document import DoclingDocument
 from docling_core.types.io import DocumentStream
 
-from src.ingestion.utils import parquet_to_csv_bytes
+from OpenDsStar.ingestion.utils import parquet_to_csv_bytes
 
 logger = logging.getLogger(__name__)
 

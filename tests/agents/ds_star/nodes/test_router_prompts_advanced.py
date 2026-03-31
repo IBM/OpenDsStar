@@ -1,7 +1,7 @@
 """Advanced tests for RouterNode prompt building - non-trivial functionality."""
 
-from agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
-from agents.ds_star.nodes.router import build_router_prompt
+from OpenDsStar.agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
+from OpenDsStar.agents.ds_star.nodes.router import build_router_prompt
 
 
 class TestRouterPromptModeSpecificBehavior:

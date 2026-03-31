@@ -2,7 +2,7 @@ import types
 
 import pytest
 
-from agents.utils.safe_imports import (
+from OpenDsStar.agents.utils.safe_imports import (
     _ALLOWED_IMPORT_TOP_LEVEL,
     _DENY_IMPORT_TOP_LEVEL,
     _safe_exit,

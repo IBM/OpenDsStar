@@ -5,8 +5,8 @@ from unittest.mock import Mock, patch
 import pytest
 from pydantic import ValidationError
 
-from agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
-from agents.ds_star.nodes.verifier import (
+from OpenDsStar.agents.ds_star.ds_star_state import CodeMode, DSState, DSStep
+from OpenDsStar.agents.ds_star.nodes.verifier import (
     VerifierNode,
     VerifierOutput,
     _summarize_step_for_verifier,
@@ -36,7 +36,7 @@ def verifier_node(mock_llm):
 class TestVerifierNodeStateUpdates:
     """Test verifier state updates in VerifierNode.__call__."""
 
-    @patch("agents.ds_star.nodes.verifier.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.verifier.invoke_structured_with_usage")
     def test_sets_verifier_sufficient_and_explanation(self, mock_invoke, verifier_node):
         """Test that verifier_sufficient and verifier_explanation are set correctly."""
         mock_invoke.return_value = (
@@ -65,7 +65,7 @@ class TestVerifierNodeStateUpdates:
         assert last_step.verifier_sufficient is True
         assert last_step.verifier_explanation == "All requirements met"
 
-    @patch("agents.ds_star.nodes.verifier.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.verifier.invoke_structured_with_usage")
     def test_sets_sufficient_false_when_not_sufficient(
         self, mock_invoke, verifier_node
     ):
@@ -120,7 +120,7 @@ class TestVerifierNodeStateUpdates:
 class TestVerifierNodeErrorHandling:
     """Test error handling in VerifierNode.__call__."""
 
-    @patch("agents.ds_star.nodes.verifier.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.verifier.invoke_structured_with_usage")
     def test_handles_validation_error(self, mock_invoke, verifier_node):
         """Test handling of ValidationError sets sufficient=False."""
         mock_invoke.side_effect = ValidationError.from_exception_data(
@@ -146,7 +146,7 @@ class TestVerifierNodeErrorHandling:
         last_step = result["steps"][-1]
         assert last_step.verifier_sufficient is False
 
-    @patch("agents.ds_star.nodes.verifier.invoke_structured_with_usage")
+    @patch("OpenDsStar.agents.ds_star.nodes.verifier.invoke_structured_with_usage")
     def test_handles_general_exception(self, mock_invoke, verifier_node):
         """Test handling of general Exception sets sufficient=False."""
         mock_invoke.side_effect = Exception("Test error")

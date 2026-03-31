@@ -16,8 +16,8 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from ingestion.analyzer import AnalyzerDescriptionBuilder
-from ingestion.docling_cache import AnalyzerDescriptionCache
+from OpenDsStar.ingestion.analyzer import AnalyzerDescriptionBuilder
+from OpenDsStar.ingestion.docling_cache import AnalyzerDescriptionCache
 
 # ---------------------------------------------------------------------------
 # Fixtures
@@ -185,7 +185,7 @@ class TestAnalyzerDescriptionBuilderCache:
         mock_llm = MagicMock()
         mock_llm.model = "mock-analyzer-model"
 
-        with patch("ingestion.analyzer.ChatLiteLLM", return_value=mock_llm):
+        with patch("OpenDsStar.ingestion.analyzer.ChatLiteLLM", return_value=mock_llm):
             builder = AnalyzerDescriptionBuilder(
                 llm=mock_llm,
                 code_timeout=30,
@@ -216,11 +216,11 @@ class TestAnalyzerDescriptionBuilderCache:
         with (
             patch.object(builder.analyzer_graph, "invoke") as mock_invoke,
             patch(
-                "ingestion.analyzer.prepare_result_from_graph_state_analyzer_agent",
+                "OpenDsStar.ingestion.analyzer.prepare_result_from_graph_state_analyzer_agent",
                 return_value=dict(successful_analyzer_result),
             ),
-            patch("ingestion.analyzer.Milvus") as mock_milvus_cls,
-            patch("ingestion.analyzer.HuggingFaceEmbeddings"),
+            patch("OpenDsStar.ingestion.analyzer.Milvus") as mock_milvus_cls,
+            patch("OpenDsStar.ingestion.analyzer.HuggingFaceEmbeddings"),
         ):
             mock_milvus_cls.return_value = MagicMock()
             mock_invoke.return_value = MagicMock()
@@ -258,11 +258,11 @@ class TestAnalyzerDescriptionBuilderCache:
         with (
             patch.object(builder.analyzer_graph, "invoke") as mock_invoke,
             patch(
-                "ingestion.analyzer.prepare_result_from_graph_state_analyzer_agent",
+                "OpenDsStar.ingestion.analyzer.prepare_result_from_graph_state_analyzer_agent",
                 return_value=dict(failed_analyzer_result),
             ),
-            patch("ingestion.analyzer.Milvus") as mock_milvus_cls,
-            patch("ingestion.analyzer.HuggingFaceEmbeddings"),
+            patch("OpenDsStar.ingestion.analyzer.Milvus") as mock_milvus_cls,
+            patch("OpenDsStar.ingestion.analyzer.HuggingFaceEmbeddings"),
         ):
             mock_milvus_cls.return_value = MagicMock()
             mock_invoke.return_value = MagicMock()
@@ -295,11 +295,11 @@ class TestAnalyzerDescriptionBuilderCache:
         with (
             patch.object(builder.analyzer_graph, "invoke") as mock_invoke,
             patch(
-                "ingestion.analyzer.prepare_result_from_graph_state_analyzer_agent",
+                "OpenDsStar.ingestion.analyzer.prepare_result_from_graph_state_analyzer_agent",
                 return_value=dict(successful_analyzer_result),
             ),
-            patch("ingestion.analyzer.Milvus") as mock_milvus_cls,
-            patch("ingestion.analyzer.HuggingFaceEmbeddings"),
+            patch("OpenDsStar.ingestion.analyzer.Milvus") as mock_milvus_cls,
+            patch("OpenDsStar.ingestion.analyzer.HuggingFaceEmbeddings"),
         ):
             mock_milvus_cls.return_value = MagicMock()
             mock_invoke.return_value = MagicMock()
@@ -335,11 +335,11 @@ class TestAnalyzerDescriptionBuilderCache:
         with (
             patch.object(builder.analyzer_graph, "invoke") as mock_invoke,
             patch(
-                "ingestion.analyzer.prepare_result_from_graph_state_analyzer_agent",
+                "OpenDsStar.ingestion.analyzer.prepare_result_from_graph_state_analyzer_agent",
                 return_value=dict(successful_analyzer_result),
             ),
-            patch("ingestion.analyzer.Milvus") as mock_milvus_cls,
-            patch("ingestion.analyzer.HuggingFaceEmbeddings"),
+            patch("OpenDsStar.ingestion.analyzer.Milvus") as mock_milvus_cls,
+            patch("OpenDsStar.ingestion.analyzer.HuggingFaceEmbeddings"),
         ):
             mock_milvus_cls.return_value = MagicMock()
             mock_invoke.return_value = MagicMock()

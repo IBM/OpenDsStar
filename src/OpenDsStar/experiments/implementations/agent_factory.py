@@ -5,7 +5,7 @@ from typing import Any, List
 
 from langchain_core.tools import BaseTool
 
-from agents import (
+from OpenDsStar.agents import (
     CodeActAgentSmolagents,
     OpenDsStarAgent,
     ReactAgentLangchain,

@@ -5,7 +5,7 @@ from unittest.mock import Mock, patch
 import pytest
 from datasets import Dataset
 
-from experiments.benchmarks.databench.data_reader import DataBenchDataReader
+from OpenDsStar.experiments.benchmarks.databench.data_reader import DataBenchDataReader
 
 
 @pytest.mark.unit
@@ -35,11 +35,11 @@ def test_databench_loads_only_all_parquet_files(tmp_path):
     )
 
     with patch(
-        "experiments.benchmarks.databench.data_reader.load_from_disk",
+        "OpenDsStar.experiments.benchmarks.databench.data_reader.load_from_disk",
         return_value=mock_dataset,
     ):
         with patch(
-            "experiments.benchmarks.databench.data_reader.load_dataset",
+            "OpenDsStar.experiments.benchmarks.databench.data_reader.load_dataset",
             return_value=mock_dataset,
         ):
             # Create reader
@@ -108,11 +108,11 @@ def test_databench_corpus_structure(tmp_path):
     )
 
     with patch(
-        "experiments.benchmarks.databench.data_reader.load_from_disk",
+        "OpenDsStar.experiments.benchmarks.databench.data_reader.load_from_disk",
         return_value=mock_dataset,
     ):
         with patch(
-            "experiments.benchmarks.databench.data_reader.load_dataset",
+            "OpenDsStar.experiments.benchmarks.databench.data_reader.load_dataset",
             return_value=mock_dataset,
         ):
             reader = DataBenchDataReader(

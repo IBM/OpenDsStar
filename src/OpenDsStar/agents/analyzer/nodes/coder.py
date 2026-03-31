@@ -7,7 +7,9 @@ from typing import Any, Dict
 from langchain_core.language_models import BaseChatModel
 from pydantic import BaseModel, Field
 
-from OpenDsStar.agents.ds_star.ds_star_utils import build_execution_environment_instructions
+from OpenDsStar.agents.ds_star.ds_star_utils import (
+    build_execution_environment_instructions,
+)
 
 logger = logging.getLogger(__name__)
 
