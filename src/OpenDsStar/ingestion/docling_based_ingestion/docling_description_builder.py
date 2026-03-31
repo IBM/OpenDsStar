@@ -165,13 +165,14 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
             max_list_items=max_list_items,
         )
 
-        # --- Integration: Initialize MilvusManager ---
-        milvus_config = MilvusConfig(
+        # --- Integration: MilvusManager created lazily to avoid loading
+        #     embedding models when only describe_files() is needed ---
+        self._milvus_config = MilvusConfig(
             db_uri=self.db_uri,
             collection_name=self.collection_name,
             embedding_model=self.embedding_model,
         )
-        self.milvus_manager = MilvusManager(milvus_config)
+        self._milvus_manager: Optional[MilvusManager] = None
 
         self.desc_generator = FileDescriptionGenerator(
             llm=self.llm,
@@ -522,6 +523,13 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
                 )
 
         return results, docs_to_add, success_cnt
+
+    @property
+    def milvus_manager(self) -> MilvusManager:
+        """Lazily create MilvusManager on first access."""
+        if self._milvus_manager is None:
+            self._milvus_manager = MilvusManager(self._milvus_config)
+        return self._milvus_manager
 
     def _open_vector_db(self) -> Milvus:
         """
