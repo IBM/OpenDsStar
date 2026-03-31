@@ -4,11 +4,18 @@ End-to-end tests for DataBench with CodeAct agent.
 Tests that CodeAct agent can run on DataBench with different model providers.
 """
 
+import os
+
 import pytest
 from dotenv import load_dotenv
 
 # Load environment variables for API keys
 load_dotenv()
+
+_custom_api_configured = bool(
+    os.environ.get("CUSTOM_API_BASE", "").strip()
+    and os.environ.get("CUSTOM_API_KEY", "").strip()
+)
 
 
 @pytest.mark.e2e
@@ -59,6 +66,10 @@ def test_databench_codeact_watsonx():
 
 @pytest.mark.e2e
 @pytest.mark.slow
+@pytest.mark.skipif(
+    not _custom_api_configured,
+    reason="Custom API not configured (CUSTOM_API_BASE and CUSTOM_API_KEY required)",
+)
 def test_databench_codeact_custom_api():
     """
     E2E test: Run DataBench experiment with CodeAct agent using custom API model.
