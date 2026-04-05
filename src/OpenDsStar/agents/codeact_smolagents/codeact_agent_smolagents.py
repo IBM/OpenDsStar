@@ -19,6 +19,7 @@ from smolagents import CodeAgent, LiteLLMModel, RunResult
 from smolagents import Tool as SmolagentsTool
 
 from OpenDsStar.agents.base_agent import BaseAgent
+from OpenDsStar.agents.utils.logging_utils import init_logger
 from OpenDsStar.experiments.core.config import AgentConfig
 from OpenDsStar.tools.string_to_stream_tool import StringToStreamTool
 
@@ -62,6 +63,9 @@ class CodeActAgentSmolagents(BaseAgent):
         Raises:
             ValueError: If model is not a LiteLLMModel instance
         """
+        # Initialize logger if not already initialized (respects existing config)
+        init_logger()
+        
         # Store model info
         if isinstance(model, LiteLLMModel):
             # Already a LiteLLMModel instance (from ModelBuilder)
