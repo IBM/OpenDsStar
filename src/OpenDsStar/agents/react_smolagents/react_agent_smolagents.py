@@ -16,6 +16,7 @@ from smolagents import Tool as SmolagentsTool
 from smolagents import ToolCallingAgent
 
 from OpenDsStar.agents.base_agent import BaseAgent
+from OpenDsStar.agents.utils.logging_utils import init_logger
 from OpenDsStar.experiments.core.config import AgentConfig
 
 logger = logging.getLogger(__name__)
@@ -50,6 +51,9 @@ class ReactAgentSmolagents(BaseAgent):
         Raises:
             ValueError: If model is invalid
         """
+        # Initialize logger if not already initialized (respects existing config)
+        init_logger()
+        
         # Import here to avoid requiring smolagents if not used
         try:
             from smolagents import LiteLLMModel

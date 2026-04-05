@@ -13,6 +13,7 @@ from langchain_core.messages import AIMessage, HumanMessage, ToolMessage
 from langgraph.prebuilt import create_react_agent
 
 from OpenDsStar.agents.base_agent import BaseAgent
+from OpenDsStar.agents.utils.logging_utils import init_logger
 from OpenDsStar.experiments.core.config import AgentConfig
 
 logger = logging.getLogger(__name__)
@@ -45,6 +46,9 @@ class ReactAgentLangchain(BaseAgent):
         Raises:
             ValueError: If model is not a BaseChatModel instance
         """
+        # Initialize logger if not already initialized
+        init_logger()
+        
         # Validate model type
         if not isinstance(model, BaseChatModel):
             raise ValueError(
