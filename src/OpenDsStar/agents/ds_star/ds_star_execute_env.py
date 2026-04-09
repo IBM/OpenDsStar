@@ -111,6 +111,14 @@ import plotly.graph_objects as _go
 import scipy as sp
 from langchain.tools import BaseTool
 
+try:
+    import pyarrow as pa
+    import pyarrow.parquet as pq
+
+    PYARROW_AVAILABLE = True
+except ImportError:
+    PYARROW_AVAILABLE = False
+
 from OpenDsStar.agents.ds_star.ds_star_state import CodeMode, DSState
 from OpenDsStar.agents.ds_star.ds_star_utils import (
     assert_no_imports,
@@ -165,6 +173,88 @@ def _is_picklable(obj: Any) -> bool:
         return True
     except (pickle.PicklingError, TypeError, AttributeError):
         return False
+
+
+def _serialize_tool_result(result: Any) -> Dict[str, Any]:
+    """
+    Serialize a tool result for cross-process transfer.
+
+    For large DataFrames (>10MB), uses Parquet format which is 5-10x faster
+    than pickle. For other objects, uses standard pickle.
+
+    Args:
+        result: The tool result to serialize
+
+    Returns:
+        Dict with 'type' and 'data' keys for deserialization
+
+    Raises:
+        TypeError: If result cannot be serialized
+    """
+    # Check if it's a DataFrame and use Parquet if available and beneficial
+    if isinstance(result, pd.DataFrame) and PYARROW_AVAILABLE:
+        # Estimate size - use Parquet for DataFrames >10MB
+        # (rough heuristic: memory_usage().sum() approximates in-memory size)
+        try:
+            estimated_size = result.memory_usage(deep=True).sum()
+            if estimated_size > 10 * 1024 * 1024:  # 10MB threshold
+                logger.debug(
+                    f"Serializing large DataFrame ({estimated_size / 1024 / 1024:.1f}MB) "
+                    "with Parquet for faster cross-process transfer"
+                )
+                # Type ignore: pa and pq are checked via PYARROW_AVAILABLE
+                table = pa.Table.from_pandas(result)  # type: ignore
+                sink = pa.BufferOutputStream()  # type: ignore
+                pq.write_table(table, sink, compression="snappy")  # type: ignore
+                return {
+                    "type": "dataframe_parquet",
+                    "data": sink.getvalue().to_pybytes(),  # type: ignore
+                }
+        except Exception as e:
+            # Fall back to pickle if Parquet serialization fails
+            logger.debug(f"Parquet serialization failed, falling back to pickle: {e}")
+
+    # Default: use pickle for everything else
+    try:
+        return {"type": "pickle", "data": pickle.dumps(result)}
+    except (pickle.PicklingError, TypeError, AttributeError) as e:
+        raise TypeError(
+            f"Tool result of type {type(result).__name__} cannot be serialized: {e}"
+        ) from e
+
+
+def _deserialize_tool_result(serialized: Dict[str, Any]) -> Any:
+    """
+    Deserialize a tool result from cross-process transfer.
+
+    Args:
+        serialized: Dict with 'type' and 'data' keys from _serialize_tool_result
+
+    Returns:
+        The deserialized tool result
+
+    Raises:
+        ValueError: If serialization type is unknown or data is missing
+    """
+    result_type = serialized.get("type")
+    data = serialized.get("data")
+
+    if data is None:
+        raise ValueError("Serialized data is missing 'data' field")
+
+    if result_type == "dataframe_parquet":
+        if not PYARROW_AVAILABLE:
+            raise RuntimeError(
+                "Received Parquet-serialized DataFrame but pyarrow is not available"
+            )
+        logger.debug("Deserializing DataFrame from Parquet")
+        # Type ignore: pa and pq are checked via PYARROW_AVAILABLE
+        return pq.read_table(pa.BufferReader(data)).to_pandas()  # type: ignore
+
+    if result_type == "pickle":
+        return pickle.loads(data)
+
+    raise ValueError(f"Unknown serialization type: {result_type}")
 
 
 def _build_base_env() -> Dict[str, Any]:
@@ -515,7 +605,9 @@ def _make_remote_tool_proxy(tool_name: str, conn: Any) -> Callable[..., Any]:
 
         status = response.get("status")
         if status == "ok":
-            return response.get("result")
+            serialized_result = response.get("result")
+            # Deserialize the result (handles Parquet-serialized DataFrames)
+            return _deserialize_tool_result(serialized_result)
 
         if status == "error":
             error_msg = response.get("error", f"Tool '{tool_name}' failed")
@@ -612,13 +704,9 @@ def _serve_tools_over_connection(
 
             try:
                 result = wrapped_tools[tool_name](*args, **kwargs)
-                if not _is_picklable(result):
-                    raise TypeError(
-                        f"Tool '{tool_name}' returned a non-picklable object of type "
-                        f"{type(result)!r}; cross-process execution requires picklable "
-                        f"tool results"
-                    )
-                conn.send({"status": "ok", "result": result})
+                # Serialize the result (uses Parquet for large DataFrames)
+                serialized_result = _serialize_tool_result(result)
+                conn.send({"status": "ok", "result": serialized_result})
             except Exception as exc:
                 tb = traceback.format_exc(limit=8)
                 try:

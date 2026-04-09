@@ -158,7 +158,7 @@ class OpenDsStarAgent(BaseAgent):
         # Initialize logger if not already initialized
         # This ensures INFO messages are visible when using the package after pip install
         init_logger()
-        
+
         # Validate model type first
         if not isinstance(model, BaseChatModel):
             raise ValueError(

@@ -48,7 +48,7 @@ class ReactAgentLangchain(BaseAgent):
         """
         # Initialize logger if not already initialized
         init_logger()
-        
+
         # Validate model type
         if not isinstance(model, BaseChatModel):
             raise ValueError(

@@ -65,7 +65,7 @@ class CodeActAgentSmolagents(BaseAgent):
         """
         # Initialize logger if not already initialized (respects existing config)
         init_logger()
-        
+
         # Store model info
         if isinstance(model, LiteLLMModel):
             # Already a LiteLLMModel instance (from ModelBuilder)
