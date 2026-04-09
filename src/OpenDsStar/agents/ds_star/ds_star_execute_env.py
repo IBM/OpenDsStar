@@ -16,11 +16,42 @@ enforced by terminating that child process if it exceeds the configured limit.
 
 Tools are NOT executed inside the child process. Instead, tools remain in the
 parent process and are exposed to the child through RPC-style proxy callables
-over a multiprocessing Pipe. This gives us both:
+over multiprocessing Queues. This gives us both:
 
 - reliable timeout enforcement, because the child can always be terminated
 - tool usability, because generated code can still call tools as normal
   Python functions (e.g. `search_files(...)`)
+
+Data serialization
+------------------
+Data crosses the process boundary in two directions:
+
+1. **Tool results (parent → child):** When generated code calls a tool, the
+   tool runs in the parent, and its result is sent to the child via
+   ``tool_result_queue``.  DataFrames >100KB are serialized as Parquet bytes
+   (via ``_serialize_tool_result``), which is much more compact than pickle
+   for large tabular data.
+
+2. **Outputs (child → parent):** After code execution, the ``outputs`` dict
+   is sent back to the parent via ``result_queue``.  ``_serialize_outputs``
+   walks the dict and converts any DataFrame values to Parquet bytes *before*
+   ``Queue.put()``, so the Queue's internal pickle only sees compact bytes
+   rather than the full DataFrame object graph.
+
+   **WARNING:** If you remove or bypass ``_serialize_outputs``, large
+   DataFrames in outputs will be pickled directly by ``Queue.put()``.  With
+   spawn context this causes the child's feeder thread to block indefinitely
+   trying to flush the pickle payload through the Queue's internal pipe.
+
+Queue read order (critical)
+---------------------------
+The parent MUST call ``result_queue.get(timeout=seconds)`` BEFORE
+``proc.join()``.  With ``spawn`` context, the child's Queue feeder thread
+keeps the process alive until the parent drains the Queue.  If the parent
+calls ``proc.join()`` first, it will *always* appear to timeout when the
+child produced any non-trivial output, because the feeder thread prevents
+process exit.  This was a subtle deadlock bug — do not revert to the
+``proc.join()``-first pattern.
 
 Important guarantees
 --------------------
@@ -57,7 +88,7 @@ Important caveats
    Usually fine:
    - str / int / float / bool / None
    - dict / list / tuple
-   - pandas DataFrames / Series
+   - pandas DataFrames / Series (auto-converted to Parquet when >100KB)
    - numpy arrays / scalars
    Usually NOT fine:
    - open file handles
@@ -259,10 +290,15 @@ def _deserialize_tool_result(serialized: Dict[str, Any]) -> Any:
 
 def _serialize_outputs(outputs: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Serialize an outputs dict for cross-process transfer.
+    Serialize an outputs dict for cross-process transfer (child → parent).
 
-    Walks the dict and applies Parquet serialization to any DataFrame values
-    so the entire dict can be pickled cheaply by Queue.put().
+    Walks the dict and converts any DataFrame values to Parquet bytes via
+    ``_serialize_tool_result``.  This is called in the CHILD process before
+    ``result_queue.put()`` so that the Queue's internal pickle only sees
+    compact bytes instead of the full DataFrame object graph.
+
+    Without this step, large DataFrames cause the Queue's feeder thread to
+    block indefinitely on spawn context (the pipe buffer fills up).
     """
     serialized: Dict[str, Any] = {}
     for key, value in outputs.items():
@@ -278,10 +314,13 @@ def _serialize_outputs(outputs: Dict[str, Any]) -> Dict[str, Any]:
 
 def _deserialize_outputs(outputs: Dict[str, Any]) -> Dict[str, Any]:
     """
-    Deserialize an outputs dict received from cross-process transfer.
+    Deserialize an outputs dict received from cross-process transfer (parent side).
 
-    Reverses _serialize_outputs: any values that are serialized-tool-result
-    dicts are deserialized back to their original types.
+    Reverses ``_serialize_outputs``: any values that look like serialized-tool-result
+    dicts (have ``type`` and ``data`` keys) are deserialized back to their
+    original types (e.g. Parquet bytes → DataFrame).  Regular dicts that
+    happen to have those keys but aren't valid serialized results pass through
+    unchanged (the deserialization attempt fails silently and falls back).
     """
     deserialized: Dict[str, Any] = {}
     for key, value in outputs.items():
