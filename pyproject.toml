@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "OpenDsStar"
-version = "1.0.11"
+version = "1.0.12"
 authors = [
     {name = "Yoav Kantor", email = "yoavka@il.ibm.com"},
     {name = "Assaf Toledo", email = "assaf.toledo@ibm.com"},
@@ -12,7 +12,7 @@ authors = [
 ]
 description = "A tool-based DS-Star agent implementation using LangGraph"
 readme = "README.md"
-requires-python = ">=3.11,<3.14"
+requires-python = ">=3.11,<3.13"
 keywords = ["agent", "llm", "langgraph", "data-science", "ds-star"]
 license = {text = "Apache-2.0"}
 classifiers = [
