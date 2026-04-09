@@ -11,9 +11,13 @@ from OpenDsStar.agents.ds_star.ds_star_execute_env import (
     _build_base_env,
     _build_shared_execution_scope,
     _collect_prev_outputs,
+    _deserialize_outputs,
+    _deserialize_tool_result,
     _extract_outputs_from_scope,
     _is_picklable,
     _run_coroutine_safely,
+    _serialize_outputs,
+    _serialize_tool_result,
     _serve_tools_over_connection,
     _should_normalize_tool_result,
     _tool_to_runtime_callable,
@@ -637,6 +641,107 @@ class TestMemoryLimit:
         _, out = _exec(code, timeout=30)
         assert "_error" in out
         assert "done" not in out
+
+
+# ---------------------------------------------------------------------------
+# Serialization (tool results + outputs)
+# ---------------------------------------------------------------------------
+
+
+class TestSerialization:
+    """Tests for DataFrame serialization across process boundaries."""
+
+    def test_serialize_deserialize_tool_result_parquet(self):
+        """Large DataFrame round-trips through Parquet serialization."""
+        df = pd.DataFrame(np.random.randn(50_000, 10))
+        serialized = _serialize_tool_result(df)
+        assert serialized["type"] == "dataframe_parquet"
+        result = _deserialize_tool_result(serialized)
+        assert isinstance(result, pd.DataFrame)
+        assert result.shape == df.shape
+        pd.testing.assert_frame_equal(result, df)
+
+    def test_serialize_tool_result_small_df_uses_pickle(self):
+        """Small DataFrame (<100KB) uses pickle path."""
+        df = pd.DataFrame({"a": [1, 2, 3]})
+        serialized = _serialize_tool_result(df)
+        assert serialized["type"] == "pickle"
+        result = _deserialize_tool_result(serialized)
+        pd.testing.assert_frame_equal(result, df)
+
+    def test_serialize_tool_result_non_df(self):
+        """Non-DataFrame values use pickle."""
+        for val in ["hello", 42, {"key": "val"}, [1, 2, 3]]:
+            serialized = _serialize_tool_result(val)
+            assert serialized["type"] == "pickle"
+            assert _deserialize_tool_result(serialized) == val
+
+    def test_serialize_outputs_round_trip(self):
+        """_serialize_outputs + _deserialize_outputs round-trips mixed dict."""
+        df = pd.DataFrame(np.random.randn(50_000, 5))
+        outputs = {
+            "result": df,
+            "count": 42,
+            "name": "test",
+            "nested": {"a": 1},
+        }
+        serialized = _serialize_outputs(outputs)
+        # DataFrame should be serialized
+        assert isinstance(serialized["result"], dict)
+        assert serialized["result"]["type"] == "dataframe_parquet"
+        # Scalars should pass through
+        assert serialized["count"] == 42
+        assert serialized["name"] == "test"
+
+        deserialized = _deserialize_outputs(serialized)
+        pd.testing.assert_frame_equal(deserialized["result"], df)
+        assert deserialized["count"] == 42
+        assert deserialized["name"] == "test"
+        assert deserialized["nested"] == {"a": 1}
+
+    def test_serialize_outputs_preserves_non_df_dicts(self):
+        """Dicts with 'type'/'data' keys that aren't serialized results pass through."""
+        outputs = {
+            "config": {"type": "csv", "data": "some_path.csv"},
+            "scalar": 99,
+        }
+        serialized = _serialize_outputs(outputs)
+        deserialized = _deserialize_outputs(serialized)
+        # Should survive unchanged since "csv" is not a known serialization type
+        assert deserialized["config"] == {"type": "csv", "data": "some_path.csv"}
+        assert deserialized["scalar"] == 99
+
+    @pytest.mark.timeout(120)
+    def test_tool_returning_large_df_in_outputs(self):
+        """Integration: tool returns large DataFrame, stored in outputs, survives round trip.
+
+        Uses 10K rows x 10 cols (~800KB) — enough to trigger Parquet path (>100KB)
+        while keeping subprocess spawn + import overhead manageable.
+        """
+        large_df = pd.DataFrame(np.random.randn(10_000, 10))
+
+        def get_data():
+            return large_df
+
+        _, out = _exec(
+            "outputs['df'] = get_data()",
+            tools={"get_data": get_data},
+            timeout=90,
+        )
+        assert "_error" not in out, f"Error: {out.get('_error')}"
+        assert isinstance(out["df"], pd.DataFrame)
+        assert out["df"].shape == (10_000, 10)
+
+    @pytest.mark.timeout(120)
+    def test_large_df_created_in_code_in_outputs(self):
+        """Integration: code creates large DataFrame in sandbox, stored in outputs, survives round trip."""
+        _, out = _exec(
+            "outputs['df'] = pd.DataFrame(np.random.randn(10_000, 10))",
+            timeout=90,
+        )
+        assert "_error" not in out, f"Error: {out.get('_error')}"
+        assert isinstance(out["df"], pd.DataFrame)
+        assert out["df"].shape == (10_000, 10)
 
 
 class TestBuildBaseEnv:
