@@ -179,8 +179,8 @@ def _serialize_tool_result(result: Any) -> Dict[str, Any]:
     """
     Serialize a tool result for cross-process transfer.
 
-    For large DataFrames (>10MB), uses Parquet format which is 5-10x faster
-    than pickle. For other objects, uses standard pickle.
+    For DataFrames (>100KB), uses Parquet format which is 5-10x faster
+    than pickle and avoids Pipe blocking. For other objects, uses standard pickle.
 
     Args:
         result: The tool result to serialize
@@ -193,13 +193,13 @@ def _serialize_tool_result(result: Any) -> Dict[str, Any]:
     """
     # Check if it's a DataFrame and use Parquet if available and beneficial
     if isinstance(result, pd.DataFrame) and PYARROW_AVAILABLE:
-        # Estimate size - use Parquet for DataFrames >10MB
+        # Estimate size - use Parquet for DataFrames >100KB to avoid Pipe blocking
         # (rough heuristic: memory_usage().sum() approximates in-memory size)
         try:
-            estimated_size = result.memory_usage(deep=True).sum()
-            if estimated_size > 10 * 1024 * 1024:  # 10MB threshold
+            estimated_size = result.memory_usage().sum()
+            if estimated_size > 100 * 1024:  # 100KB threshold (lowered to avoid Pipe blocking)
                 logger.debug(
-                    f"Serializing large DataFrame ({estimated_size / 1024 / 1024:.1f}MB) "
+                    f"Serializing DataFrame (~{estimated_size / 1024 / 1024:.1f}MB) "
                     "with Parquet for faster cross-process transfer"
                 )
                 # Type ignore: pa and pq are checked via PYARROW_AVAILABLE
@@ -255,6 +255,44 @@ def _deserialize_tool_result(serialized: Dict[str, Any]) -> Any:
         return pickle.loads(data)
 
     raise ValueError(f"Unknown serialization type: {result_type}")
+
+
+def _serialize_outputs(outputs: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Serialize an outputs dict for cross-process transfer.
+
+    Walks the dict and applies Parquet serialization to any DataFrame values
+    so the entire dict can be pickled cheaply by Queue.put().
+    """
+    serialized: Dict[str, Any] = {}
+    for key, value in outputs.items():
+        if isinstance(value, pd.DataFrame) and PYARROW_AVAILABLE:
+            try:
+                serialized[key] = _serialize_tool_result(value)
+                continue
+            except Exception:
+                pass  # fall through to raw assignment
+        serialized[key] = value
+    return serialized
+
+
+def _deserialize_outputs(outputs: Dict[str, Any]) -> Dict[str, Any]:
+    """
+    Deserialize an outputs dict received from cross-process transfer.
+
+    Reverses _serialize_outputs: any values that are serialized-tool-result
+    dicts are deserialized back to their original types.
+    """
+    deserialized: Dict[str, Any] = {}
+    for key, value in outputs.items():
+        if isinstance(value, dict) and "type" in value and "data" in value:
+            try:
+                deserialized[key] = _deserialize_tool_result(value)
+                continue
+            except Exception:
+                pass  # fall through to raw assignment
+        deserialized[key] = value
+    return deserialized
 
 
 def _build_base_env() -> Dict[str, Any]:
@@ -546,16 +584,22 @@ def _build_shared_execution_scope(
     return scope
 
 
-def _make_remote_tool_proxy(tool_name: str, conn: Any) -> Callable[..., Any]:
+def _make_remote_tool_proxy(
+    tool_name: str,
+    tool_request_queue: multiprocessing.Queue,
+    tool_result_queue: multiprocessing.Queue,
+) -> Callable[..., Any]:
     """
     Create a child-process proxy callable for a parent-hosted tool.
 
     Generated code calls this proxy exactly like a normal function. The proxy:
     - serializes the call request
-    - sends it to the parent over the pipe
-    - waits for the parent's response
+    - sends it to the parent via queue
+    - waits for the parent's response via queue
     - returns the serialized result
     - re-raises tool failures as RemoteToolError
+
+    Uses Queues instead of Pipes to avoid blocking with large data transfers.
 
     Requirement:
         Both the arguments and returned value must be picklable because they
@@ -568,6 +612,7 @@ def _make_remote_tool_proxy(tool_name: str, conn: Any) -> Callable[..., Any]:
     """
 
     def remote_tool(*args, **kwargs):
+        import sys
         if not _is_picklable(args):
             raise TypeError(
                 f"Arguments for tool '{tool_name}' are not picklable; "
@@ -586,18 +631,14 @@ def _make_remote_tool_proxy(tool_name: str, conn: Any) -> Callable[..., Any]:
                 "args": args,
                 "kwargs": kwargs,
             }
-            conn.send(request)
+            tool_request_queue.put(request, block=False)
         except Exception as exc:
             raise RemoteToolError(
                 f"Failed sending tool request for '{tool_name}': {exc}"
             ) from exc
 
         try:
-            response = conn.recv()
-        except EOFError as exc:
-            raise RemoteToolError(
-                f"Tool host connection closed while calling '{tool_name}'"
-            ) from exc
+            response = tool_result_queue.get(timeout=60)
         except Exception as exc:
             raise RemoteToolError(
                 f"Failed receiving tool response for '{tool_name}': {exc}"
@@ -725,13 +766,106 @@ def _serve_tools_over_connection(
         except Exception:
             pass
 
+def _serve_tools_over_queues(
+    tool_request_queue: multiprocessing.Queue,
+    tool_result_queue: multiprocessing.Queue,
+    tools: Dict[str, Any],
+    normalize_tool_result: Optional[Callable[[Any], Any]],
+) -> None:
+    """
+    Serve tool calls in the parent process using queues (no Pipe blocking).
+
+    This function runs in a background thread in the parent process while the
+    child executes user code.
+
+    Flow:
+    - child puts {"op": "call_tool", ...} in tool_request_queue
+    - parent executes the real tool
+    - parent puts {"status": "ok", "result": ...} in tool_result_queue
+
+    Uses Queues instead of Pipes to avoid blocking with large data transfers.
+
+    Important:
+        Tools themselves do not cross the process boundary and therefore do not
+        need to be picklable.
+
+    Requirement:
+        Returned results MUST be picklable so they can be sent back to the child.
+
+    Caveat:
+        This loop does not enforce per-tool timeouts. A blocking tool can still
+        block the serving thread unless the tool has its own timeout policy.
+    """
+    import queue
+    
+    wrapped_tools: Dict[str, Callable[..., Any]] = {}
+    for name, tool in tools.items():
+        runtime_tool = _tool_to_runtime_callable(tool)
+        wrapped_tools[name] = _wrap_tool(runtime_tool, normalize_tool_result)
+
+    try:
+        while True:
+            try:
+                request = tool_request_queue.get(timeout=1)
+                logger.debug(f"Got tool request: {request.get('tool_name', 'unknown')}")
+            except queue.Empty:
+                continue
+
+            if not isinstance(request, dict):
+                tool_result_queue.put({
+                    "status": "error",
+                    "error": f"Invalid tool request: {type(request)!r}",
+                })
+                continue
+
+            op = request.get("op")
+            if op == "shutdown":
+                logger.debug("Tool thread shutting down")
+                break
+
+            if op != "call_tool":
+                tool_result_queue.put({
+                    "status": "error",
+                    "error": f"Unknown op: {op!r}",
+                })
+                continue
+
+            tool_name = request.get("tool_name")
+            args = request.get("args", ())
+            kwargs = request.get("kwargs", {})
+
+            if tool_name not in wrapped_tools:
+                tool_result_queue.put({
+                    "status": "error",
+                    "error": f"Tool '{tool_name}' not found",
+                })
+                continue
+
+            try:
+                result = wrapped_tools[tool_name](*args, **kwargs)
+                # Serialize the result (uses Parquet for large DataFrames)
+                serialized_result = _serialize_tool_result(result)
+                tool_result_queue.put({"status": "ok", "result": serialized_result})
+            except Exception as exc:
+                tb = traceback.format_exc(limit=8)
+                logger.debug(f"Tool '{tool_name}' failed: {exc}")
+                tool_result_queue.put({
+                    "status": "error",
+                    "error": f"{type(exc).__name__}: {exc}",
+                    "traceback": tb,
+                })
+    except Exception as e:
+        logger.error(f"Tool serving thread error: {e}")
+
+
 
 def _execute_code_in_process(
     code: str,
     env_globals_serializable: Dict[str, Any],
     env_locals: Dict[str, Any],
     result_queue: multiprocessing.Queue,
-    tool_conn: Any,
+    tool_request_queue: multiprocessing.Queue,
+    tool_result_queue: multiprocessing.Queue,
     tool_names: list[str],
     max_memory_bytes: int = 0,
 ) -> None:
@@ -749,6 +883,7 @@ def _execute_code_in_process(
     - The child only receives the serializable subset of the scope.
     - Tools are not executed here; instead, named proxy callables are injected.
     - stdout/stderr are captured and returned as logs.
+    - Uses Queues for tool communication to avoid Pipe blocking.
     """
     # Enforce memory limit on the child process (Linux only).
     if max_memory_bytes > 0 and platform.system() == "Linux":
@@ -785,7 +920,9 @@ def _execute_code_in_process(
         }
 
         for tool_name in tool_names:
-            shared_scope[tool_name] = _make_remote_tool_proxy(tool_name, tool_conn)
+            shared_scope[tool_name] = _make_remote_tool_proxy(
+                tool_name, tool_request_queue, tool_result_queue
+            )
 
         if "outputs" not in shared_scope or not isinstance(
             shared_scope["outputs"], dict
@@ -794,6 +931,7 @@ def _execute_code_in_process(
 
         exec(code, shared_scope, shared_scope)
         outputs = _extract_outputs_from_scope(shared_scope)
+        outputs = _serialize_outputs(outputs)
 
         logs = stdout_buf.getvalue()
         err = stderr_buf.getvalue()
@@ -817,10 +955,6 @@ def _execute_code_in_process(
 
         result_queue.put(("error", logs.strip(), payload))
     finally:
-        try:
-            tool_conn.close()
-        except Exception:
-            pass
         sys.stdout, sys.stderr = old_stdout, old_stderr
 
 
@@ -896,11 +1030,12 @@ def run_code_with_timeout(
         ctx = multiprocessing.get_context("fork")
 
     result_queue: multiprocessing.Queue = ctx.Queue()  # type: ignore
-    parent_conn, child_conn = ctx.Pipe(duplex=True)  # type: ignore
+    tool_request_queue: multiprocessing.Queue = ctx.Queue()  # type: ignore
+    tool_result_queue: multiprocessing.Queue = ctx.Queue()  # type: ignore
 
     tool_thread = threading.Thread(
-        target=_serve_tools_over_connection,
-        args=(parent_conn, tools_dict, normalize_tool_result),
+        target=_serve_tools_over_queues,
+        args=(tool_request_queue, tool_result_queue, tools_dict, normalize_tool_result),
         daemon=True,
     )
     tool_thread.start()
@@ -912,7 +1047,8 @@ def run_code_with_timeout(
             env_globals_serializable,
             env_locals_serializable,
             result_queue,
-            child_conn,
+            tool_request_queue,
+            tool_result_queue,
             list(tools_dict.keys()),
             max_memory_bytes,
         ),
@@ -921,45 +1057,33 @@ def run_code_with_timeout(
 
     proc.start()
 
+    # Read the result queue with a timeout rather than proc.join() first.
+    # With multiprocessing Queue + spawn context, the child's feeder thread
+    # keeps the process alive until the parent drains the Queue. Calling
+    # proc.join() before result_queue.get() would always appear to timeout.
     try:
-        child_conn.close()
-    except Exception:
-        pass
+        status, logs, payload = result_queue.get(timeout=seconds)
+    except queue.Empty:
+        # Timed out waiting for result — kill the child
+        if proc.is_alive():
+            proc.terminate()
+            proc.join(1)
+        tool_thread.join(timeout=1)
+        raise TimeoutException(f"Code execution exceeded {seconds} seconds")
 
-    proc.join(timeout=seconds)
-
+    # Result received — wait briefly for child to exit, then clean up
+    proc.join(timeout=5)
     if proc.is_alive():
         proc.terminate()
         proc.join(1)
 
-        try:
-            parent_conn.close()
-        except Exception:
-            pass
-
-        tool_thread.join(timeout=1)
-        raise TimeoutException(f"Code execution exceeded {seconds} seconds")
-
+    # Signal tool thread to shutdown
     try:
-        parent_conn.send({"op": "shutdown"})
-        try:
-            parent_conn.recv()
-        except Exception:
-            pass
+        tool_request_queue.put({"op": "shutdown"}, timeout=1)
     except Exception:
         pass
-    finally:
-        try:
-            parent_conn.close()
-        except Exception:
-            pass
 
     tool_thread.join(timeout=1)
-
-    if result_queue.empty():
-        raise RuntimeError("Child process exited without returning a result")
-
-    status, logs, payload = result_queue.get()
 
     if status == "error":
         error_msg = payload.get("_error", "Execution error")
@@ -978,6 +1102,7 @@ def run_code_with_timeout(
             f"Child process returned non-dict outputs: {type(outputs)!r}"
         )
 
+    outputs = _deserialize_outputs(outputs)
     return logs, outputs
 
 
