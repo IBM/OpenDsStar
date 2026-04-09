@@ -53,7 +53,7 @@ class ReactAgentSmolagents(BaseAgent):
         """
         # Initialize logger if not already initialized (respects existing config)
         init_logger()
-        
+
         # Import here to avoid requiring smolagents if not used
         try:
             from smolagents import LiteLLMModel
