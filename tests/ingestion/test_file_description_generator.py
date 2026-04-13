@@ -17,7 +17,6 @@ def mock_generator():
     return FileDescriptionGenerator(
         llm=mock_llm,
         description_cache=mock_cache,
-        model="test-model",
     )
 
 
