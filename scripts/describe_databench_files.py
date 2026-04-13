@@ -44,43 +44,32 @@ def main() -> None:
         enable_caching=True,
     )
 
-    total = len(file_paths)
+    results, _ = builder.describe_files(
+        file_paths,
+        progress_label="DataBench",
+    )
+
+    sorted_results = sorted(results.values(), key=lambda r: r.get("filename", ""))
+    total = len(sorted_results)
     success_count = 0
 
-    for i, file_path in enumerate(file_paths, start=1):
-        results, _ = builder.describe_files(
-            [file_path],
-            progress_label=f"[{i}/{total}]",
-        )
+    for i, result in enumerate(sorted_results, start=1):
+        filename = result.get("filename", "unknown")
+        success = result.get("success", False)
 
-        for result in results.values():
-            filename = result.get("filename", "unknown")
-            success = result.get("success", False)
-            answer = result.get("answer", "")
+        if success:
+            logger.info("[%d/%d] %s — OK\n%s", i, total, filename, result["answer"])
+            success_count += 1
+        else:
+            logger.info(
+                "[%d/%d] %s — FAILED: %s",
+                i,
+                total,
+                filename,
+                result.get("fatal_error", "unknown error"),
+            )
 
-            if success:
-                logger.info(
-                    "[%d/%d] %s — OK\n%s",
-                    i,
-                    total,
-                    filename,
-                    answer,
-                )
-                success_count += 1
-            else:
-                logger.info(
-                    "[%d/%d] %s — FAILED: %s",
-                    i,
-                    total,
-                    filename,
-                    result.get("fatal_error", "unknown error"),
-                )
-
-    logger.info(
-        "Done: %d/%d files described successfully",
-        success_count,
-        total,
-    )
+    logger.info("Done: %d/%d files described successfully", success_count, total)
 
 
 if __name__ == "__main__":
