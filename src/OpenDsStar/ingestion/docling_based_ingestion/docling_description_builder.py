@@ -291,18 +291,8 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
             row_count = len(df_count)
             sample_df = pd.read_csv(file_path, sep=sep, nrows=sample_rows)
 
-        dtype_display = {
-            "object": "text",
-            "bool": "boolean",
-        }
         col_dtype_pairs = [
-            (
-                column,
-                dtype_display.get(
-                    str(sample_df[column].dtype), str(sample_df[column].dtype)
-                ),
-            )
-            for column in sample_df.columns
+            (column, str(sample_df[column].dtype)) for column in sample_df.columns
         ]
         return row_count, len(sample_df.columns), col_dtype_pairs, sample_df
 
@@ -364,7 +354,7 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
 
     @classmethod
     def _extract_columns_section(cls, summary: str) -> str:
-        """Build a '## Structured Data - Exact Column Names' section from the summary."""
+        """Build a '## Structured Data - 'column_name' (type)' section from the summary."""
         columns_text = cls._extract_section(summary, "## Columns\n")
         if not columns_text:
             return ""
@@ -374,7 +364,7 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
             line = line.strip().lstrip("- ")
             if line:
                 lines.append(f"{i}. {line}")
-        return "## Structured Data - Exact Column Names\n" + "\n".join(lines)
+        return "## Structured Data - 'column_name' (type)\n" + "\n".join(lines)
 
     def _analyze_tabular_files(
         self,
@@ -854,7 +844,7 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
                 if columns_section:
                     desc = self._replace_or_append_section(
                         desc,
-                        "## Structured Data - Exact Column Names",
+                        "## Structured Data - 'column_name' (type)",
                         columns_section,
                     )
                 sample_section = self._extract_sample_section(item.md_clean)
