@@ -304,14 +304,14 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
         )
 
         file_name = Path(file_path).name
-        columns_line = ", ".join(f"{name} ({dtype})" for name, dtype in col_dtypes)
+        columns_lines = "\n".join(f"- '{name}' ({dtype})" for name, dtype in col_dtypes)
         sample_md = sample_df.to_markdown(index=False)
 
         return (
             f"## File Name\n{file_name}\n\n"
             f"## File Path\n{file_path}\n\n"
             f"## Overview\nTabular data file with {row_count} rows and {col_count} columns.\n\n"
-            f"## Columns\n{columns_line}\n\n"
+            f"## Columns\n{columns_lines}\n\n"
             f"## Sample Data (first {sample_rows} rows)\n{sample_md}"
         )
 
@@ -344,10 +344,12 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
         columns_text = cls._extract_section(summary, "## Columns\n")
         if not columns_text:
             return ""
-        # columns_text is: "name (dtype), name (dtype), ..."
-        # Format as a numbered list matching the prompt's expected structure
-        pairs = [c.strip() for c in columns_text.split(",") if c.strip()]
-        lines = [f"{i}. `{pair}`" for i, pair in enumerate(pairs, 1)]
+        # columns_text lines are: "- 'name' (dtype)"
+        lines = []
+        for i, line in enumerate(columns_text.splitlines(), 1):
+            line = line.strip().lstrip("- ")
+            if line:
+                lines.append(f"{i}. {line}")
         return "## Structured Data - Exact Column Names\n" + "\n".join(lines)
 
     def _analyze_tabular_files(
