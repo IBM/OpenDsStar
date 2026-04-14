@@ -307,3 +307,89 @@ def test_tabular_analysis_cache_avoids_rereading_file(builder, csv_file: Path):
     summary, _stats = cached
     assert "data.csv" in summary
     assert "Tabular data file" in summary
+
+
+# -------------------------------------------------------
+# Test: _build_tabular_summary column format
+# -------------------------------------------------------
+
+
+def test_tabular_summary_quotes_column_names(csv_file: Path):
+    summary = DoclingDescriptionBuilder._build_tabular_summary(str(csv_file))
+    assert "'listing_id' (int64)" in summary
+    assert "'name' (object)" in summary
+    assert "'price' (float64)" in summary
+
+
+def test_tabular_summary_columns_one_per_line(csv_file: Path):
+    summary = DoclingDescriptionBuilder._build_tabular_summary(str(csv_file))
+    columns_section = summary.split("## Columns\n")[1].split("\n## ")[0]
+    lines = [ln for ln in columns_section.strip().splitlines() if ln.strip()]
+    assert len(lines) == 3  # listing_id, name, price
+    for line in lines:
+        assert line.startswith("- '")
+
+
+# -------------------------------------------------------
+# Test: _extract_columns_section
+# -------------------------------------------------------
+
+
+def test_extract_columns_section():
+    summary = (
+        "## Columns\n"
+        "- 'col_a' (int64)\n"
+        "- 'col_b' (object)\n\n"
+        "## Sample Data (first 5 rows)\n| col_a | col_b |\n"
+    )
+    section = DoclingDescriptionBuilder._extract_columns_section(summary)
+    assert "## Structured Data - Exact Column Names" in section
+    assert "1. 'col_a' (int64)" in section
+    assert "2. 'col_b' (object)" in section
+
+
+# -------------------------------------------------------
+# Test: _extract_sample_section
+# -------------------------------------------------------
+
+
+def test_extract_sample_section():
+    summary = (
+        "## Overview\nSome overview\n\n"
+        "## Sample Data (first 5 rows)\n| a | b |\n|---|---|\n| 1 | 2 |"
+    )
+    section = DoclingDescriptionBuilder._extract_sample_section(summary)
+    assert section.startswith("## Sampled rows/data")
+    assert "| a | b |" in section
+
+
+# -------------------------------------------------------
+# Test: programmatic columns appended to description
+# -------------------------------------------------------
+
+
+def test_description_includes_programmatic_columns(builder, csv_file: Path):
+    """Verify exact column names are appended when LLM omits them."""
+    with patch("OpenDsStar.ingestion.docling_based_ingestion.milvus_manager.Milvus"):
+        results, _ = builder.describe_files([csv_file], progress_label="TestCols")
+
+    for result in results.values():
+        assert result["success"]
+        answer = result["answer"]
+        assert "## Structured Data - Exact Column Names" in answer
+        assert "'listing_id' (int64)" in answer
+        assert "'name' (object)" in answer
+        assert "'price' (float64)" in answer
+
+
+def test_description_includes_programmatic_sample_rows(builder, csv_file: Path):
+    """Verify sample rows are appended when LLM omits them."""
+    with patch("OpenDsStar.ingestion.docling_based_ingestion.milvus_manager.Milvus"):
+        results, _ = builder.describe_files([csv_file], progress_label="TestSample")
+
+    for result in results.values():
+        assert result["success"]
+        answer = result["answer"]
+        assert "## Sampled rows/data" in answer
+        # Should contain actual data values from the CSV
+        assert "Place 0" in answer or "listing_id" in answer
