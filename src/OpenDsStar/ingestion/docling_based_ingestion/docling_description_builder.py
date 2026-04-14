@@ -842,11 +842,23 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
                     continue
                 columns_section = self._extract_columns_section(item.md_clean)
                 if columns_section:
-                    desc = self._replace_or_append_section(
-                        desc,
+                    # Replace any existing column names section (LLM may use various headings)
+                    for heading in (
                         "## Structured Data - 'column_name' (type)",
-                        columns_section,
-                    )
+                        "## Structured Data - Exact Column Names",
+                        "## Structured Data - Exact Column Names (if exist)",
+                    ):
+                        if heading in desc:
+                            desc = self._replace_or_append_section(
+                                desc, heading, columns_section
+                            )
+                            break
+                    else:
+                        desc = self._replace_or_append_section(
+                            desc,
+                            "## Structured Data - 'column_name' (type)",
+                            columns_section,
+                        )
                 sample_section = self._extract_sample_section(item.md_clean)
                 if sample_section:
                     desc = self._replace_or_append_section(
