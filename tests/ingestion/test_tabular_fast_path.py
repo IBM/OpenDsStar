@@ -307,3 +307,145 @@ def test_tabular_analysis_cache_avoids_rereading_file(builder, csv_file: Path):
     summary, _stats = cached
     assert "data.csv" in summary
     assert "Tabular data file" in summary
+
+
+# -------------------------------------------------------
+# Test: _build_tabular_summary column format
+# -------------------------------------------------------
+
+
+def test_tabular_summary_quotes_column_names(csv_file: Path):
+    summary = DoclingDescriptionBuilder._build_tabular_summary(str(csv_file))
+    assert "'listing_id' (int64)" in summary
+    assert "'name' (object)" in summary
+    assert "'price' (float64)" in summary
+
+
+def test_tabular_summary_columns_one_per_line(csv_file: Path):
+    summary = DoclingDescriptionBuilder._build_tabular_summary(str(csv_file))
+    columns_section = summary.split("## Columns\n")[1].split("\n## ")[0]
+    lines = [ln for ln in columns_section.strip().splitlines() if ln.strip()]
+    assert len(lines) == 3  # listing_id, name, price
+    for line in lines:
+        assert line.startswith("- '")
+
+
+# -------------------------------------------------------
+# Test: _extract_columns_section
+# -------------------------------------------------------
+
+
+def test_extract_columns_section():
+    summary = (
+        "## Columns\n"
+        "- 'col_a' (int64)\n"
+        "- 'col_b' (object)\n\n"
+        "## Sample Data (first 5 rows)\n| col_a | col_b |\n"
+    )
+    section = DoclingDescriptionBuilder._extract_columns_section(summary)
+    assert "## Structured Data - 'column_name' (type)" in section
+    assert "1. 'col_a' (int64)" in section
+    assert "2. 'col_b' (object)" in section
+
+
+# -------------------------------------------------------
+# Test: _extract_sample_section
+# -------------------------------------------------------
+
+
+def test_extract_sample_section():
+    summary = (
+        "## Overview\nSome overview\n\n"
+        "## Sample Data (first 5 rows)\n| a | b |\n|---|---|\n| 1 | 2 |"
+    )
+    section = DoclingDescriptionBuilder._extract_sample_section(summary)
+    assert section.startswith("## Sampled rows/data")
+    assert "| a | b |" in section
+
+
+# -------------------------------------------------------
+# Test: programmatic columns appended to description
+# -------------------------------------------------------
+
+
+def test_description_includes_programmatic_columns(builder, csv_file: Path):
+    """Verify exact column names are always present (replaced or appended)."""
+    with patch("OpenDsStar.ingestion.docling_based_ingestion.milvus_manager.Milvus"):
+        results, _ = builder.describe_files([csv_file], progress_label="TestCols")
+
+    for result in results.values():
+        assert result["success"]
+        answer = result["answer"]
+        assert "## Structured Data - 'column_name' (type)" in answer
+        assert "'listing_id' (int64)" in answer
+        assert "'name' (object)" in answer
+        assert "'price' (float64)" in answer
+
+
+def test_description_includes_programmatic_sample_rows(builder, csv_file: Path):
+    """Verify sample rows are always present (replaced or appended)."""
+    with patch("OpenDsStar.ingestion.docling_based_ingestion.milvus_manager.Milvus"):
+        results, _ = builder.describe_files([csv_file], progress_label="TestSample")
+
+    for result in results.values():
+        assert result["success"]
+        answer = result["answer"]
+        assert "## Sampled rows/data" in answer
+        # Should contain actual data values from the CSV
+        assert "Place 0" in answer or "listing_id" in answer
+
+
+# -------------------------------------------------------
+# Test: _replace_or_append_section
+# -------------------------------------------------------
+
+
+def test_replace_or_append_section_appends_when_missing():
+    desc = "## Overview\nSome overview\n\n## Keywords\nfoo, bar"
+    result = DoclingDescriptionBuilder._replace_or_append_section(
+        desc, "## New Section", "## New Section\nnew content"
+    )
+    assert result.endswith("## New Section\nnew content")
+    assert "## Overview" in result
+    assert "## Keywords" in result
+
+
+def test_replace_or_append_section_replaces_existing():
+    desc = (
+        "## Overview\nSome overview\n\n"
+        "## Structured Data - 'column_name' (type)\n"
+        "1. col_a (int)\n"
+        "2. col_b (str)\n\n"
+        "## Keywords\nfoo, bar"
+    )
+    replacement = (
+        "## Structured Data - 'column_name' (type)\n"
+        "1. 'col_a' (int64)\n"
+        "2. 'col_b' (object)"
+    )
+    result = DoclingDescriptionBuilder._replace_or_append_section(
+        desc, "## Structured Data - 'column_name' (type)", replacement
+    )
+    # Should have the replacement
+    assert "'col_a' (int64)" in result
+    assert "'col_b' (object)" in result
+    # Should NOT have the old content
+    assert "col_a (int)\n" not in result
+    # Should preserve other sections
+    assert "## Overview" in result
+    assert "## Keywords" in result
+    assert "foo, bar" in result
+
+
+def test_replace_or_append_section_replaces_last_section():
+    desc = (
+        "## Overview\nSome overview\n\n"
+        "## Sampled rows/data\n| old | data |\n|---|---|\n| 1 | 2 |"
+    )
+    replacement = "## Sampled rows/data\n| new | data |\n|---|---|\n| 3 | 4 |"
+    result = DoclingDescriptionBuilder._replace_or_append_section(
+        desc, "## Sampled rows/data", replacement
+    )
+    assert "| new | data |" in result
+    assert "| old | data |" not in result
+    assert "## Overview" in result

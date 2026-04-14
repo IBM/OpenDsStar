@@ -304,27 +304,67 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
         )
 
         file_name = Path(file_path).name
-        columns_line = ", ".join(f"{name} ({dtype})" for name, dtype in col_dtypes)
+        columns_lines = "\n".join(f"- '{name}' ({dtype})" for name, dtype in col_dtypes)
         sample_md = sample_df.to_markdown(index=False)
 
         return (
             f"## File Name\n{file_name}\n\n"
             f"## File Path\n{file_path}\n\n"
             f"## Overview\nTabular data file with {row_count} rows and {col_count} columns.\n\n"
-            f"## Columns\n{columns_line}\n\n"
+            f"## Columns\n{columns_lines}\n\n"
             f"## Sample Data (first {sample_rows} rows)\n{sample_md}"
         )
 
     @staticmethod
-    def _extract_sample_section(summary: str) -> str:
+    def _extract_section(summary: str, marker: str) -> str:
+        """Extract a section from a tabular summary, up to the next ## heading."""
+        idx = summary.find(marker)
+        if idx == -1:
+            return ""
+        rest = summary[idx + len(marker) :]
+        # Find the next heading
+        next_heading = rest.find("\n## ")
+        if next_heading != -1:
+            return rest[:next_heading].strip()
+        return rest.strip()
+
+    @staticmethod
+    def _replace_or_append_section(desc: str, heading: str, replacement: str) -> str:
+        """Replace an existing ## section in desc, or append if not present."""
+        idx = desc.find(heading)
+        if idx == -1:
+            return desc.rstrip() + "\n\n" + replacement
+
+        # Find the end of the section (next ## heading or end of string)
+        after = desc[idx + len(heading) :]
+        next_heading = after.find("\n## ")
+        if next_heading != -1:
+            return desc[:idx] + replacement + "\n\n" + after[next_heading + 1 :]
+        return desc[:idx] + replacement
+
+    @classmethod
+    def _extract_sample_section(cls, summary: str) -> str:
         """Extract the '## Sample Data ...' section from a tabular summary."""
         marker = "## Sample Data"
         idx = summary.find(marker)
         if idx == -1:
             return ""
         section = summary[idx:].strip()
-        # Rename to match the prompt's expected heading
         return section.replace("## Sample Data", "## Sampled rows/data", 1)
+
+    @classmethod
+    def _extract_columns_section(cls, summary: str) -> str:
+        """Build a '## Structured Data - 'column_name' (type)' section from the summary."""
+        columns_text = cls._extract_section(summary, "## Columns\n")
+        if not columns_text:
+            return ""
+        # columns_text lines are: "- 'name' (dtype)"
+        lines = []
+        for i, line in enumerate(columns_text.splitlines(), 1):
+            line = line.strip().lstrip("- ")
+            if line:
+                lines.append(f"{i}. {line}")
+        return "## Structured Data - 'column_name' (type)\n" + "\n".join(lines)
 
     def _analyze_tabular_files(
         self,
@@ -792,7 +832,7 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
                 items=desc_inputs,
             )
 
-            # For tabular items, append deterministic sample rows to LLM description
+            # For tabular items, replace/append deterministic columns and sample rows
             tabular_doc_ids = {item.doc_id for item in tabular_items}
             for item in analyzed:
                 if item.doc_id not in tabular_doc_ids:
@@ -800,9 +840,33 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
                 desc = descriptions.get(item.doc_id, "")
                 if not desc:
                     continue
+                columns_section = self._extract_columns_section(item.md_clean)
+                if columns_section:
+                    # Replace any existing column names section (LLM may use various headings)
+                    for heading in (
+                        "## Structured Data - 'column_name' (type)",
+                        "## Structured Data - Exact Column Names",
+                        "## Structured Data - Exact Column Names (if exist)",
+                    ):
+                        if heading in desc:
+                            desc = self._replace_or_append_section(
+                                desc, heading, columns_section
+                            )
+                            break
+                    else:
+                        desc = self._replace_or_append_section(
+                            desc,
+                            "## Structured Data - 'column_name' (type)",
+                            columns_section,
+                        )
                 sample_section = self._extract_sample_section(item.md_clean)
-                if sample_section and "## Sampled rows" not in desc:
-                    descriptions[item.doc_id] = desc.rstrip() + "\n\n" + sample_section
+                if sample_section:
+                    desc = self._replace_or_append_section(
+                        desc,
+                        "## Sampled rows/data",
+                        sample_section,
+                    )
+                descriptions[item.doc_id] = desc
 
             analysis_results, docs_to_add, ok_desc_count = self._build_analysis_results(
                 items=analyzed,
