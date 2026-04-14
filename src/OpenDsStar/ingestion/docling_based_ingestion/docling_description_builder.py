@@ -316,15 +316,39 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
         )
 
     @staticmethod
-    def _extract_sample_section(summary: str) -> str:
+    def _extract_section(summary: str, marker: str) -> str:
+        """Extract a section from a tabular summary, up to the next ## heading."""
+        idx = summary.find(marker)
+        if idx == -1:
+            return ""
+        rest = summary[idx + len(marker) :]
+        # Find the next heading
+        next_heading = rest.find("\n## ")
+        if next_heading != -1:
+            return rest[:next_heading].strip()
+        return rest.strip()
+
+    @classmethod
+    def _extract_sample_section(cls, summary: str) -> str:
         """Extract the '## Sample Data ...' section from a tabular summary."""
         marker = "## Sample Data"
         idx = summary.find(marker)
         if idx == -1:
             return ""
         section = summary[idx:].strip()
-        # Rename to match the prompt's expected heading
         return section.replace("## Sample Data", "## Sampled rows/data", 1)
+
+    @classmethod
+    def _extract_columns_section(cls, summary: str) -> str:
+        """Build a '## Structured Data - Exact Column Names' section from the summary."""
+        columns_text = cls._extract_section(summary, "## Columns\n")
+        if not columns_text:
+            return ""
+        # columns_text is: "name (dtype), name (dtype), ..."
+        # Format as a numbered list matching the prompt's expected structure
+        pairs = [c.strip() for c in columns_text.split(",") if c.strip()]
+        lines = [f"{i}. `{pair}`" for i, pair in enumerate(pairs, 1)]
+        return "## Structured Data - Exact Column Names\n" + "\n".join(lines)
 
     def _analyze_tabular_files(
         self,
@@ -792,7 +816,7 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
                 items=desc_inputs,
             )
 
-            # For tabular items, append deterministic sample rows to LLM description
+            # For tabular items, append deterministic columns and sample rows
             tabular_doc_ids = {item.doc_id for item in tabular_items}
             for item in analyzed:
                 if item.doc_id not in tabular_doc_ids:
@@ -800,9 +824,16 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
                 desc = descriptions.get(item.doc_id, "")
                 if not desc:
                     continue
+                columns_section = self._extract_columns_section(item.md_clean)
+                if (
+                    columns_section
+                    and "## Structured Data - Exact Column Names" not in desc
+                ):
+                    desc = desc.rstrip() + "\n\n" + columns_section
                 sample_section = self._extract_sample_section(item.md_clean)
                 if sample_section and "## Sampled rows" not in desc:
-                    descriptions[item.doc_id] = desc.rstrip() + "\n\n" + sample_section
+                    desc = desc.rstrip() + "\n\n" + sample_section
+                descriptions[item.doc_id] = desc
 
             analysis_results, docs_to_add, ok_desc_count = self._build_analysis_results(
                 items=analyzed,
