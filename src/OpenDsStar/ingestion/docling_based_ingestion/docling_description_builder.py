@@ -291,8 +291,18 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
             row_count = len(df_count)
             sample_df = pd.read_csv(file_path, sep=sep, nrows=sample_rows)
 
+        dtype_display = {
+            "object": "text",
+            "bool": "boolean",
+        }
         col_dtype_pairs = [
-            (column, str(sample_df[column].dtype)) for column in sample_df.columns
+            (
+                column,
+                dtype_display.get(
+                    str(sample_df[column].dtype), str(sample_df[column].dtype)
+                ),
+            )
+            for column in sample_df.columns
         ]
         return row_count, len(sample_df.columns), col_dtype_pairs, sample_df
 

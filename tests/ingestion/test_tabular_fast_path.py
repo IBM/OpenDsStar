@@ -317,7 +317,7 @@ def test_tabular_analysis_cache_avoids_rereading_file(builder, csv_file: Path):
 def test_tabular_summary_quotes_column_names(csv_file: Path):
     summary = DoclingDescriptionBuilder._build_tabular_summary(str(csv_file))
     assert "'listing_id' (int64)" in summary
-    assert "'name' (object)" in summary
+    assert "'name' (text)" in summary
     assert "'price' (float64)" in summary
 
 
@@ -339,13 +339,13 @@ def test_extract_columns_section():
     summary = (
         "## Columns\n"
         "- 'col_a' (int64)\n"
-        "- 'col_b' (object)\n\n"
+        "- 'col_b' (text)\n\n"
         "## Sample Data (first 5 rows)\n| col_a | col_b |\n"
     )
     section = DoclingDescriptionBuilder._extract_columns_section(summary)
     assert "## Structured Data - Exact Column Names" in section
     assert "1. 'col_a' (int64)" in section
-    assert "2. 'col_b' (object)" in section
+    assert "2. 'col_b' (text)" in section
 
 
 # -------------------------------------------------------
@@ -378,7 +378,7 @@ def test_description_includes_programmatic_columns(builder, csv_file: Path):
         answer = result["answer"]
         assert "## Structured Data - Exact Column Names" in answer
         assert "'listing_id' (int64)" in answer
-        assert "'name' (object)" in answer
+        assert "'name' (text)" in answer
         assert "'price' (float64)" in answer
 
 
@@ -421,14 +421,14 @@ def test_replace_or_append_section_replaces_existing():
     replacement = (
         "## Structured Data - Exact Column Names\n"
         "1. 'col_a' (int64)\n"
-        "2. 'col_b' (object)"
+        "2. 'col_b' (text)"
     )
     result = DoclingDescriptionBuilder._replace_or_append_section(
         desc, "## Structured Data - Exact Column Names", replacement
     )
     # Should have the replacement
     assert "'col_a' (int64)" in result
-    assert "'col_b' (object)" in result
+    assert "'col_b' (text)" in result
     # Should NOT have the old content
     assert "col_a (int)\n" not in result
     # Should preserve other sections
