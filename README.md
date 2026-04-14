@@ -189,6 +189,29 @@ Comparison of DS-Star and CodeAct agents on the Kramabench dataset (31 questions
 - The planning, debugging, and verification cycle improves answer accuracy, even when it requires more LLM calls
 - Best overall result: **DS-Star with Gemini 2.5 Pro** (0.387 judge score, with the lowest token usage among the Gemini Pro runs)
 
+## Real-World Analysis Examples
+
+OpenDsStar autonomously plans, codes, executes, and interprets complex data analysis — from trend detection and survival analysis to cross-dataset joins — without being told how.
+
+Given 80 CSV files from [DataBench](https://huggingface.co/datasets/cardiffnlp/databench), OpenDsStar (powered by Claude Opus 4.6) answers questions like these:
+
+> **Q: Is there a trend in tornado severity over time?**
+
+The agent autonomously analyzed 67,558 tornado records spanning 1950-2021, ran linear regression, and found a statistically significant decreasing trend (r = -0.89, p ~ 4.5 x 10<sup>-26</sup>) — while critically noting that improved detection of weak tornadoes largely drives this apparent decline:
+
+| Decade | Mean Magnitude | Tornado Count |
+|--------|---------------|---------------|
+| 1950s  | 1.31          | 4,793         |
+| 1970s  | 1.09          | 8,579         |
+| 1990s  | 0.56          | 12,137        |
+| 2010s  | 0.61          | 11,629        |
+
+> **Q: What is the average age of Forbes billionaires from countries that also have at least 5 FIFA players with an overall rating above 85?**
+
+This requires joining two completely separate datasets (Forbes billionaires and FIFA players) on a shared dimension (country) — without being told which files to use or how to combine them. OpenDsStar identified the 6 qualifying countries (Argentina, Brazil, England, France, Germany, Spain), matched them across datasets, and computed the answer: **~66.4 years** across 231 billionaires.
+
+See [Real-World Analysis Examples](docs/REAL_WORLD_EXAMPLES.md) for more examples including survival analysis and health analytics.
+
 ## Project Structure
 
 ```text
@@ -202,6 +225,7 @@ src/
 
 - [ARCHITECTURE.md](docs/ARCHITECTURE.md)
 - [EXPERIMENTS.md](docs/EXPERIMENTS.md)
+- [Real-World Analysis Examples](docs/REAL_WORLD_EXAMPLES.md)
 
 ## License
 
