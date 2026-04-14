@@ -328,6 +328,20 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
             return rest[:next_heading].strip()
         return rest.strip()
 
+    @staticmethod
+    def _replace_or_append_section(desc: str, heading: str, replacement: str) -> str:
+        """Replace an existing ## section in desc, or append if not present."""
+        idx = desc.find(heading)
+        if idx == -1:
+            return desc.rstrip() + "\n\n" + replacement
+
+        # Find the end of the section (next ## heading or end of string)
+        after = desc[idx + len(heading) :]
+        next_heading = after.find("\n## ")
+        if next_heading != -1:
+            return desc[:idx] + replacement + "\n\n" + after[next_heading + 1 :]
+        return desc[:idx] + replacement
+
     @classmethod
     def _extract_sample_section(cls, summary: str) -> str:
         """Extract the '## Sample Data ...' section from a tabular summary."""
@@ -818,7 +832,7 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
                 items=desc_inputs,
             )
 
-            # For tabular items, append deterministic columns and sample rows
+            # For tabular items, replace/append deterministic columns and sample rows
             tabular_doc_ids = {item.doc_id for item in tabular_items}
             for item in analyzed:
                 if item.doc_id not in tabular_doc_ids:
@@ -827,14 +841,19 @@ class DoclingDescriptionBuilder(DocumentDescriptionBuilder):
                 if not desc:
                     continue
                 columns_section = self._extract_columns_section(item.md_clean)
-                if (
-                    columns_section
-                    and "## Structured Data - Exact Column Names" not in desc
-                ):
-                    desc = desc.rstrip() + "\n\n" + columns_section
+                if columns_section:
+                    desc = self._replace_or_append_section(
+                        desc,
+                        "## Structured Data - Exact Column Names",
+                        columns_section,
+                    )
                 sample_section = self._extract_sample_section(item.md_clean)
-                if sample_section and "## Sampled rows" not in desc:
-                    desc = desc.rstrip() + "\n\n" + sample_section
+                if sample_section:
+                    desc = self._replace_or_append_section(
+                        desc,
+                        "## Sampled rows/data",
+                        sample_section,
+                    )
                 descriptions[item.doc_id] = desc
 
             analysis_results, docs_to_add, ok_desc_count = self._build_analysis_results(

@@ -369,7 +369,7 @@ def test_extract_sample_section():
 
 
 def test_description_includes_programmatic_columns(builder, csv_file: Path):
-    """Verify exact column names are appended when LLM omits them."""
+    """Verify exact column names are always present (replaced or appended)."""
     with patch("OpenDsStar.ingestion.docling_based_ingestion.milvus_manager.Milvus"):
         results, _ = builder.describe_files([csv_file], progress_label="TestCols")
 
@@ -383,7 +383,7 @@ def test_description_includes_programmatic_columns(builder, csv_file: Path):
 
 
 def test_description_includes_programmatic_sample_rows(builder, csv_file: Path):
-    """Verify sample rows are appended when LLM omits them."""
+    """Verify sample rows are always present (replaced or appended)."""
     with patch("OpenDsStar.ingestion.docling_based_ingestion.milvus_manager.Milvus"):
         results, _ = builder.describe_files([csv_file], progress_label="TestSample")
 
@@ -393,3 +393,59 @@ def test_description_includes_programmatic_sample_rows(builder, csv_file: Path):
         assert "## Sampled rows/data" in answer
         # Should contain actual data values from the CSV
         assert "Place 0" in answer or "listing_id" in answer
+
+
+# -------------------------------------------------------
+# Test: _replace_or_append_section
+# -------------------------------------------------------
+
+
+def test_replace_or_append_section_appends_when_missing():
+    desc = "## Overview\nSome overview\n\n## Keywords\nfoo, bar"
+    result = DoclingDescriptionBuilder._replace_or_append_section(
+        desc, "## New Section", "## New Section\nnew content"
+    )
+    assert result.endswith("## New Section\nnew content")
+    assert "## Overview" in result
+    assert "## Keywords" in result
+
+
+def test_replace_or_append_section_replaces_existing():
+    desc = (
+        "## Overview\nSome overview\n\n"
+        "## Structured Data - Exact Column Names\n"
+        "1. col_a (int)\n"
+        "2. col_b (str)\n\n"
+        "## Keywords\nfoo, bar"
+    )
+    replacement = (
+        "## Structured Data - Exact Column Names\n"
+        "1. 'col_a' (int64)\n"
+        "2. 'col_b' (object)"
+    )
+    result = DoclingDescriptionBuilder._replace_or_append_section(
+        desc, "## Structured Data - Exact Column Names", replacement
+    )
+    # Should have the replacement
+    assert "'col_a' (int64)" in result
+    assert "'col_b' (object)" in result
+    # Should NOT have the old content
+    assert "col_a (int)\n" not in result
+    # Should preserve other sections
+    assert "## Overview" in result
+    assert "## Keywords" in result
+    assert "foo, bar" in result
+
+
+def test_replace_or_append_section_replaces_last_section():
+    desc = (
+        "## Overview\nSome overview\n\n"
+        "## Sampled rows/data\n| old | data |\n|---|---|\n| 1 | 2 |"
+    )
+    replacement = "## Sampled rows/data\n| new | data |\n|---|---|\n| 3 | 4 |"
+    result = DoclingDescriptionBuilder._replace_or_append_section(
+        desc, "## Sampled rows/data", replacement
+    )
+    assert "| new | data |" in result
+    assert "| old | data |" not in result
+    assert "## Overview" in result
