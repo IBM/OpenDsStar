@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "OpenDsStar"
-version = "1.0.17"
+version = "1.0.18"
 authors = [
     {name = "Yoav Kantor", email = "yoavka@il.ibm.com"},
     {name = "Assaf Toledo", email = "assaf.toledo@ibm.com"},
@@ -29,13 +29,13 @@ classifiers = [
 ]
 
 dependencies = [
-    "langgraph==1.0.1",
-    "langchain==0.3.28",
-    "langchain-core==0.3.83",
-    "langchain-community==0.3.31",
-    "langchain-litellm==0.3.5",
-    "langchain-milvus==0.1.7",
-    "langchain-huggingface==0.3.1",
+    "langgraph>=1.1.6",
+    "langchain>=1.2.15",
+    "langchain-core>=1.2.28",
+    "langchain-community>=0.3.31",
+    "langchain-litellm>=0.3.5",
+    "langchain-milvus>=0.3.3",
+    "langchain-huggingface>=1.2.1",
     "pymilvus[model]==2.6.7",
     "pymilvus[milvus_lite]==2.6.7; sys_platform != 'win32'",
     "scipy>=1.13.0,<2.0.0",
