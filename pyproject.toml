@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "OpenDsStar"
-version = "1.0.18"
+version = "1.0.19"
 authors = [
     {name = "Yoav Kantor", email = "yoavka@il.ibm.com"},
     {name = "Assaf Toledo", email = "assaf.toledo@ibm.com"},
@@ -54,7 +54,7 @@ dependencies = [
     "matplotlib==3.10.8",
     "plotly==6.6.0",
     "kaleido==1.2.0",
-    "datasets>=2.14.7,<4.0.0",
+    "datasets>=2.14.7",
     "huggingface-hub==0.36.0",
     "ragworkbench",
 ]
