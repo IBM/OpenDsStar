@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "OpenDsStar"
-version = "1.0.20"
+version = "1.0.21"
 authors = [
     {name = "Yoav Kantor", email = "yoavka@il.ibm.com"},
     {name = "Assaf Toledo", email = "assaf.toledo@ibm.com"},
@@ -44,7 +44,7 @@ dependencies = [
     "pandas>=2.2.3,<2.4",
     "pyarrow>=18.0.0",
     "python-dotenv==1.2.1",
-    "litellm>=1.70.0,<1.83.0",
+    "litellm>=1.70.0",
     "openai>=1.82.0",
     "docling>=2.36.1,<3.0.0",
     "sentence-transformers==5.2.0",
