@@ -1,4 +1,6 @@
 import ast
+import asyncio
+import inspect
 import json
 import logging
 import re
@@ -206,6 +208,15 @@ def build_tools_map(tools_list: list[Any]) -> dict[str, Callable[..., Any]]:
                     if callable(fn):
                         result = fn(*args, **kwargs)
                         return normalize_tool_result(result)
+
+                    # Try .coroutine for async-only tools (e.g. Langflow
+                    # component tools created with coroutine= but no func=)
+                    coro_fn = getattr(t, "coroutine", None)
+                    if callable(coro_fn):
+                        coro = coro_fn(*args, **kwargs)
+                        if inspect.isawaitable(coro):
+                            result = asyncio.run(coro)
+                            return normalize_tool_result(result)
 
                     # Then try .invoke (other LangChain tools)
                     if hasattr(t, "invoke"):
