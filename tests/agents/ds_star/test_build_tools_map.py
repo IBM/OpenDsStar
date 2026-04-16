@@ -2,6 +2,8 @@
 Test build_tools_map function with various tool calling patterns.
 """
 
+import pytest
+
 from OpenDsStar.agents.ds_star.ds_star_utils import build_tools_map
 
 
@@ -112,6 +114,57 @@ def test_build_tools_map_callable_tool():
     # Test with keyword args
     result = tools_map["callable_tool"](key1="val1", key2="val2")
     assert "kwargs=" in result and "key1" in result
+
+
+def test_build_tools_map_async_only_coroutine():
+    """Test that async-only tools (coroutine= but no func=) work via build_tools_map."""
+
+    class AsyncOnlyTool:
+        """Mimics a LangChain StructuredTool created with coroutine= and no func=."""
+
+        name = "async_tool"
+        func = None
+
+        async def coroutine(self, query: str) -> str:
+            return f"async result for {query}"
+
+    tool = AsyncOnlyTool()
+    tools_map = build_tools_map([tool])
+    result = tools_map["async_tool"](query="test")
+    assert result == "async result for test"
+
+
+def test_build_tools_map_async_only_with_positional_args():
+    """Test async-only tool with positional arguments."""
+
+    class AsyncOnlyTool:
+        name = "async_tool"
+        func = None
+
+        async def coroutine(self, arg1, arg2):
+            return f"{arg1}-{arg2}"
+
+    tool = AsyncOnlyTool()
+    tools_map = build_tools_map([tool])
+    result = tools_map["async_tool"]("hello", "world")
+    assert result == "hello-world"
+
+
+def test_build_tools_map_async_only_tool_error():
+    """Test that errors from async-only tools propagate as ToolExecutionError."""
+    from OpenDsStar.agents.ds_star.ds_star_utils import ToolExecutionError
+
+    class AsyncErrorTool:
+        name = "error_tool"
+        func = None
+
+        async def coroutine(self, query: str):
+            raise ValueError("async boom")
+
+    tool = AsyncErrorTool()
+    tools_map = build_tools_map([tool])
+    with pytest.raises(ToolExecutionError, match="async boom"):
+        tools_map["error_tool"](query="test")
 
 
 def test_build_tools_map_normalization():
