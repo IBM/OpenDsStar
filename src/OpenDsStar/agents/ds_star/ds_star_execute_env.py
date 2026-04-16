@@ -288,6 +288,65 @@ def _deserialize_tool_result(serialized: Dict[str, Any]) -> Any:
     raise ValueError(f"Unknown serialization type: {result_type}")
 
 
+def _serialize_tool_args(
+    args: tuple, kwargs: dict
+) -> Dict[str, Any]:
+    """
+    Serialize tool arguments for cross-process transfer (child → parent).
+
+    Walks both positional and keyword arguments, applying Parquet serialization
+    to any DataFrame values (via ``_serialize_tool_result``).  Non-DataFrame
+    values are left as-is (they will be pickled by the Queue).
+
+    Returns:
+        Dict with 'args' (list) and 'kwargs' (dict) ready for queue transfer.
+    """
+    serialized_args = []
+    for arg in args:
+        if isinstance(arg, pd.DataFrame) and PYARROW_AVAILABLE:
+            try:
+                serialized_args.append({"__serialized__": True, **_serialize_tool_result(arg)})
+                continue
+            except Exception:
+                pass
+        serialized_args.append(arg)
+
+    serialized_kwargs = {}
+    for key, value in kwargs.items():
+        if isinstance(value, pd.DataFrame) and PYARROW_AVAILABLE:
+            try:
+                serialized_kwargs[key] = {"__serialized__": True, **_serialize_tool_result(value)}
+                continue
+            except Exception:
+                pass
+        serialized_kwargs[key] = value
+
+    return {"args": serialized_args, "kwargs": serialized_kwargs}
+
+
+def _deserialize_tool_args(
+    serialized: Dict[str, Any],
+) -> tuple:
+    """
+    Deserialize tool arguments from cross-process transfer (parent side).
+
+    Reverses ``_serialize_tool_args``: any values that were serialized via
+    ``_serialize_tool_result`` (marked with ``__serialized__``) are restored.
+
+    Returns:
+        (args_tuple, kwargs_dict)
+    """
+    def _maybe_deserialize(value):
+        if isinstance(value, dict) and value.get("__serialized__"):
+            stripped = {k: v for k, v in value.items() if k != "__serialized__"}
+            return _deserialize_tool_result(stripped)
+        return value
+
+    args = tuple(_maybe_deserialize(a) for a in serialized.get("args", ()))
+    kwargs = {k: _maybe_deserialize(v) for k, v in serialized.get("kwargs", {}).items()}
+    return args, kwargs
+
+
 def _serialize_outputs(outputs: Dict[str, Any]) -> Dict[str, Any]:
     """
     Serialize an outputs dict for cross-process transfer (child → parent).
@@ -664,11 +723,13 @@ def _make_remote_tool_proxy(
             )
 
         try:
+            # Serialize args (uses Parquet for large DataFrame arguments)
+            serialized_args = _serialize_tool_args(args, kwargs)
             request = {
                 "op": "call_tool",
                 "tool_name": tool_name,
-                "args": args,
-                "kwargs": kwargs,
+                "args": serialized_args["args"],
+                "kwargs": serialized_args["kwargs"],
             }
             tool_request_queue.put(request, block=False)
         except Exception as exc:
@@ -770,8 +831,13 @@ def _serve_tools_over_connection(
                 continue
 
             tool_name = request.get("tool_name")
-            args = request.get("args", ())
-            kwargs = request.get("kwargs", {})
+            raw_args = request.get("args", ())
+            raw_kwargs = request.get("kwargs", {})
+
+            # Deserialize args (restores Parquet-serialized DataFrames)
+            args, kwargs = _deserialize_tool_args(
+                {"args": raw_args, "kwargs": raw_kwargs}
+            )
 
             if tool_name not in wrapped_tools:
                 try:
@@ -870,8 +936,13 @@ def _serve_tools_over_queues(
                 continue
 
             tool_name = request.get("tool_name")
-            args = request.get("args", ())
-            kwargs = request.get("kwargs", {})
+            raw_args = request.get("args", ())
+            raw_kwargs = request.get("kwargs", {})
+
+            # Deserialize args (restores Parquet-serialized DataFrames)
+            args, kwargs = _deserialize_tool_args(
+                {"args": raw_args, "kwargs": raw_kwargs}
+            )
 
             if tool_name not in wrapped_tools:
                 tool_result_queue.put({

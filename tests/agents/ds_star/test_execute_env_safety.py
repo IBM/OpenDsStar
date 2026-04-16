@@ -12,11 +12,13 @@ from OpenDsStar.agents.ds_star.ds_star_execute_env import (
     _build_shared_execution_scope,
     _collect_prev_outputs,
     _deserialize_outputs,
+    _deserialize_tool_args,
     _deserialize_tool_result,
     _extract_outputs_from_scope,
     _is_picklable,
     _run_coroutine_safely,
     _serialize_outputs,
+    _serialize_tool_args,
     _serialize_tool_result,
     _serve_tools_over_connection,
     _should_normalize_tool_result,
@@ -742,6 +744,79 @@ class TestSerialization:
         assert "_error" not in out, f"Error: {out.get('_error')}"
         assert isinstance(out["df"], pd.DataFrame)
         assert out["df"].shape == (10_000, 10)
+
+
+class TestSerializeToolArgs:
+    """Tests for DataFrame argument serialization (child → parent)."""
+
+    def test_large_df_round_trip(self):
+        """Large DataFrame arg round-trips through Parquet serialization."""
+        df = pd.DataFrame(np.random.randn(50_000, 10))
+        serialized = _serialize_tool_args((df,), {})
+        args, kwargs = _deserialize_tool_args(serialized)
+        assert len(args) == 1
+        assert isinstance(args[0], pd.DataFrame)
+        pd.testing.assert_frame_equal(args[0], df)
+
+    def test_large_df_kwarg_round_trip(self):
+        """Large DataFrame kwarg round-trips through Parquet serialization."""
+        df = pd.DataFrame(np.random.randn(50_000, 10))
+        serialized = _serialize_tool_args((), {"data": df})
+        args, kwargs = _deserialize_tool_args(serialized)
+        assert len(args) == 0
+        assert isinstance(kwargs["data"], pd.DataFrame)
+        pd.testing.assert_frame_equal(kwargs["data"], df)
+
+    def test_small_df_uses_pickle(self):
+        """Small DataFrame (<100KB) uses pickle path but still round-trips correctly."""
+        df = pd.DataFrame({"a": [1, 2, 3]})
+        serialized = _serialize_tool_args((df,), {})
+        # Small DF is serialized with pickle (not parquet), but still wrapped
+        assert serialized["args"][0]["type"] == "pickle"
+        args, kwargs = _deserialize_tool_args(serialized)
+        pd.testing.assert_frame_equal(args[0], df)
+
+    def test_mixed_args(self):
+        """Mix of DataFrame and scalar args all survive round-trip."""
+        df = pd.DataFrame(np.random.randn(50_000, 5))
+        serialized = _serialize_tool_args(
+            (df, "hello", 42), {"data": df, "name": "test", "count": 7}
+        )
+        args, kwargs = _deserialize_tool_args(serialized)
+        pd.testing.assert_frame_equal(args[0], df)
+        assert args[1] == "hello"
+        assert args[2] == 42
+        pd.testing.assert_frame_equal(kwargs["data"], df)
+        assert kwargs["name"] == "test"
+        assert kwargs["count"] == 7
+
+    def test_no_dataframes(self):
+        """Scalar-only args pass through unchanged."""
+        serialized = _serialize_tool_args(("a", 1), {"x": 2.0})
+        args, kwargs = _deserialize_tool_args(serialized)
+        assert args == ("a", 1)
+        assert kwargs == {"x": 2.0}
+
+    @pytest.mark.timeout(120)
+    def test_tool_receiving_large_df_argument(self):
+        """Integration: tool receives a large DataFrame arg from sandbox code."""
+        received = {}
+
+        def process_df(df):
+            received["shape"] = df.shape
+            received["sum"] = float(df.sum().sum())
+            return f"processed {df.shape[0]} rows"
+
+        code = (
+            "df = pd.DataFrame(np.random.randn(10_000, 5))\n"
+            "outputs['result'] = process_df(df=df)\n"
+            "outputs['shape'] = list(df.shape)\n"
+        )
+        _, out = _exec(code, tools={"process_df": process_df}, timeout=90)
+        assert "_error" not in out, f"Error: {out.get('_error')}"
+        assert out["result"] == "processed 10000 rows"
+        assert out["shape"] == [10_000, 5]
+        assert received["shape"] == (10_000, 5)
 
 
 class TestBuildBaseEnv:
