@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "OpenDsStar"
-version = "1.0.24"
+version = "1.0.25"
 authors = [
     {name = "Yoav Kantor", email = "yoavka@il.ibm.com"},
     {name = "Assaf Toledo", email = "assaf.toledo@ibm.com"},
@@ -39,7 +39,7 @@ dependencies = [
     "pymilvus[model]==2.6.7",
     "pymilvus[milvus_lite]==2.6.7; sys_platform != 'win32'",
     "scipy>=1.13.0,<2.0.0",
-    "pydantic==2.12.5",
+    "pydantic>=2.12,<3",
     "numpy>=1.26.4,<2.5.0",
     "pandas>=2.2.3,<2.4",
     "pyarrow>=18.0.0",
